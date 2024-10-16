@@ -9,7 +9,7 @@ setup(
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
-        ('share/' + package_name, ['package.xml']),
+        ('share/' + package_name, ['package.xml', 'launch/display.launch.py', 'urdf/my_robot.urdf', 'config/my_robot_config.rviz']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
