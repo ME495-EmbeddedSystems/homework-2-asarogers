@@ -23,22 +23,6 @@
         </visual>
     </link>
 
-    <link name="lidar">
-        <visual>
-            <geometry>
-                <cylinder radius="0.1" length="0.05"/>
-            </geometry>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <material name="white"/>          
-        </visual>
-    </link>
-
-    <joint name="base_lidar_joint" type="fixed">
-        <parent link="base_link"/>
-        <child link="lidar"/>
-        <origin xyz="0.0 0.0 0.225" rpy="0 0 0"/>
-    </joint>
-
     <!-- Left wheel link -->
     <link name="left_wheel">
         <visual>
