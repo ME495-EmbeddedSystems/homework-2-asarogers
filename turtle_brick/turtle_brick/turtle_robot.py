@@ -21,7 +21,7 @@ class TurtleRobot(Node):
         self.tf_broadcaster = TransformBroadcaster(self)
 
         # Set the transform update rate to 10 Hz
-        self.timer = self.create_timer(0.54, self.handleStaticFrames)
+        self.timer = self.create_timer(0.4, self.handleStaticFrames)
 
         # Store the latest pose
         self.latest_pose = None
