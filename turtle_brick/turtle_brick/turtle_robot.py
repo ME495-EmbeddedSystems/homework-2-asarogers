@@ -28,7 +28,6 @@ class TurtleRobot(Node):
 
     def handleStaticFrames(self):
         self.handle_broadcast('world', 'odom')
-        self.handle_broadcast('odom', 'base_link')
         self.handle_broadcast('base_link', 'base_footprint')
         self.handle_broadcast('base_link', 'caster_wheel')
 
