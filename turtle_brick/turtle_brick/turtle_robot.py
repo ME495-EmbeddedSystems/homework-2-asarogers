@@ -21,27 +21,21 @@ class TurtleRobot(Node):
         self.tf_broadcaster = TransformBroadcaster(self)
 
         # Set the transform update rate to 10 Hz
-        self.timer = self.create_timer(0.1, self.broadcast_transforms)
+        self.timer = self.create_timer(0.54, self.handleStaticFrames)
+
         # Store the latest pose
         self.latest_pose = None
 
-    def broadcast_transforms(self):
-        self.handle_broadcast('world', 'base_footprint')
+    def handleStaticFrames(self):
+        self.handle_broadcast('world', 'odom')
+        self.handle_broadcast('odom', 'base_link')
+        self.handle_broadcast('base_link', 'base_footprint')
+        self.handle_broadcast('base_link', 'caster_wheel')
 
-        # Broadcast for base_link
-        self.handle_broadcast('base_footprint', 'odm')
+        self.broadcast_transform()
+        
+        
 
-        # for my robot
-        self.handle_broadcast('odm', 'base_link')
-
-        self.handle_broadcast('base_link', 'my_robot')
-
-        # # Broadcast for right_wheel (base_link -> right_wheel)
-        # self.handle_broadcast('base_link', 'right_wheel')
-
-
-        # # Broadcast for caster_wheel (base_link -> caster_wheel)
-        # self.handle_broadcast('base_link', 'caster_wheel')
         
 
     def handle_broadcast(self, parent_frame, child_frame):
@@ -77,7 +71,7 @@ class TurtleRobot(Node):
         # Create and broadcast the transform based on the latest pose
         t = TransformStamped()
         t.header.stamp = self.get_clock().now().to_msg()
-        t.header.frame_id = 'base_footprint'
+        t.header.frame_id = 'odom'
         t.child_frame_id = 'base_link'
 
         t.transform.translation.x = self.latest_pose.x

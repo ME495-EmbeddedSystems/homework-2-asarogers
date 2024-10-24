@@ -24,42 +24,42 @@
     </link>
 
     <!-- Left wheel link -->
-    <link name="left_wheel">
+    <!-- <link name="left_wheel">
         <visual>
             <geometry>
                 <cylinder radius="0.1" length="0.05"/>
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="1.57 0.0 0.0"/>           
         </visual>
-    </link>
+    </link> -->
 
     <!-- Left wheel joint -->
-    <joint name="base_left_wheel_joint" type="continuous">
+    <!-- <joint name="base_left_wheel_joint" type="continuous">
         <parent link="base_link"/>
         <child link="left_wheel"/>
         <origin xyz="-0.15 0.225 0" rpy="0 0 0"/>
-        <!-- Correct axis of rotation for the wheel (around x-axis) -->
+        Correct axis of rotation for the wheel (around x-axis) 
         <axis xyz="0.0 1.0 0.0"/>
-    </joint>
+    </joint> -->
 
     <!-- Right wheel link -->
-    <link name="right_wheel">
+    <!-- <link name="right_wheel">
         <visual>
             <geometry>
                 <cylinder radius="0.1" length="0.05"/>
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="1.57 0.0 0.0"/>           
         </visual>
-    </link>
+    </link> -->
 
     <!-- Right wheel joint -->
-    <joint name="base_right_wheel_joint" type="continuous">
+    <!-- <joint name="base_right_wheel_joint" type="continuous">
         <parent link="base_link"/>
         <child link="right_wheel"/>
         <origin xyz="-0.15 -0.225 0" rpy="0 0 0"/>
-        <!-- Correct axis of rotation for the wheel (around x-axis) -->
+
         <axis xyz="0.0 1.0 0.0"/>
-    </joint>
+    </joint> -->
 
     <!-- Caster wheel link -->
     <link name="caster_wheel">
