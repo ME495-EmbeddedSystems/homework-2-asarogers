@@ -28,10 +28,12 @@ class TurtleRobot(Node):
     def broadcast_transforms(self):
         self.handle_broadcast('world', 'base_footprint')
 
-        # Broadcast for my_robot (base_link -> my_robot)
-        self.handle_broadcast('base_footprint', 'base_link')
+        # Broadcast for base_link
+        self.handle_broadcast('base_footprint', 'odm')
 
-        # # Broadcast for left_wheel (base_link -> left_wheel)
+        # for my robot
+        self.handle_broadcast('odm', 'base_link')
+
         self.handle_broadcast('base_link', 'my_robot')
 
         # # Broadcast for right_wheel (base_link -> right_wheel)
