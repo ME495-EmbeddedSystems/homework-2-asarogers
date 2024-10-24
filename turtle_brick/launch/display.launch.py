@@ -62,21 +62,6 @@ def generate_launch_description():
         output="screen"
     )
 
-    base_link_to_robot = launch_ros.actions.Node(
-        package="turtle_brick",
-        executable="baselinkToRobot",
-        name="baselinkToRobot",
-        output="screen"
-    )
-
-    world_frame_to_base_footprint = launch_ros.actions.Node(
-        package="turtle_brick",
-        executable="worldFrameToBaseFootprint",
-        name="worldFrameToBaseFootprint",
-        output="screen"
-    )
-
-
     # Launch Description
     return launch.LaunchDescription([
         # Launch argument for GUI
@@ -95,7 +80,5 @@ def generate_launch_description():
         rviz_node,
         turtle_robot_node,
         turtle_sim,
-        # world_frame,
-        # world_frame_to_base_footprint,
-        # base_link_to_robot
+
     ])
