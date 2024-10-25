@@ -4,6 +4,7 @@ from turtlesim.msg import Pose
 from geometry_msgs.msg import TransformStamped
 from tf2_ros import TransformBroadcaster
 import tf_transformations
+from visualization_msgs.msg import Marker
 
 class TurtleRobot(Node):
     """
@@ -13,18 +14,56 @@ class TurtleRobot(Node):
     def __init__(self):
         """Create the Turtle_robot bridge"""
         super().__init__('turtle_robot')
+        self.frequency = 0.01
 
         # Subscribe to Turtlesim Pose topic with a queue size of 10
-        self.create_subscription(Pose, '/turtle1/pose', self.handle_turtle_pose, 10)
+        self.create_subscription(Pose, '/turtle1/pose', self.handle_turtle_pose, 1)
 
         # Create a TransformBroadcaster
         self.tf_broadcaster = TransformBroadcaster(self)
 
         # Set the transform update rate to 10 Hz
-        self.timer = self.create_timer(0.4, self.handleStaticFrames)
+        self.timer = self.create_timer(self.frequency, self.handleStaticFrames)
 
         # Store the latest pose
         self.latest_pose = None
+
+        self.markerPublisher = self.create_publisher(Marker, "visualization_marker", 10)
+
+
+    def publishMarker(self):
+        marker = Marker()
+
+        marker.header.frame_id = "world"
+        marker.header.stamp = self.get_clock().now().to_msg()
+
+        marker.ns= "basic_shapes"
+        marker.id = 0
+        marker.type = Marker.CUBE
+        marker.action = Marker.ADD
+        
+        marker.pose.position.x = 5.0
+        marker.pose.position.y = 0.0
+        marker.pose.position.z = 0.5
+        marker.pose.orientation.x = 0.0
+        marker.pose.orientation.y = 0.0
+        marker.pose.orientation.z = 0.0
+        marker.pose.orientation.w = 1.0
+
+        # Set marker scale (size)
+        marker.scale.x = 0.25
+        marker.scale.y = 10.0
+        marker.scale.z = 1.0
+
+        # Set marker color (RGBA)
+        marker.color.r = 0.0
+        marker.color.g = 0.0
+        marker.color.b = 0.0
+        marker.color.a = 1.0  
+
+        # Publish marker
+        self.markerPublisher.publish(marker)
+        self.get_logger().info('Publishing marker at position: x=1.0, y=1.0, z=0.0')
 
     def handleStaticFrames(self):
         self.handle_broadcast('world', 'odom')
@@ -73,8 +112,10 @@ class TurtleRobot(Node):
         t.header.frame_id = 'odom'
         t.child_frame_id = 'base_link'
 
-        t.transform.translation.x = self.latest_pose.x
-        t.transform.translation.y = self.latest_pose.y
+        # self.latest_pose.x
+        # self.latest_pose.y
+        t.transform.translation.x = 0.0
+        t.transform.translation.y = 0.0
         t.transform.translation.z = 0.0  # Assuming 2D movement
 
         # Convert theta to quaternion

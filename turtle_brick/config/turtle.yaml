@@ -1,0 +1,5 @@
+robot:
+  platform_height: 1.2
+  wheel_radius: 0.1
+  max_velocity: 1.5
+  gravity_accel: 9.81

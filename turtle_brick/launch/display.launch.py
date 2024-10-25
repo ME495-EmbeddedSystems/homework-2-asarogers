@@ -55,6 +55,13 @@ def generate_launch_description():
         output="screen"
     )
 
+    arena_node = launch_ros.actions.Node(
+        package="turtle_brick",
+        executable="arena",
+        name="arena",
+        output="screen"
+    )
+
     turtle_sim = launch_ros.actions.Node(
         package="turtlesim",
         executable="turtlesim_node",
@@ -80,5 +87,5 @@ def generate_launch_description():
         rviz_node,
         turtle_robot_node,
         turtle_sim,
-
+        arena_node
     ])

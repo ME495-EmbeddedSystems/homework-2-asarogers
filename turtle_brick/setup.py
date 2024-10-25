@@ -21,8 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'turtle_robot = turtle_brick.turtle_robot:main',
-            'baselinkToRobot = turtle_brick.baselinkToRobot:main',
-            'worldFrameToBaseFootprint = turtle_brick.worldFrameToBaseFootprint:main'
+            'arena = turtle_brick.arena:main'
         ],
     },
 )
