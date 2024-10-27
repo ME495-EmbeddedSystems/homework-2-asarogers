@@ -8,69 +8,39 @@ from visualization_msgs.msg import Marker
 
 class TurtleRobot(Node):
     """
-    Node pushes messages at a fixed frequency.
+    Node that creates an arena in the rviz environment
+
+    Publishes
+    ---------
+    Marker : visualization_msgs/msg/Marker - publishes markers to visualize walls in RViz.
+
+    Parameters
+    ----------
+    frequency : float - timer freqency in seconds to control update rate
+    scale: list - 3D scaling factors [x, y, z] for wall dimensions.
+    rgba : list - RGBA volor values for the walls in the format [R, G, B, A]
+
     """
 
     def __init__(self):
         """Create the Turtle_robot bridge"""
         super().__init__('turtle_robot')
         self.frequency = 0.01
-
-        # Subscribe to Turtlesim Pose topic with a queue size of 10
         self.create_subscription(Pose, '/turtle1/pose', self.handle_turtle_pose, 1)
-
-        # Create a TransformBroadcaster
         self.tf_broadcaster = TransformBroadcaster(self)
-
-        # Set the transform update rate to 10 Hz
         self.timer = self.create_timer(self.frequency, self.handleStaticFrames)
-
-        # Store the latest pose
         self.latest_pose = None
-
         self.markerPublisher = self.create_publisher(Marker, "visualization_marker", 10)
 
 
-    def publishMarker(self):
-        marker = Marker()
-
-        marker.header.frame_id = "world"
-        marker.header.stamp = self.get_clock().now().to_msg()
-
-        marker.ns= "basic_shapes"
-        marker.id = 0
-        marker.type = Marker.CUBE
-        marker.action = Marker.ADD
-        
-        marker.pose.position.x = 5.0
-        marker.pose.position.y = 0.0
-        marker.pose.position.z = 0.5
-        marker.pose.orientation.x = 0.0
-        marker.pose.orientation.y = 0.0
-        marker.pose.orientation.z = 0.0
-        marker.pose.orientation.w = 1.0
-
-        # Set marker scale (size)
-        marker.scale.x = 0.25
-        marker.scale.y = 10.0
-        marker.scale.z = 1.0
-
-        # Set marker color (RGBA)
-        marker.color.r = 0.0
-        marker.color.g = 0.0
-        marker.color.b = 0.0
-        marker.color.a = 1.0  
-
-        # Publish marker
-        self.markerPublisher.publish(marker)
-        self.get_logger().info('Publishing marker at position: x=1.0, y=1.0, z=0.0')
-
     def handleStaticFrames(self):
+        """
+        Informs the handle_broadcast which frames to connect
+        """
         self.handle_broadcast('world', 'odom')
         self.handle_broadcast('base_link', 'base_footprint')
         self.handle_broadcast('base_link', 'caster_wheel')
 
-        self.broadcast_transform()
         
         
 
@@ -101,10 +71,6 @@ class TurtleRobot(Node):
         """Store the latest pose from the turtlesim node"""
         self.latest_pose = msg
 
-    def broadcast_transform(self):
-        """Broadcast transform if we have a pose"""
-        if self.latest_pose is None:
-            return  # No pose available yet
 
         # Create and broadcast the transform based on the latest pose
         t = TransformStamped()

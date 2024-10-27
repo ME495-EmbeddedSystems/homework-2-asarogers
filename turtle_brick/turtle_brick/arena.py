@@ -10,12 +10,23 @@ import math
 
 class Arena(Node):
     """
-    Node pushes messages at a fixed frequency.
+    Node that creates an arena in the rviz environment
+
+    Publishes
+    ---------
+    Marker : visualization_msgs/msg/Marker - publishes markers to visualize walls in RViz.
+
+    Parameters
+    ----------
+    frequency : float - timer freqency in seconds to control update rate
+    scale: list - 3D scaling factors [x, y, z] for wall dimensions.
+    rgba : list - RGBA volor values for the walls in the format [R, G, B, A]
+
     """
 
     def __init__(self):
-        """Creates  Arena node and all the walls that go with it"""
-        super().__init__('turtle_robot')
+        """Creates Arena node """
+        super().__init__('arena')
         self.frequency = 0.01
         self.referenceFrame = "world"
         #             X     Y    Z
@@ -25,21 +36,28 @@ class Arena(Node):
 
         # Create a TransformBroadcaster
         self.tf_broadcaster = TransformBroadcaster(self)
-
         self.markerPublisher = self.create_publisher(Marker, "visualization_marker", 4)
-
         self.timer = self.create_timer(self.frequency, self.publishMarker)
         self.timer2 = self.create_timer(self.frequency, self.publishMarker2)
 
     def publishMarker(self):
+        """Publishes two wall along the x-axis"""
         self.GenerateWall([-5.0, 0.0,0.0], [5.0, 0.0, 0.0], "x_wall", 0)
 
     def publishMarker2(self):
+        """Publishes two walls along the y-axis"""
         self.GenerateWall([-5.0, 0.0,0.0], [5.0, 0.0, 0.0], "y_wall", 1)
 
     def GenerateWall(self, firstWallPositon, secondWallPosition, referenceFrame, id):
         """
-        
+        Creates and publishes a wall market given the two endpoints
+
+        Parameters
+        ----------
+        firstWallPosition : list - starting point [x, y, z] for the wall.
+        secondWallPosition : list - ending point [x, y, z] for the wall.
+        referenceFrame : str - reference frame for the marker (e.g., "x_wall" or "y_wall").
+        id : int - unique identifier for each wall marker.
         """
         marker = Marker()
         marker.header.frame_id = self.referenceFrame
@@ -75,7 +93,18 @@ class Arena(Node):
         self.markerPublisher.publish(marker)
     
     def create_quaternion_from_yaw(self, yaw):
-        """Helper function to create a quaternion from a yaw angle (rotation around z-axis)."""
+        """
+        Creates a quaternion representing a rotation around the z-axis by a given yaw angle.
+
+        Parameters
+        ----------
+        yaw : float - angle in radians for rotation around the z-axis.
+
+        Returns
+        -------
+        Quaternion - quaternion representing the yaw rotation.
+        
+        """
         q = Quaternion()
         q.x = 0.0
         q.y = 0.0
