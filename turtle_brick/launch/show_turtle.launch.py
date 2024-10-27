@@ -87,7 +87,10 @@ def generate_launch_description():
         package="turtlesim",
         executable="turtlesim_node",
         name="sim",
-        output="screen"
+        output="screen",
+        parameters=[{
+            'holonomic': True  # This sets the holonomic parameter to True
+        }]
     )
 
     # Launch Description
