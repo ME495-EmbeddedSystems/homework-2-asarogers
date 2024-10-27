@@ -44,10 +44,7 @@ class TurtleRobot(Node):
         """
         self.handle_broadcast('world', 'odom')
         self.handle_broadcast('base_link', 'base_footprint')
-        # self.handle_broadcast('base_link', 'pole_to_base_joint')
-        # self.handle_broadcast('base_link', 'caster_wheel_joint')
-        # self.handle_broadcast('caster_wheel_joint', 'caster_wheel')
-        
+
 
         
         
