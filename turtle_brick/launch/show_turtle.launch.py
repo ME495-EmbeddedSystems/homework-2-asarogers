@@ -37,7 +37,6 @@ def generate_launch_description():
 
     params = {'robot_description': robot_desc}
 
-    # Nodes
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
         executable='robot_state_publisher',
@@ -45,14 +44,14 @@ def generate_launch_description():
         parameters=[params]
     )
     
-    # Conditional Joint State Publisher Node
+
     joint_state_publisher_node = Node(
         package="joint_state_publisher",
         executable='joint_state_publisher',
         condition=IfCondition(PythonExpression(["'", LaunchConfiguration('use_jsp'), "' == 'jsp'"]))
     )
 
-    # Conditional Joint State Publisher GUI Node
+
     joint_state_publisher_gui_node = Node(
         package="joint_state_publisher_gui",
         executable='joint_state_publisher_gui',
