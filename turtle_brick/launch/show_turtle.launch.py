@@ -7,7 +7,7 @@ import launch_ros
 
 def generate_launch_description():
     pkgPath = FindPackageShare('turtle_brick').find('turtle_brick')
-    urdfModelPath = os.path.join(pkgPath, 'my_robot.urdf')
+    urdfModelPath = os.path.join(pkgPath, 'turtle.urdf.xacro')
     rvizConfigPath = os.path.join(pkgPath,'my_robot_config.rviz')
 
     # Read URDF file contents
