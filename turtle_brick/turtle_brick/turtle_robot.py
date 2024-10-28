@@ -19,14 +19,14 @@ class TurtleRobot(Node):
 
         self.create_subscription(Pose, '/turtle1/pose', self.handle_turtle_pose, 1)
         self.create_subscription(Twist, '/cmd_vel', self.handle_cmd_vel, 1)
-        self.create_subscription(PoseStamped, '/goal_pose', self.handle_goal_pose, 1)
+        # self.create_subscription(PoseStamped, '/goal_pose', self.handle_goal_pose, 1)
 
         # Publishers
         self.tf_broadcaster = TransformBroadcaster(self)
         self.tf_staticbroadcaster = StaticTransformBroadcaster(self)
         self.joint_state_pub = self.create_publisher(JointState, 'joint_states', 10)
         self.odom_publisher = self.create_publisher(Odometry, 'odom', 10)
-        self.cmd_vel_publisher = self.create_publisher(Twist, '/cmd_vel', 10)
+        self.cmd_vel_publisher = self.create_publisher(Twist, 'turtle1/cmd_vel', 10)
 
         self._srv = self.create_service(ProvideGoalPose, 'provide_goal_pose', self.giveGoalPose)
         
@@ -34,7 +34,7 @@ class TurtleRobot(Node):
         self.staticTimer = self.create_timer(self.frequency, self.handleStaticFrames)
         self.dynamicTimer = self.create_timer(self.frequency, self.handleDynamicFrames)
         self.timer = self.create_timer(self.frequency, self.handleTurtleFrame)
-        self.joint_state_timer = self.create_timer(self.frequency, self.publishJointState)
+        # self.joint_state_timer = self.create_timer(self.frequency, self.publishJointState)
         self.control_timer = self.create_timer(self.frequency, self.driveToGoal)
 
         # Variables
@@ -48,9 +48,18 @@ class TurtleRobot(Node):
         self.quat = None
         self.revolution = 0
         self.total_distance_traveled = 0.0
+        self.print = self.get_logger().info
+        self.tolerance = 0.5
 
-    def giveGoalPose(self):
-        self.print
+    def giveGoalPose(self, request, response):
+        self.goal_pose = request.goal_pose
+
+        # Log the goal pose received
+        self.get_logger().info(f"Received new goal pose: x={self.goal_pose.pose.position.x}, y={self.goal_pose.pose.position.y}")
+
+        response.success = True
+        return response
+
     def publishJointState(self):
         # Create a JointState message
         joint_state = JointState()
@@ -84,41 +93,45 @@ class TurtleRobot(Node):
         self.get_logger().info(f"Received new goal pose: x={self.goal_pose.position.x}, y={self.goal_pose.position.y}")
 
     def driveToGoal(self):
-        """Drive the robot towards the goal pose"""
+        """Drive the robot towards the goal pose using proportional control for smoother navigation."""
         if self.latest_pose is None or self.goal_pose is None:
-            return
+            return  # Return early if no pose or goal
 
-        # Calculate the difference between the current position and the goal
-        dx = self.goal_pose.position.x - self.latest_pose.x
-        dy = self.goal_pose.position.y - self.latest_pose.y
-        distance = np.sqrt(dx ** 2 + dy ** 2)
+        # Calculate differences in position
+        dx = self.goal_pose.pose.position.x - self.latest_pose.x
+        dy = self.goal_pose.pose.position.y - self.latest_pose.y
 
-        # Set a threshold distance to stop the robot
-        if distance < 0.05:
-            # Goal reached
-            self.get_logger().info("Goal reached")
-            self.goal_pose = None
-            return
-
-        # Calculate angle to the goal
+        # Compute the distance and orientation difference
+        distance = np.sqrt(dx**2 + dy**2)
         goal_theta = np.arctan2(dy, dx)
         angle_diff = goal_theta - self.latest_pose.theta
 
-        # Normalize the angle to the range [-pi, pi]
+        # Normalize the angle to [-pi, pi] range
         angle_diff = (angle_diff + np.pi) % (2 * np.pi) - np.pi
 
-        # Control parameters
-        linear_speed = 1.0 * distance  # Proportional control for linear speed
-        angular_speed = 2.0 * angle_diff  # Proportional control for angular speed
+        # Set control parameters (similar to Waypoint node)
+        k_linear = 0.25  # Linear gain (adjustable)
+        k_angular = 2.0  # Angular gain (adjustable)
 
-        # Limit speeds
+        # Proportional control for linear and angular speed
+        linear_speed = distance * k_linear
+        angular_speed = angle_diff * k_angular
+
+        # Define speed limits for safety
         max_linear_speed = 1.0
         max_angular_speed = 2.0
 
-        linear_speed = min(max_linear_speed, max(-max_linear_speed, linear_speed))
-        angular_speed = min(max_angular_speed, max(-max_angular_speed, angular_speed))
+        # Constrain linear and angular speeds to max limits
+        linear_speed = max(-max_linear_speed, min(linear_speed, max_linear_speed))
+        angular_speed = max(-max_angular_speed, min(angular_speed, max_angular_speed))
 
-        # Publish the velocity command
+        # Stop if within tolerance of the goal
+        if distance < self.tolerance:
+            self.get_logger().info("Goal reached")
+            self.goal_pose = None  # Clear goal when reached
+            return
+
+        # Publish the calculated command velocities
         cmd_vel_msg = Twist()
         cmd_vel_msg.linear.x = linear_speed
         cmd_vel_msg.angular.z = angular_speed
@@ -135,8 +148,30 @@ class TurtleRobot(Node):
         self.handle_dynamic_broadcast('base_link', 'caster_wheel_joint')
         self.handle_dynamic_broadcast('world', 'odom')
 
+    # def handleOdomFrame(self):
+    #     # Publish the odometry message
+    #         odom = Odometry()
+    #         odom.header.stamp = self.get_clock().now().to_msg()
+    #         odom.header.frame_id = 'odom'
+    #         odom.child_frame_id = 'base_link'
+
+    #         # Set the pose
+    #         odom.pose.pose.position.x = self.latest_pose.x
+    #         odom.pose.pose.position.y = self.latest_pose.y
+    #         odom.pose.pose.position.z = 0.0
+    #         odom.pose.pose.orientation.x = self.quat[0]
+    #         odom.pose.pose.orientation.y = self.quat[1]
+    #         odom.pose.pose.orientation.z = self.quat[2]
+    #         odom.pose.pose.orientation.w = self.quat[3]
+
+    #         # Set the velocity (using the latest cmd_vel)
+    #         odom.twist.twist = self.latest_cmd_vel
+
+    #         # Publish odometry message
+    #         self.odom_publisher.publish(odom)
+
     def handleTurtleFrame(self):
-        """Handles broadcasting and publishes odometry data"""
+        """Handles broadcasting and publishes turtle movements in Rviz"""
         try:
             if self.latest_pose is None:
                 return
@@ -157,26 +192,7 @@ class TurtleRobot(Node):
 
             self.tf_broadcaster.sendTransform(t)
 
-            # Publish the odometry message
-            odom = Odometry()
-            odom.header.stamp = self.get_clock().now().to_msg()
-            odom.header.frame_id = 'odom'
-            odom.child_frame_id = 'base_link'
-
-            # Set the pose
-            odom.pose.pose.position.x = self.latest_pose.x
-            odom.pose.pose.position.y = self.latest_pose.y
-            odom.pose.pose.position.z = 0.0
-            odom.pose.pose.orientation.x = self.quat[0]
-            odom.pose.pose.orientation.y = self.quat[1]
-            odom.pose.pose.orientation.z = self.quat[2]
-            odom.pose.pose.orientation.w = self.quat[3]
-
-            # Set the velocity (using the latest cmd_vel)
-            odom.twist.twist = self.latest_cmd_vel
-
-            # Publish odometry message
-            self.odom_publisher.publish(odom)
+            
 
         except Exception as e:
             self.get_logger().error(f"An error occurred: {e}")
