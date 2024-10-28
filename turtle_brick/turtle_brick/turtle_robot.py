@@ -9,6 +9,8 @@ from visualization_msgs.msg import Marker
 import numpy as np
 from sensor_msgs.msg import JointState
 from turtle_brick_interfaces.srv import ProvideGoalPose
+from turtle_brick_interfaces.msg import Tilt
+
 
 class TurtleRobot(Node):
     def __init__(self):
@@ -19,6 +21,7 @@ class TurtleRobot(Node):
 
         self.create_subscription(Pose, '/turtle1/pose', self.handle_turtle_pose, 1)
         self.create_subscription(Twist, '/cmd_vel', self.handle_cmd_vel, 1)
+        self.create_subscription(Tilt, '/tilt', self.handle_tilt, 1)
         # self.create_subscription(PoseStamped, '/goal_pose', self.handle_goal_pose, 1)
 
         # Publishers
@@ -36,6 +39,8 @@ class TurtleRobot(Node):
         self.timer = self.create_timer(self.frequency, self.handleTurtleFrame)
         # self.joint_state_timer = self.create_timer(self.frequency, self.publishJointState)
         self.control_timer = self.create_timer(self.frequency, self.driveToGoal)
+        self.caster_wheel_timer = self.create_timer(self.frequency, self.publishJointState)
+
 
         # Variables
         self.latest_cmd_vel = Twist()
@@ -50,6 +55,10 @@ class TurtleRobot(Node):
         self.total_distance_traveled = 0.0
         self.print = self.get_logger().info
         self.tolerance = 0.5
+
+    def handle_tilt(self, msg):
+        self.tilt = msg.tilt
+
 
     def giveGoalPose(self, request, response):
         self.goal_pose = request.goal_pose
@@ -81,7 +90,6 @@ class TurtleRobot(Node):
     def handle_turtle_pose(self, msg):
         """Store the latest pose from the turtlesim node"""
         self.latest_pose = msg
-        distance = msg.linear_velocity
         circumference = 2 * np.pi * self.wheelRadius
         self.revolution = self.total_distance_traveled / circumference
         self.revolution = (self.revolution + np.pi) % (2 * np.pi) - np.pi
@@ -148,27 +156,6 @@ class TurtleRobot(Node):
         self.handle_dynamic_broadcast('base_link', 'caster_wheel_joint')
         self.handle_dynamic_broadcast('world', 'odom')
 
-    # def handleOdomFrame(self):
-    #     # Publish the odometry message
-    #         odom = Odometry()
-    #         odom.header.stamp = self.get_clock().now().to_msg()
-    #         odom.header.frame_id = 'odom'
-    #         odom.child_frame_id = 'base_link'
-
-    #         # Set the pose
-    #         odom.pose.pose.position.x = self.latest_pose.x
-    #         odom.pose.pose.position.y = self.latest_pose.y
-    #         odom.pose.pose.position.z = 0.0
-    #         odom.pose.pose.orientation.x = self.quat[0]
-    #         odom.pose.pose.orientation.y = self.quat[1]
-    #         odom.pose.pose.orientation.z = self.quat[2]
-    #         odom.pose.pose.orientation.w = self.quat[3]
-
-    #         # Set the velocity (using the latest cmd_vel)
-    #         odom.twist.twist = self.latest_cmd_vel
-
-    #         # Publish odometry message
-    #         self.odom_publisher.publish(odom)
 
     def handleTurtleFrame(self):
         """Handles broadcasting and publishes turtle movements in Rviz"""
