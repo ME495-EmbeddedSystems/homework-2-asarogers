@@ -1,8 +1,11 @@
 <?xml version="1.0"?>
 <robot name="my_robot" xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
-<xacro:property name="platform height" value="0.2" />
-<xacro:property name="body" value="0.6" />
+    <xacro:arg name="platform_height" default="0.2"/>
+    <xacro:arg name="wheel_radius" default="0.1"/>
+
+    <xacro:property name="platform_height" value="$(arg platform_height)" />
+    <xacro:property name="wheel_radius" value="$(arg wheel_radius)" />
 
 
     <material name="grey">
@@ -54,7 +57,7 @@
             <geometry>
                  <cylinder radius="0.3" length="0.05"/>
             </geometry>
-             <origin xyz="0.0 0.0 0.6" rpy="0.0 0.0 0.0"/>
+             <origin xyz="0.0 0.0 $(arg platform_height)" rpy="0.0 0.0 0.0"/>
              <material name="blue"/> 
         </visual>
     </link>
@@ -82,7 +85,7 @@
     <link name="wheel">
         <visual>
             <geometry>
-                 <cylinder radius="0.1" length="0.05"/>
+                 <cylinder radius="$(arg wheel_radius)" length="0.05"/>
             </geometry>
              <origin xyz="0.0 0.0 0.0" rpy="1.57 0.0 0.0"/>       
         </visual>

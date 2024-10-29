@@ -6,17 +6,29 @@ from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+import xacro 
+import yaml
 
 def generate_launch_description():
     # Package paths
     pkgPath = FindPackageShare('turtle_brick').find('turtle_brick')
     urdfModelPath = os.path.join(pkgPath, 'turtle.urdf.xacro')
     rvizConfigPath = os.path.join(pkgPath, 'my_robot_config.rviz')
-    configPath = os.path.join(pkgPath, 'config', 'turtle.yaml')
+    configPath = os.path.join(pkgPath, 'turtle.yaml')
+
+    with open(configPath, 'r') as configFile:
+        config = yaml.safe_load(configFile)
 
     # Read URDF file contents
-    with open(urdfModelPath, 'r') as infp:
-        robot_desc = infp.read()
+    robot_desc = xacro.process_file(
+        urdfModelPath,
+        mappings={
+            'platform_height': str(config['robot']['platform_height']),
+            'wheel_radius': str(config['robot']['wheel_radius']),
+            'max_velocity': str(config['robot']['max_velocity']),
+            'gravity_accel': str(config['robot']['gravity_accel'])
+        }
+    ).toxml()
 
     # Launch arguments
     jsp_arg = DeclareLaunchArgument(
@@ -75,14 +87,15 @@ def generate_launch_description():
         executable="turtle_robot",
         name="turtle_robot",
         output="screen",
-        parameters=[configPath]
+        parameters=[{'config_path': configPath}]
     )
 
     arena_node = Node(
         package="turtle_brick",
         executable="arena",
         name="arena",
-        output="screen"
+        output="screen",
+        parameters=[{'config_path': configPath}]
     )
 
     turtle_sim = Node(

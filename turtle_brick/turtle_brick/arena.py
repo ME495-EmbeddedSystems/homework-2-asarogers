@@ -12,6 +12,9 @@ from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
 from turtle_brick_interfaces.srv import Place
 from turtle_brick import physics
 from std_srvs.srv import Empty
+import yaml
+
+
 
 class Arena(Node):
     """
@@ -50,6 +53,17 @@ class Arena(Node):
         self.brickPose = None
         self.brickPhysics = None
         self.print = self.get_logger().info
+
+        config_path = self.declare_parameter('config_path', '').get_parameter_value().string_value
+        if config_path:
+            with open(config_path, 'r') as configFile:
+                config = yaml.safe_load(configFile)
+            self.gravity = config['robot']['gravity_accel']
+            self.platformHeight = config['robot']['platform_height']
+            self.maxVelocity = config['robot']['max_velocity']
+        else:
+            self.get_logger().error('Config path not provided')
+
 
 
         #Transient_local ensure the last message recieves is saved, so when the subscribers connects, it immediately recieves it

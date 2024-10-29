@@ -10,14 +10,14 @@ import numpy as np
 from sensor_msgs.msg import JointState
 from turtle_brick_interfaces.srv import ProvideGoalPose
 from turtle_brick_interfaces.msg import Tilt
-
+import yaml
+from rclpy.qos import QoSProfile, QoSDurabilityPolicy
 
 class TurtleRobot(Node):
     def __init__(self):
         """Create the Turtle_robot bridge"""
         super().__init__('turtle_robot')
         self.frequency = 0.01
-        # self.platform_height = self.get_parameter('robot.platform_height').get_parameter_value().double_value
         self.latest_cmd_vel = Twist()
         self.latest_pose = None
         self.goal_pose = None
@@ -31,25 +31,37 @@ class TurtleRobot(Node):
         self.print = self.get_logger().info
         self.tolerance = 0.5
 
+        config_path = self.declare_parameter('config_path', '').get_parameter_value().string_value
+        if config_path:
+            with open(config_path, 'r') as configFile:
+                config = yaml.safe_load(configFile)
+            self.gravity = config['robot']['gravity_accel']
+            self.platformHeight = config['robot']['platform_height']
+            self.maxVelocity = config['robot']['max_velocity']
+        else:
+            self.get_logger().error('Config path not provided')
 
-        self.create_subscription(Pose, '/turtle1/pose', self.handle_turtle_pose, 1)
-        self.create_subscription(Twist, '/cmd_vel', self.handle_cmd_vel, 1)
-        self.create_subscription(Tilt, '/tilt', self.handle_tilt, 1)
+        qos_profile = QoSProfile(depth=1, durability=QoSDurabilityPolicy.TRANSIENT_LOCAL)
+        self.create_subscription(Pose, '/turtle1/pose', self.handle_turtle_pose, qos_profile)
+        self.create_subscription(Twist, '/cmd_vel', self.handle_cmd_vel, qos_profile)
+        self.create_subscription(Tilt, '/tilt', self.handle_tilt, qos_profile)
         # self.create_subscription(PoseStamped, '/goal_pose', self.handle_goal_pose, 1)
 
         # Publishers
         self.tf_broadcaster = TransformBroadcaster(self)
         self.tf_staticbroadcaster = StaticTransformBroadcaster(self)
-        self.joint_state_pub = self.create_publisher(JointState, 'joint_states', 10)
-        self.odom_publisher = self.create_publisher(Odometry, 'odom', 10)
-        self.cmd_vel_publisher = self.create_publisher(Twist, 'turtle1/cmd_vel', 10)
-
+        self.joint_state_pub = self.create_publisher(JointState, 'joint_states', qos_profile)
+        self.odom_publisher = self.create_publisher(Odometry, 'odom', qos_profile)
+        self.cmd_vel_publisher = self.create_publisher(Twist, 'turtle1/cmd_vel', qos_profile)
         self._srv = self.create_service(ProvideGoalPose, 'provide_goal_pose', self.giveGoalPose)
+
         
         # Timers
         self.staticTimer = self.create_timer(self.frequency, self.handleStaticFrames)
         self.dynamicTimer = self.create_timer(self.frequency, self.handleDynamicFrames)
         self.timer = self.create_timer(self.frequency, self.handleTurtleFrame)
+        self.updateTimer = self.create_timer(self.frequency, self.update)  # 100 Hz
+
         # self.joint_state_timer = self.create_timer(self.frequency, self.publishJointState)
         self.control_timer = self.create_timer(self.frequency, self.driveToGoal)
         self.wheel_timer = self.create_timer(self.frequency, self.publishJointState)
@@ -96,6 +108,33 @@ class TurtleRobot(Node):
         self.revolution = (self.revolution + np.pi) % (2 * np.pi) - np.pi
         self.quat = tf_transformations.quaternion_from_euler(0, 0, self.latest_pose.theta)
     
+    def publish_odom(self):
+        if self.latest_pose:
+            odom = Odometry()
+            odom.header.stamp = self.get_clock().now().to_msg()
+            odom.header.frame_id = 'odom'
+            odom.child_frame_id = 'base_link'
+
+            # Position
+            odom.pose.pose.position.x = self.latest_pose.x
+            odom.pose.pose.position.y = self.latest_pose.y
+            odom.pose.pose.orientation.z = self.latest_pose.theta  # Simplified 2D case
+
+            # Twist is a copy of cmd_vel
+            odom.twist.twist = self.latest_cmd_vel
+            self.odom_pub.publish(odom)
+
+            # Broadcast the transformation
+            self.broadcast_tf()
+
+    def update(self):
+        if self.goal_pose:
+            self.drive_to_goal()
+        else:
+            self.latest_cmd_vel = Twist()  # Stop if no goal
+            self.cmd_vel_pub.publish(self.latest_cmd_vel)
+        self.publish_odom()
+
     def handle_goal_pose(self, msg):
         """Store the goal pose"""
         self.goal_pose = msg.pose
