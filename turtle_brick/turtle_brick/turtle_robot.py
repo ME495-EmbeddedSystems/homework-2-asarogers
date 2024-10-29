@@ -42,9 +42,9 @@ class TurtleRobot(Node):
             self.get_logger().error('Config path not provided')
 
         qos_profile = QoSProfile(depth=1, durability=QoSDurabilityPolicy.TRANSIENT_LOCAL)
-        self.create_subscription(Pose, '/turtle1/pose', self.handle_turtle_pose, qos_profile)
-        self.create_subscription(Twist, '/cmd_vel', self.handle_cmd_vel, qos_profile)
-        self.create_subscription(Tilt, '/tilt', self.handle_tilt, qos_profile)
+        self.create_subscription(Pose, '/turtle1/pose', self.handle_turtle_pose, 1)
+        self.create_subscription(Twist, '/cmd_vel', self.handle_cmd_vel, 1)
+        self.create_subscription(Tilt, '/tilt', self.handle_tilt, 1)
         # self.create_subscription(PoseStamped, '/goal_pose', self.handle_goal_pose, 1)
 
         # Publishers
@@ -52,16 +52,15 @@ class TurtleRobot(Node):
         self.tf_staticbroadcaster = StaticTransformBroadcaster(self)
         self.joint_state_pub = self.create_publisher(JointState, 'joint_states', qos_profile)
         self.odom_publisher = self.create_publisher(Odometry, 'odom', qos_profile)
+        
         self.cmd_vel_publisher = self.create_publisher(Twist, 'turtle1/cmd_vel', qos_profile)
-        self._srv = self.create_service(ProvideGoalPose, 'provide_goal_pose', self.giveGoalPose)
 
+        self._srv = self.create_service(ProvideGoalPose, 'provide_goal_pose', self.giveGoalPose)
         
         # Timers
         self.staticTimer = self.create_timer(self.frequency, self.handleStaticFrames)
         self.dynamicTimer = self.create_timer(self.frequency, self.handleDynamicFrames)
         self.timer = self.create_timer(self.frequency, self.handleTurtleFrame)
-        self.updateTimer = self.create_timer(self.frequency, self.update)  # 100 Hz
-
         # self.joint_state_timer = self.create_timer(self.frequency, self.publishJointState)
         self.control_timer = self.create_timer(self.frequency, self.driveToGoal)
         self.wheel_timer = self.create_timer(self.frequency, self.publishJointState)
@@ -108,33 +107,6 @@ class TurtleRobot(Node):
         self.revolution = (self.revolution + np.pi) % (2 * np.pi) - np.pi
         self.quat = tf_transformations.quaternion_from_euler(0, 0, self.latest_pose.theta)
     
-    def publish_odom(self):
-        if self.latest_pose:
-            odom = Odometry()
-            odom.header.stamp = self.get_clock().now().to_msg()
-            odom.header.frame_id = 'odom'
-            odom.child_frame_id = 'base_link'
-
-            # Position
-            odom.pose.pose.position.x = self.latest_pose.x
-            odom.pose.pose.position.y = self.latest_pose.y
-            odom.pose.pose.orientation.z = self.latest_pose.theta  # Simplified 2D case
-
-            # Twist is a copy of cmd_vel
-            odom.twist.twist = self.latest_cmd_vel
-            self.odom_pub.publish(odom)
-
-            # Broadcast the transformation
-            self.broadcast_tf()
-
-    def update(self):
-        if self.goal_pose:
-            self.drive_to_goal()
-        else:
-            self.latest_cmd_vel = Twist()  # Stop if no goal
-            self.cmd_vel_pub.publish(self.latest_cmd_vel)
-        self.publish_odom()
-
     def handle_goal_pose(self, msg):
         """Store the goal pose"""
         self.goal_pose = msg.pose
