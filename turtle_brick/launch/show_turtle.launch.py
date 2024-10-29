@@ -12,6 +12,7 @@ def generate_launch_description():
     pkgPath = FindPackageShare('turtle_brick').find('turtle_brick')
     urdfModelPath = os.path.join(pkgPath, 'turtle.urdf.xacro')
     rvizConfigPath = os.path.join(pkgPath, 'my_robot_config.rviz')
+    configPath = os.path.join(pkgPath, 'config', 'turtle.yaml')
 
     # Read URDF file contents
     with open(urdfModelPath, 'r') as infp:
@@ -73,7 +74,8 @@ def generate_launch_description():
         package="turtle_brick",
         executable="turtle_robot",
         name="turtle_robot",
-        output="screen"
+        output="screen",
+        parameters=[configPath]
     )
 
     arena_node = Node(
@@ -103,5 +105,5 @@ def generate_launch_description():
         rviz_node,
         turtle_robot_node,
         arena_node,
-        turtle_sim
+        turtle_sim,
     ])

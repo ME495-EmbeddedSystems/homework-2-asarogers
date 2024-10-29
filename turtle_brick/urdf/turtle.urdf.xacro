@@ -49,7 +49,7 @@
     </joint>
 
     
-    <link name="top_link">
+    <link name="platform">
         <visual>
             <geometry>
                  <cylinder radius="0.3" length="0.05"/>
@@ -61,7 +61,7 @@
 
     <joint name="top_wheel_joint" type="fixed">
         <parent link="pole_link"/>
-        <child link="top_link"/>
+        <child link="platform"/>
         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
     </joint>
 
@@ -79,7 +79,7 @@
 
 
     <!-- Caster wheel link -->
-    <link name="caster_wheel">
+    <link name="wheel">
         <visual>
             <geometry>
                  <cylinder radius="0.1" length="0.05"/>
@@ -89,9 +89,9 @@
     </link>
 
     <!-- Caster wheel joint -->
-    <joint name="caster_wheel_joint" type="continuous">
+    <joint name="wheel_joint" type="continuous">
         <parent link="base_link"/>
-        <child link="caster_wheel"/>
+        <child link="wheel"/>
         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         <axis xyz="0.0 1.0 0.0"/>
     </joint>

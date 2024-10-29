@@ -17,6 +17,19 @@ class TurtleRobot(Node):
         """Create the Turtle_robot bridge"""
         super().__init__('turtle_robot')
         self.frequency = 0.01
+        # self.platform_height = self.get_parameter('robot.platform_height').get_parameter_value().double_value
+        self.latest_cmd_vel = Twist()
+        self.latest_pose = None
+        self.goal_pose = None
+        self.defaultTranslation = Vector3(x=0.0, y=0.0, z=0.0)
+        self.defaultRotation = Quaternion(x=0.0, y=0.0, z=0.0, w=1.0)
+        self.get_logger().set_level(rclpy.logging.LoggingSeverity.DEBUG)
+        self.wheelRadius = 0.1
+        self.quat = None
+        self.revolution = 0
+        self.total_distance_traveled = 0.0
+        self.print = self.get_logger().info
+        self.tolerance = 0.5
 
 
         self.create_subscription(Pose, '/turtle1/pose', self.handle_turtle_pose, 1)
@@ -39,22 +52,10 @@ class TurtleRobot(Node):
         self.timer = self.create_timer(self.frequency, self.handleTurtleFrame)
         # self.joint_state_timer = self.create_timer(self.frequency, self.publishJointState)
         self.control_timer = self.create_timer(self.frequency, self.driveToGoal)
-        self.caster_wheel_timer = self.create_timer(self.frequency, self.publishJointState)
+        self.wheel_timer = self.create_timer(self.frequency, self.publishJointState)
 
 
-        # Variables
-        self.latest_cmd_vel = Twist()
-        self.latest_pose = None
-        self.goal_pose = None
-        self.defaultTranslation = Vector3(x=0.0, y=0.0, z=0.0)
-        self.defaultRotation = Quaternion(x=0.0, y=0.0, z=0.0, w=1.0)
-        self.get_logger().set_level(rclpy.logging.LoggingSeverity.DEBUG)
-        self.wheelRadius = 0.1
-        self.quat = None
-        self.revolution = 0
-        self.total_distance_traveled = 0.0
-        self.print = self.get_logger().info
-        self.tolerance = 0.5
+        
 
     def handle_tilt(self, msg):
         self.tilt = msg.tilt
@@ -75,7 +76,7 @@ class TurtleRobot(Node):
         joint_state.header.stamp = self.get_clock().now().to_msg()
 
         # Define the caster wheel joint
-        joint_state.name = ['caster_wheel_joint']
+        joint_state.name = ['wheel_joint']
 
         # Set the position of the caster wheel (example value)
         joint_state.position = [self.revolution]  # Update the caster wheel rotation based on the revolution calculation
@@ -117,15 +118,14 @@ class TurtleRobot(Node):
         # Normalize the angle to [-pi, pi] range
         angle_diff = (angle_diff + np.pi) % (2 * np.pi) - np.pi
 
-        # Set control parameters (similar to Waypoint node)
-        k_linear = 0.25  # Linear gain (adjustable)
-        k_angular = 2.0  # Angular gain (adjustable)
+        k_linear = 0.25 
+        k_angular = 2.0 
 
-        # Proportional control for linear and angular speed
+
         linear_speed = distance * k_linear
         angular_speed = angle_diff * k_angular
 
-        # Define speed limits for safety
+
         max_linear_speed = 1.0
         max_angular_speed = 2.0
 
@@ -149,11 +149,11 @@ class TurtleRobot(Node):
         """Informs the handle_broadcast which frames to statically connect"""
         self.handle_broadcast('base_link', 'base_footprint')
         self.handle_broadcast('base_link', 'pole_link')
-        self.handle_broadcast('pole_link', 'top_link')
+        self.handle_broadcast('pole_link', 'platform')
 
     def handleDynamicFrames(self):
         """Informs the dynamic broadcast which frames to dynamically connect"""
-        self.handle_dynamic_broadcast('base_link', 'caster_wheel_joint')
+        self.handle_dynamic_broadcast('base_link', 'wheel_joint')
         self.handle_dynamic_broadcast('world', 'odom')
 
 

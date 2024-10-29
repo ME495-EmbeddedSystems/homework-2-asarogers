@@ -17,6 +17,7 @@ find_package(geometry_msgs REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
     #  "msg/MessageType.msg" # Whatever message file you've defined
      "srv/ProvideGoalPose.srv" # Whatever service file you've defined
+     "srv/Place.srv"
      "msg/Tilt.msg"
      DEPENDENCIES geometry_msgs  # in this example we depend on geometry_msgs
      )

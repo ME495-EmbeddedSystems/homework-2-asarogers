@@ -7,6 +7,11 @@ import tf_transformations
 from visualization_msgs.msg import Marker
 from geometry_msgs.msg import Point, Quaternion
 import math
+from rclpy.qos import QoSProfile, QoSDurabilityPolicy
+from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
+from turtle_brick_interfaces.srv import Place
+from turtle_brick import physics
+from std_srvs.srv import Empty
 
 class Arena(Node):
     """
@@ -21,6 +26,10 @@ class Arena(Node):
     frequency : float - timer freqency in seconds to control update rate
     scale: list - 3D scaling factors [x, y, z] for wall dimensions.
     rgba : list - RGBA volor values for the walls in the format [R, G, B, A]
+        brickScale : list
+        Dimensions of the brick [x, y, z].
+    brickRgba : list
+        RGBA color values for the brick in the format [R, G, B, A].
 
     """
 
@@ -28,27 +37,130 @@ class Arena(Node):
         """Creates Arena node """
         super().__init__('arena')
         self.frequency = 0.01
-        self.referenceFrame = "world"
         #             X     Y    Z
-        self.scale =[0.25, 10.25, 2.5]
-        self.rgba = [0.0, 0.0, 0.0, 1.0]
-        self.zPose = 1.0
+        self.wallScale =[0.25, 10.25, 2.5]
+        self.wallRgba = [0.0, 0.0, 0.0, 1.0]
+        self.referenceFrame = "world"
+        self.brickScale = [0.1, 0.25, 0.1]  
+        self.brickRgba = [0.5, 0.2, 0.0, 1.0] 
+        self.dt = 0.004  
+        self.gravity = -9.8  
+        self.platformRadius = 0.3
+        self.fall = False
+        self.brickPose = None
+        self.brickPhysics = None
+        self.print = self.get_logger().info
 
-        # Create a TransformBroadcaster
+
+        #Transient_local ensure the last message recieves is saved, so when the subscribers connects, it immediately recieves it
+        # depth specifies the number of messages stored in the history buffer
+        qos_profile = QoSProfile(depth=1, durability=QoSDurabilityPolicy.TRANSIENT_LOCAL)
+        self.brickOrientation = Quaternion(x = 0.0, y = 0.0, z = math.radians(45))
+        self.zPoseAboveTheGrid = 1.0
+        self.shiftByTurtleStart = 5.0
+
+        self.xWallCoordinates = [[-5.0 + self.shiftByTurtleStart ,self.shiftByTurtleStart ,0.0], [5.0 + self.shiftByTurtleStart , self.shiftByTurtleStart , 0.0]]
+        self.yWallCoordinates = [[-5.0 + self.shiftByTurtleStart , -self.shiftByTurtleStart ,0.0], [5.0+ self.shiftByTurtleStart , -self.shiftByTurtleStart , 0.0]]
+
+        # Publishers
         self.tf_broadcaster = TransformBroadcaster(self)
-        self.markerPublisher = self.create_publisher(Marker, "visualization_marker", 4)
+        self.xWallPublisher = self.create_publisher(Marker, "visualization_marker", qos_profile)
+        self.yWallPublisher = self.create_publisher(Marker, "visualization_marker", qos_profile)
+        self.brickPublisher = self.create_publisher(Marker, "visualization_marker", qos_profile)
+
+
+        # Timers
         self.timer = self.create_timer(self.frequency, self.publishMarker)
         self.timer2 = self.create_timer(self.frequency, self.publishMarker2)
+        self.brickTimer = self.create_timer(self.frequency, self.brickCallback)
+
+        # Services
+        self.create_service(Place, "place", self.placeBrick)
+        self.create_service(Empty, "drop", self.dropBrick)
+    
+        
+    
+    
+    def dropBrick(self, request, response):
+        if self.brickPose != None:
+            self.fall = True
+        else:
+            self.get_logger.error('The brick position has not been placed. Please place the brick with the /place service \n ex) /place turtle_brick_interfaces/srv/Place "{x: 5.0, y: 2.0, z: 5.0}"')
+        return response
+    
+    def placeBrick(self, request, response):
+        """Place the brick at the request position"""
+        self.brickPhysics = physics.World((request.x, request.y, request.z), self.gravity, self.platformRadius, self.dt)
+        x, y, z = self.brickPhysics.brick
+        self.brickPose = Point(x=x, y=y, z=z)
+        response.success = True
+        response.message = f"Brick placed at ({request.x}, {request.y}, {request.z})"
+        return response
+    
+    def brickCallback(self):
+        """Update the brick's physics state and publish its current position."""
+        # Update the brick's position based on physics
+
+        if self.brickPose != None:
+            if self.fall == True:
+                self.fall = self.brickPhysics.drop()
+            x, y, z = self.brickPhysics.brick
+            self.print(f"x ={x}, y={y}, z={z}")
+            self.brickPose = Point(x=x, y=y, z=z)
+            self.publishBrick(self.brickOrientation, self.brickPose, self.brickScale, self.brickRgba)
+
+
+    def publishBrick(self, orientation, position, scale, rgba):
+        """
+        Publishes the brick's marker in RViz with specified orientation, position, scale, and color.
+
+        Parameters
+        ----------
+        orientation : Quaternion - The orientation of the brick in the world frame.
+        position : Point - The position of the brick in the world frame.
+        scale : list - 3D scaling factors [x, y, z] for the brick dimensions.
+        rgba : list - RGBA color values for the brick in the format [R, G, B, A].
+        """
+        brickMarker = Marker()
+        brickMarker.header.frame_id = self.referenceFrame
+        brickMarker.header.stamp = self.get_clock().now().to_msg()
+        brickMarker.ns = "brick"
+        brickMarker.id = 3
+        brickMarker.type = Marker.CUBE
+        brickMarker.action = Marker.ADD
+
+        # Set position and orientation
+        brickMarker.pose.position = position
+        brickMarker.pose.orientation = orientation
+
+        # Set scale and color
+        brickMarker.scale.x = scale[0]
+        brickMarker.scale.y = scale[1]
+        brickMarker.scale.z = scale[2]
+        brickMarker.color.r = rgba[0]
+        brickMarker.color.g = rgba[1]
+        brickMarker.color.b = rgba[2]
+        brickMarker.color.a = rgba[3]
+
+        # Publish the marker
+        self.brickPublisher.publish(brickMarker)
+    
+
+
+
+
+
+
 
     def publishMarker(self):
         """Publishes two wall along the x-axis"""
-        self.GenerateWall([-5.0, 0.0,0.0], [5.0, 0.0, 0.0], "x_wall", 0)
+        self.GenerateWall(self.xWallCoordinates[0],self.xWallCoordinates[1], "x_wall", 0, self.xWallPublisher)
 
     def publishMarker2(self):
         """Publishes two walls along the y-axis"""
-        self.GenerateWall([-5.0, 0.0,0.0], [5.0, 0.0, 0.0], "y_wall", 1)
+        self.GenerateWall(self.yWallCoordinates[0], self.yWallCoordinates[1], "y_wall", 1, self.yWallPublisher)
 
-    def GenerateWall(self, firstWallPositon, secondWallPosition, referenceFrame, id):
+    def GenerateWall(self, firstWallPositon, secondWallPosition, nameOfCurrentFrame, id, publisher):
         """
         Creates and publishes a wall market given the two endpoints
 
@@ -56,18 +168,18 @@ class Arena(Node):
         ----------
         firstWallPosition : list - starting point [x, y, z] for the wall.
         secondWallPosition : list - ending point [x, y, z] for the wall.
-        referenceFrame : str - reference frame for the marker (e.g., "x_wall" or "y_wall").
+        nameOfCurrentFrame : str - reference frame for the marker (e.g., "x_wall" or "y_wall").
         id : int - unique identifier for each wall marker.
         """
         marker = Marker()
         marker.header.frame_id = self.referenceFrame
         marker.header.stamp = self.get_clock().now().to_msg()
 
-        angle = math.radians(48 * id)
+        angle = math.radians(90 * id)
         marker.pose.orientation = self.create_quaternion_from_yaw(angle)
-        marker.pose.position.z = self.zPose
+        marker.pose.position.z = self.zPoseAboveTheGrid
 
-        marker.ns= referenceFrame
+        marker.ns= nameOfCurrentFrame
         marker.id = id
         marker.type = Marker.CUBE_LIST
         marker.action = Marker.ADD
@@ -80,17 +192,17 @@ class Arena(Node):
             Point(x = secondWallPosition[0], y = secondWallPosition[1], z = secondWallPosition[2])
         ]
 
-        marker.scale.x = self.scale[0]
-        marker.scale.y = self.scale[1]
-        marker.scale.z = self.scale[2]
+        marker.scale.x = self.wallScale[0]
+        marker.scale.y = self.wallScale[1]
+        marker.scale.z = self.wallScale[2]
         marker.points.extend(cube_positions)
 
-        marker.color.r = self.rgba[0]
-        marker.color.g = self.rgba[1]
-        marker.color.b = self.rgba[2]
-        marker.color.a = self.rgba[3]
+        marker.color.r = self.wallRgba[0]
+        marker.color.g = self.wallRgba[1]
+        marker.color.b = self.wallRgba[2]
+        marker.color.a = self.wallRgba[3]
 
-        self.markerPublisher.publish(marker)
+        publisher.publish(marker)
     
     def create_quaternion_from_yaw(self, yaw):
         """
@@ -105,11 +217,8 @@ class Arena(Node):
         Quaternion - quaternion representing the yaw rotation.
         
         """
-        q = Quaternion()
-        q.x = 0.0
-        q.y = 0.0
-        q.z = yaw 
-        return q
+        q = tf_transformations.quaternion_from_euler(0, 0, yaw)
+        return Quaternion(x=q[0], y=q[1], z=q[2], w=q[3])
 
 def main(args=None):
     rclpy.init(args=args)
