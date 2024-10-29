@@ -9,7 +9,7 @@ from visualization_msgs.msg import Marker
 import numpy as np
 from sensor_msgs.msg import JointState
 from turtle_brick_interfaces.srv import ProvideGoalPose
-from turtle_brick_interfaces.msg import Tilt
+from turtle_brick_interfaces.msg import Tilt, TurtleLocation
 import yaml
 from rclpy.qos import QoSProfile, QoSDurabilityPolicy
 
@@ -31,9 +31,9 @@ class TurtleRobot(Node):
         self.print = self.get_logger().info
         self.tolerance = 0.5
 
-        config_path = self.declare_parameter('config_path', '').get_parameter_value().string_value
-        if config_path:
-            with open(config_path, 'r') as configFile:
+        self.config_path = self.declare_parameter('config_path', '').get_parameter_value().string_value
+        if self.config_path:
+            with open(self.config_path, 'r') as configFile:
                 config = yaml.safe_load(configFile)
             self.gravity = config['robot']['gravity_accel']
             self.platformHeight = config['robot']['platform_height']
@@ -52,16 +52,17 @@ class TurtleRobot(Node):
         self.tf_staticbroadcaster = StaticTransformBroadcaster(self)
         self.joint_state_pub = self.create_publisher(JointState, 'joint_states', qos_profile)
         self.odom_publisher = self.create_publisher(Odometry, 'odom', qos_profile)
-        
+        self.turtleLocationPublisher = self.create_publisher(TurtleLocation, 'turtle_location', qos_profile)
         self.cmd_vel_publisher = self.create_publisher(Twist, 'turtle1/cmd_vel', qos_profile)
 
+
+        # Services
         self._srv = self.create_service(ProvideGoalPose, 'provide_goal_pose', self.giveGoalPose)
         
         # Timers
         self.staticTimer = self.create_timer(self.frequency, self.handleStaticFrames)
         self.dynamicTimer = self.create_timer(self.frequency, self.handleDynamicFrames)
         self.timer = self.create_timer(self.frequency, self.handleTurtleFrame)
-        # self.joint_state_timer = self.create_timer(self.frequency, self.publishJointState)
         self.control_timer = self.create_timer(self.frequency, self.driveToGoal)
         self.wheel_timer = self.create_timer(self.frequency, self.publishJointState)
 
@@ -120,13 +121,16 @@ class TurtleRobot(Node):
         """Store the latest cmd_vel command"""
         self.latest_cmd_vel = msg
         
-    def handle_turtle_pose(self, msg):
+    async def handle_turtle_pose(self, msg):
         """Store the latest pose from the turtlesim node"""
         self.latest_pose = msg
         circumference = 2 * np.pi * self.wheelRadius
         self.revolution = self.total_distance_traveled / circumference
         self.revolution = (self.revolution + np.pi) % (2 * np.pi) - np.pi
         self.quat = tf_transformations.quaternion_from_euler(0, 0, self.latest_pose.theta)
+
+
+
     
     def handle_goal_pose(self, msg):
         """Store the goal pose"""
@@ -195,7 +199,7 @@ class TurtleRobot(Node):
         try:
             if self.latest_pose is None:
                 return
-
+            
             # Broadcast the transform between odom and base_link
             t = TransformStamped()
             t.header.stamp = self.get_clock().now().to_msg()
@@ -210,6 +214,12 @@ class TurtleRobot(Node):
             t.transform.rotation.z = self.quat[2]
             t.transform.rotation.w = self.quat[3]
 
+            pose_dict = TurtleLocation()
+            pose_dict.x = self.latest_pose.x
+            pose_dict.y = self.latest_pose.y
+            pose_dict.theta = self.latest_pose.theta
+
+            self.turtleLocationPublisher.publish(pose_dict)
             self.tf_broadcaster.sendTransform(t)
 
             

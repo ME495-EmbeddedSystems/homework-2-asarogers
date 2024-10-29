@@ -10,6 +10,7 @@ import math
 from rclpy.qos import QoSProfile, QoSDurabilityPolicy
 from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
 from turtle_brick_interfaces.srv import Place
+from turtle_brick_interfaces.msg import TurtleLocation, BrickLocation, BrickDropped
 from turtle_brick import physics
 from std_srvs.srv import Empty
 import yaml
@@ -41,7 +42,7 @@ class Arena(Node):
         super().__init__('arena')
         self.frequency = 0.01
         #             X     Y    Z
-        self.wallScale =[0.25, 10.25, 2.5]
+        self.wallScale =[0.25, 12.5, 2.5]
         self.wallRgba = [0.0, 0.0, 0.0, 1.0]
         self.referenceFrame = "world"
         self.brickScale = [0.1, 0.25, 0.1]  
@@ -73,19 +74,21 @@ class Arena(Node):
         self.zPoseAboveTheGrid = 1.0
         self.shiftByTurtleStart = 5.0
 
-        self.xWallCoordinates = [[-5.0 + self.shiftByTurtleStart ,self.shiftByTurtleStart ,0.0], [5.0 + self.shiftByTurtleStart , self.shiftByTurtleStart , 0.0]]
-        self.yWallCoordinates = [[-5.0 + self.shiftByTurtleStart , -self.shiftByTurtleStart ,0.0], [5.0+ self.shiftByTurtleStart , -self.shiftByTurtleStart , 0.0]]
+        self.xWallCoordinates = [[-5.5 + self.shiftByTurtleStart ,self.shiftByTurtleStart ,0.0], [6.2 + self.shiftByTurtleStart , self.shiftByTurtleStart , 0.0]]
+        self.yWallCoordinates = [[-5.4 + self.shiftByTurtleStart , -self.shiftByTurtleStart ,0.0], [6.4+ self.shiftByTurtleStart , -self.shiftByTurtleStart , 0.0]]
 
         # Publishers
         self.tf_broadcaster = TransformBroadcaster(self)
-        self.xWallPublisher = self.create_publisher(Marker, "visualization_marker", qos_profile)
-        self.yWallPublisher = self.create_publisher(Marker, "visualization_marker", qos_profile)
-        self.brickPublisher = self.create_publisher(Marker, "visualization_marker", qos_profile)
+        self.xWallPublisher = self.create_publisher(Marker, "visualization_marker1", qos_profile)
+        self.yWallPublisher = self.create_publisher(Marker, "visualization_marker2", qos_profile)
+        self.brickPublisher = self.create_publisher(Marker, "visualization_marker3", qos_profile)
+        self.brickLocationPublisher = self.create_publisher(BrickLocation, "brick_location", qos_profile)
+        self.brickDroppedPublisher = self.create_publisher(BrickDropped, 'brick_dropped', qos_profile)
 
 
         # Timers
-        self.timer = self.create_timer(self.frequency, self.publishMarker)
-        self.timer2 = self.create_timer(self.frequency, self.publishMarker2)
+        self.xWallTimer = self.create_timer(self.frequency, self.publishMarker)
+        self.yWallTimer = self.create_timer(self.frequency, self.publishMarker2)
         self.brickTimer = self.create_timer(self.frequency, self.brickCallback)
 
         # Services
@@ -98,6 +101,9 @@ class Arena(Node):
     def dropBrick(self, request, response):
         if self.brickPose != None:
             self.fall = True
+            dropped = BrickDropped()
+            dropped.is_dropped = True
+            self.brickDroppedPublisher.publish(dropped)
         else:
             self.get_logger.error('The brick position has not been placed. Please place the brick with the /place service \n ex) /place turtle_brick_interfaces/srv/Place "{x: 5.0, y: 2.0, z: 5.0}"')
         return response
@@ -109,6 +115,11 @@ class Arena(Node):
         self.brickPose = Point(x=x, y=y, z=z)
         response.success = True
         response.message = f"Brick placed at ({request.x}, {request.y}, {request.z})"
+        brickLocation = BrickLocation()
+        brickLocation.x =x
+        brickLocation.y =y
+        brickLocation.z =z
+        self.brickLocationPublisher.publish(brickLocation)
         return response
     
     def brickCallback(self):
@@ -119,7 +130,6 @@ class Arena(Node):
             if self.fall == True:
                 self.fall = self.brickPhysics.drop()
             x, y, z = self.brickPhysics.brick
-            self.print(f"x ={x}, y={y}, z={z}")
             self.brickPose = Point(x=x, y=y, z=z)
             self.publishBrick(self.brickOrientation, self.brickPose, self.brickScale, self.brickRgba)
 

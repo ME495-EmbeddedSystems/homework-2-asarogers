@@ -98,6 +98,15 @@ def generate_launch_description():
         parameters=[{'config_path': configPath}]
     )
 
+    catcher_node = Node(
+        package="turtle_brick",
+        executable="catcher",
+        name="catcher",
+        output="screen",
+        parameters=[{'config_path': configPath}]
+    )
+
+
     turtle_sim = Node(
         package="turtlesim",
         executable="turtlesim_node",
@@ -119,4 +128,5 @@ def generate_launch_description():
         turtle_robot_node,
         arena_node,
         turtle_sim,
+        catcher_node
     ])

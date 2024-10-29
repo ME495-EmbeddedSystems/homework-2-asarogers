@@ -19,6 +19,9 @@ rosidl_generate_interfaces(${PROJECT_NAME}
      "srv/ProvideGoalPose.srv" # Whatever service file you've defined
      "srv/Place.srv"
      "msg/Tilt.msg"
+     "msg/TurtleLocation.msg"
+     "msg/BrickLocation.msg"
+     "msg/BrickDropped.msg"
      DEPENDENCIES geometry_msgs  # in this example we depend on geometry_msgs
      )
 # Export a dependency on the ros_idl_runtime

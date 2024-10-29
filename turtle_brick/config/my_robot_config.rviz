@@ -46,7 +46,7 @@ Visualization Manager:
         Y: 5
         Z: 0
       Plane: XY
-      Plane Cell Count: 10
+      Plane Cell Count: 13
       Reference Frame: <Fixed Frame>
       Value: true
     - Alpha: 1
@@ -115,10 +115,38 @@ Visualization Manager:
       Value: true
     - Class: rviz_default_plugins/Marker
       Enabled: true
-      Name: Marker
+      Name: Marker1
       Namespaces:
         y_wall: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /visualization_marker1
+      Value: true
+
+    # Second Marker with topic `/visualization_marker2`
+    - Class: rviz_default_plugins/Marker
+      Enabled: true
+      Name: Marker2
+      Namespaces:
         x_wall: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /visualization_marker2
+      Value: true
+
+    # Third Marker with topic `/visualization_marker3`
+    - Class: rviz_default_plugins/Marker
+      Enabled: true
+      Name: Marker3
+      Namespaces:
         brick: true
       Topic:
         Depth: 5
@@ -126,7 +154,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /visualization_marker
+        Value: /visualization_marker3
       Value: true
   Enabled: true
   Global Options:
