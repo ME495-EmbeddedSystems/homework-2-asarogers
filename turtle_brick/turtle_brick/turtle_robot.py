@@ -45,7 +45,7 @@ class TurtleRobot(Node):
         self.create_subscription(Pose, '/turtle1/pose', self.handle_turtle_pose, 1)
         self.create_subscription(Twist, '/cmd_vel', self.handle_cmd_vel, 1)
         self.create_subscription(Tilt, '/tilt', self.handle_tilt, 1)
-        # self.create_subscription(PoseStamped, '/goal_pose', self.handle_goal_pose, 1)
+        self.create_subscription(PoseStamped, '/goal_pose', self.handle_goal_pose, 1)
 
         # Publishers
         self.tf_broadcaster = TransformBroadcaster(self)
@@ -67,6 +67,27 @@ class TurtleRobot(Node):
 
 
         
+    def publish_odom(self):
+        if self.latest_pose:
+            odom = Odometry()
+            odom.header.stamp = self.get_clock().now().to_msg()
+            odom.header.frame_id = 'odom'
+            odom.child_frame_id = 'base_link'
+
+            # Position
+            odom.pose.pose.position.x = self.latest_pose.x
+            odom.pose.pose.position.y = self.latest_pose.y
+
+            # Orientation
+            q = tf_transformations.quaternion_from_euler(0, 0, self.latest_pose.theta)
+            odom.pose.pose.orientation.x = q[0]
+            odom.pose.pose.orientation.y = q[1]
+            odom.pose.pose.orientation.z = q[2]
+            odom.pose.pose.orientation.w = q[3]
+
+            # Twist (velocity from cmd_vel)
+            odom.twist.twist = self.latest_cmd_vel
+            self.odom_publisher.publish(odom)
 
     def handle_tilt(self, msg):
         self.tilt = msg.tilt
@@ -155,6 +176,7 @@ class TurtleRobot(Node):
         cmd_vel_msg.linear.x = linear_speed
         cmd_vel_msg.angular.z = angular_speed
         self.cmd_vel_publisher.publish(cmd_vel_msg)
+        self.publish_odom()
 
     def handleStaticFrames(self):
         """Informs the handle_broadcast which frames to statically connect"""
