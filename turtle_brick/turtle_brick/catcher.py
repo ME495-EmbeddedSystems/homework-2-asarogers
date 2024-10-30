@@ -88,13 +88,13 @@ class Catcher(Node):
 
         return timeUntilBrickIsBelowTurtle + bias >= timeUntilTurtleReachesBrick
     
-    def sendGoalPose(self):
+    def sendGoalPose(self, x, y, z):
         # Create the request message
         request = ProvideGoalPose.Request()
         
         # Fill in the header, position, and orientation for goal pose
         request.goal_pose.header.frame_id = 'odom'
-        request.goal_pose.pose.position = Point(x=self.brickLocation.x, y=self.brickLocation.y, z=self.brickLocation.z)
+        request.goal_pose.pose.position = Point(x=x, y=y, z=z)
         request.goal_pose.pose.orientation = Quaternion(x=0.0, y=0.0, z=0.0, w=1.0)
 
         # Call the service
@@ -115,7 +115,8 @@ class Catcher(Node):
 
     def handleBrickDropped(self, msg):
         self.canReach = self.canCatch()
-        self.sendGoalPose()
+        
+        self.sendGoalPose(self.brickLocation.x,self.brickLocation.y,self.brickLocation.z)
 
         
 
@@ -141,6 +142,10 @@ class Catcher(Node):
         
                 # Set a callback for the service response
                 future.add_done_callback(self.handle_response)
+                x=5.544445
+                y=5.544445
+                z = 1.0
+                self.sendGoalPose(x,y,z)
 
     def handle_response(self, future):
         try:
