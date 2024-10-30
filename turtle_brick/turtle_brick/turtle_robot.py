@@ -58,7 +58,8 @@ class TurtleRobot(Node):
 
         # Publishers
         self.tf_broadcaster = TransformBroadcaster(self)
-        self.wheelTF = StaticTransformBroadcaster(self)
+        self.wheelTF = TransformBroadcaster(self)
+        self.platformTF = TransformBroadcaster(self)
         self.tf_staticbroadcaster = StaticTransformBroadcaster(self)
         self.joint_state_pub = self.create_publisher(JointState, 'joint_states', qos_profile)
         self.odom_publisher = self.create_publisher(Odometry, 'odom', qos_profile)
@@ -77,9 +78,20 @@ class TurtleRobot(Node):
         self.control_timer = self.create_timer(self.frequency, self.driveToGoal)
         # self.wheel_timer = self.create_timer(self.frequency, self.publishJointState)
         self.wheelTimer = self.create_timer(self.frequency, self.handleWheelFrame)
+        self.paltformTimer = self.create_timer(self.frequency, self.handlePlatformFrame)
 
             
-    
+    def handlePlatformFrame(self):
+        """handles the platform frame rendering"""
+        t = TransformStamped()
+        t.header.stamp = self.get_clock().now().to_msg()
+        t.header.frame_id = "base_link"
+        t.child_frame_id = "platform_joint"
+        t.transform.translation = self.defaultTranslation
+        t.transform.rotation = self.defaultRotation
+        self.platformTF.sendTransform(t)
+
+
     def handleWheelFrame(self):
         """handles the wheel frame rendering"""
         t = TransformStamped()
@@ -232,7 +244,7 @@ class TurtleRobot(Node):
         """Informs the dynamic broadcast which frames to dynamically connect"""
         self.handle_dynamic_broadcast('base_link', 'wheel_joint')
         self.handle_dynamic_broadcast('world', 'odom')
-        self.handle_dynamic_broadcast('pole_link', 'platform')
+        # self.handle_dynamic_broadcast('pole_link', 'platform')
 
 
     def handleTurtleFrame(self):
