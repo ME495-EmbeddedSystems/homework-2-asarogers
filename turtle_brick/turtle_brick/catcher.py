@@ -153,7 +153,7 @@ class Catcher(Node):
             if self.brickLocation:
                 if self.checkTolerance(self.brickLocation.x, self.homePositon.x, 0.2) and self.checkTolerance(self.brickLocation.y, self.homePositon.y, 0.2):
                     tilt= Tilt()
-                    tilt.tilt = 0.5
+                    tilt.tilt = math.pi/2
                     self.tilt_publisher.publish(tilt)
                     self.canReach = False
 

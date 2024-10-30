@@ -36,7 +36,7 @@ class TurtleRobot(Node):
         self.turtleAccel = 0.0
         self.brickLocation = None
         self.homePositon = Point(x = 5.544445, y=5.544445, z = 0.0)
-        self.tilt
+        self.tilt = 0.0
         
         
         
@@ -61,7 +61,9 @@ class TurtleRobot(Node):
         # Publishers
         self.tf_broadcaster = TransformBroadcaster(self)
         self.wheelTF = TransformBroadcaster(self)
-        self.platformTF = TransformBroadcaster(self)
+        self.platformTF = StaticTransformBroadcaster(self)
+        self.platformJointTF = TransformBroadcaster(self)
+        self.wheelToBase = StaticTransformBroadcaster(self)
         self.tf_staticbroadcaster = StaticTransformBroadcaster(self)
         self.joint_state_pub = self.create_publisher(JointState, 'joint_states', qos_profile)
         self.odom_publisher = self.create_publisher(Odometry, 'odom', qos_profile)
@@ -78,11 +80,36 @@ class TurtleRobot(Node):
         self.dynamicTimer = self.create_timer(self.frequency, self.handleDynamicFrames)
         self.timer = self.create_timer(self.frequency, self.handleTurtleFrame)
         self.control_timer = self.create_timer(self.frequency, self.driveToGoal)
-        # self.wheel_timer = self.create_timer(self.frequency, self.publishJointState)
-        self.wheelTimer = self.create_timer(self.frequency, self.handleWheelFrame)
-        self.paltformTimer = self.create_timer(self.frequency, self.handlePlatformFrame)
+        # self.wheelTimer = self.create_timer(self.frequency, self.handleWheelFrame)
+        self.platformTimer = self.create_timer(self.frequency, self.handlePlatformFrame)
+        self.platformJointTimer = self.create_timer(self.frequency, self.handlePlatformJointFrame)
+        # self.platwheeltoPlatoform = self.create_timer(self.frequency, self.handleWheelToBaseFrame)
 
-            
+    # def publishJointState(self):
+    #     """Publish the joint states at a fixed 100 Hz."""
+    #     joint_state = JointState()
+    #     joint_state.header.stamp = self.get_clock().now().to_msg()
+
+    #     # Define the caster wheel joint
+    #     joint_state.name = ['wheel_joint']
+    #     joint_state.position = [self.revolution]  # Assuming revolution angle represents the rotation
+
+    #     # Publish the joint state
+    #     self.joint_state_pub.publish(joint_state)
+
+    # self.handle_dynamic_broadcast('base_link', 'wheel')
+    def handleWheelToBaseFrame(self):
+        """handles the platform frame rendering"""
+        t = TransformStamped()
+        t.header.stamp = self.get_clock().now().to_msg()
+        t.header.frame_id = "base_link"
+        t.child_frame_id = "wheel"
+        t.transform.translation = self.defaultTranslation
+
+        # Set the rotation from the computed quaternion
+        t.transform.rotation = self.defaultRotation
+        self.wheelToBase.sendTransform(t)
+
     def handlePlatformFrame(self):
         """handles the platform frame rendering"""
         t = TransformStamped()
@@ -90,16 +117,37 @@ class TurtleRobot(Node):
         t.header.frame_id = "base_link"
         t.child_frame_id = "platform_joint"
         t.transform.translation = self.defaultTranslation
+
+        # Set the rotation from the computed quaternion
         t.transform.rotation = self.defaultRotation
-        t.transform.rotation.w = 0.5
         self.platformTF.sendTransform(t)
+
+
+    def handlePlatformJointFrame(self):
+        """handles the platform frame rendering"""
+        q = tf_transformations.quaternion_from_euler(0.5, 0.0, self.tilt)
+
+        # Create and populate the TransformStamped message for the platform_joint
+        t = TransformStamped()
+        t.header.stamp = self.get_clock().now().to_msg()
+        t.header.frame_id = "pole_link"
+        t.child_frame_id = "platform"
+
+        # Set the rotation from the computed quaternion
+        t.transform.translation = self.defaultTranslation
+
+        t.transform.rotation.x = q[0]
+        t.transform.rotation.y = q[1]
+        t.transform.rotation.z = q[2]
+        t.transform.rotation.w = q[3]
+        self.platformJointTF.sendTransform(t)
 
 
     def handleWheelFrame(self):
         """handles the wheel frame rendering"""
         t = TransformStamped()
         t.header.stamp = self.get_clock().now().to_msg()
-        t.header.frame_id = "wheel"
+        t.header.frame_id = "base_link"
         t.child_frame_id = "wheel_joint"
         t.transform.translation = self.defaultTranslation
         t.transform.rotation = self.defaultRotation
@@ -140,6 +188,7 @@ class TurtleRobot(Node):
         '''
         self.print("recieved tilt!!")
         self.tilt = msg.tilt
+        
 
 
     def giveGoalPose(self, request, response):
@@ -154,22 +203,7 @@ class TurtleRobot(Node):
         response.success = True
         return response
 
-    # def publishJointState(self):
-    #     '''
-    #     publish the joint states
-    #     '''
-    #     # Create a JointState message
-    #     joint_state = JointState()
-    #     joint_state.header.stamp = self.get_clock().now().to_msg()
-
-    #     # Define the caster wheel joint
-    #     joint_state.name = ['wheel_joint']
-
-    #     # Set the position of the caster wheel (example value)
-    #     joint_state.position = [self.revolution]  # Update the caster wheel rotation based on the revolution calculation
-
-    #     # Publish the joint state
-    #     self.joint_state_pub.publish(joint_state)
+    
 
     def handle_cmd_vel(self, msg):
         """Store the latest cmd_vel command"""
@@ -240,14 +274,15 @@ class TurtleRobot(Node):
     def handleStaticFrames(self):
         """Informs the handle_broadcast which frames to statically connect"""
         self.handle_broadcast('base_link', 'base_footprint')
-        self.handle_broadcast('base_link', 'pole_link')
+        
         
 
     def handleDynamicFrames(self):
         """Informs the dynamic broadcast which frames to dynamically connect"""
-        self.handle_dynamic_broadcast('base_link', 'wheel_joint')
         self.handle_dynamic_broadcast('world', 'odom')
-        # self.handle_dynamic_broadcast('pole_link', 'platform')
+        
+        
+
 
 
     def handleTurtleFrame(self):

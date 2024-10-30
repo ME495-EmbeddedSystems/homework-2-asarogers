@@ -10,7 +10,7 @@ import math
 from rclpy.qos import QoSProfile, QoSDurabilityPolicy
 from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
 from turtle_brick_interfaces.srv import Place, StopGravity
-from turtle_brick_interfaces.msg import TurtleLocation, BrickLocation, BrickDropped
+from turtle_brick_interfaces.msg import TurtleLocation, BrickLocation, BrickDropped, Tilt
 from turtle_brick import physics
 from std_srvs.srv import Empty
 import yaml
@@ -59,6 +59,7 @@ class Arena(Node):
         self.turtleLocation = None
         self.brickTolerance = 0.0
         self.homePositon = Point(x = 5.544445, y=5.544445, z = 0.0)
+        self.tilt =0.0
         
         config_path = self.declare_parameter('config_path', '').get_parameter_value().string_value
         if config_path:
@@ -90,6 +91,7 @@ class Arena(Node):
         self.brickPublisher = self.create_publisher(Marker, "visualization_marker3", qos_profile)
         self.brickLocationPublisher = self.create_publisher(BrickLocation, "brick_location", qos_profile)
         self.brickDroppedPublisher = self.create_publisher(BrickDropped, 'brick_dropped', qos_profile)
+        self.create_subscription(Tilt, '/tilt', self.handle_tilt, 1)
 
 
         # Timers
@@ -158,16 +160,25 @@ class Arena(Node):
                 x = self.turtleLocation.x
                 y = self.turtleLocation.y
                 z = self.platformHeight +self.brickTolerance
-                tilt_angle = 0.0  # Replace with actual tilt if available
+                tilt_angle = self.tilt # Replace with actual tilt if available
                 self.brickPhysics.stickToPlatform(x, y, z, tilt_angle)
-                if not self.brickPhysics.isOnPlatform:
-                    self.fall = True  # Start falling again if sliding off
+                # if not self.brickPhysics.isOnPlatform:
+                #     self.fall = True  # Start falling again if sliding off
+                #     self.print("start falling")
+                    # start_falling
             else:
                 x, y, z = self.brickPhysics.brick
 
             self.brickPose = Point(x=x, y=y, z=z)
             self.publishBrick(self.brickOrientation, self.brickPose, self.brickScale, self.brickRgba)
 
+    def handle_tilt(self, msg):
+        '''
+        set the tilt based on the recieved msg
+        '''
+        self.print("recieved tilt!!")
+        self.tilt = msg.tilt
+        self.brickPhysics.start_falling()
 
     def publishBrick(self, orientation, position, scale, rgba):
         """

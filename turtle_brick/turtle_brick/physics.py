@@ -1,3 +1,4 @@
+
 import math
 class World:
     """Keep track of the physics of the world."""
@@ -64,6 +65,7 @@ class World:
         When called, stop the brick's gravity
         '''
         self.gravity = 0
+        self.isOnPlatform = True
     
     def stickToPlatform(self, platform_x, platform_y, platform_z, tilt_angle):
         """
@@ -76,6 +78,8 @@ class World:
 
         self.isOnPlatform = True
         slide_acceleration = self.gravity * math.sin(tilt_angle)
+        print(f"g = {self.gravity} and tilt = {tilt_angle} f = {math.sin(tilt_angle)}")
+
 
         # Update horizontal velocities
         self.horizontal_velocity[0] += slide_acceleration * math.cos(tilt_angle) * self.dt
@@ -85,7 +89,8 @@ class World:
         new_x = x + self.horizontal_velocity[0] * self.dt
         new_y = y + self.horizontal_velocity[1] * self.dt
         new_z = platform_z
-
+        self.location = (new_x, new_y, new_z)
+        # print(f"new locaiton = {self.location}")
         if self.distance_from_platform_center(platform_x, platform_y) > self.radius:
             self.isOnPlatform = False  # Detach from platform, start falling again
             self.start_falling()
@@ -97,6 +102,7 @@ class World:
         self.velocity = 0  # Reset vertical velocity
         self.horizontal_velocity = [0, 0]
         self.isOnPlatform = False
+        self.gravity = 9.81
 
 
     def distance_from_platform_center(self, platform_x, platform_y):
