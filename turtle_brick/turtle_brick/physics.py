@@ -57,9 +57,15 @@ class World:
 
         # ---------------------------- begin_citation ----------------------------- #
         x, y, z = self.location
+        # ---------------------------- begin_citation ----------------------------- #
+
+        x_new = x + (1/2) * self.gravity * self.dt **2 * math.sin(self.tiltAngle) * math.cos(self.tiltAngle)
+        y_new = y - (1/2) * self.gravity * self.dt **2 * math.sin(self.tiltAngle)**2
+
+        # ---------------------------- begin_citation ----------------------------- #
         new_z = z + self.velocity * self.dt # Subtract distance from the x-coordinate
         
-        self.location = (x, y, new_z)
+        self.location = (x_new, y_new, new_z)
         # ---------------------------- begin_citation ----------------------------- #
         return new_z > 0
         
@@ -77,7 +83,7 @@ class World:
         Args:
             platform_x, platform_y, platform_z - platform's location
         """
-        print(tilt_angle)
+
         self.location = (platform_x, platform_y, platform_z)
         self.isOnPlatform = True
         

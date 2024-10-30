@@ -161,7 +161,7 @@ class Arena(Node):
                 x = self.turtleLocation.x
                 y = self.turtleLocation.y
                 z = self.platformHeight +self.brickTolerance
-                tilt_angle = self.tilt # Replace with actual tilt if available
+                tilt_angle = self.tilt
                 self.brickPhysics.stickToPlatform(x, y, z, tilt_angle)
                 # if not self.brickPhysics.isOnPlatform:
                 #     self.fall = True  # Start falling again if sliding off
