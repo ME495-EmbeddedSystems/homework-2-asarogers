@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 import yaml
 from rclpy.qos import QoSProfile, QoSDurabilityPolicy
-from turtle_brick_interfaces.msg import TurtleLocation, BrickLocation, BrickDropped
+from turtle_brick_interfaces.msg import TurtleLocation, BrickLocation, BrickDropped, Tilt
 from geometry_msgs.msg import PoseStamped, Pose, Point, Quaternion
 from std_srvs.srv import Empty
 import math
@@ -29,6 +29,7 @@ class Catcher(Node):
         self.turtleAccel = 0.0
         self.platformRadius =0.0
         self.brickTolerance = 0.0
+        self.homePositon = Point(x = 5.544445, y=5.544445, z = 0.0)
         self.config_path = self.declare_parameter('config_path', '').get_parameter_value().string_value
         if self.config_path:
             with open(self.config_path, 'r') as configFile:
@@ -49,6 +50,7 @@ class Catcher(Node):
         self.create_subscription(TurtleLocation, 'turtle_location', self.handleTurtleLocation,qos_profile)
         self.create_subscription(BrickLocation, 'brick_location', self.handleBrickLocation,qos_profile)
         self.create_subscription(BrickDropped, 'brick_dropped', self.handleBrickDropped,qos_profile)
+        self.tilt_publisher = self.create_publisher(Tilt, '/tilt', qos_profile)
 
         # client
         self.client = self.create_client(ProvideGoalPose, '/provide_goal_pose')
@@ -127,6 +129,7 @@ class Catcher(Node):
         """Subscribe to the turtle msg node and update the location whenever a new msg is received"""
         self.turtleLocation = msg
         
+        
                 
         
     def handleBrickLocation(self, msg):
@@ -142,10 +145,17 @@ class Catcher(Node):
         
                 # Set a callback for the service response
                 future.add_done_callback(self.handle_response)
-                x=5.544445
-                y=5.544445
+                x=self.homePositon.x
+                y=self.homePositon.y
                 z = 1.0
                 self.sendGoalPose(x,y,z)
+
+            if self.brickLocation:
+                if self.checkTolerance(self.brickLocation.x, self.homePositon.x, 0.2) and self.checkTolerance(self.brickLocation.y, self.homePositon.y, 0.2):
+                    tilt= Tilt()
+                    tilt.tilt = 0.5
+                    self.tilt_publisher.publish(tilt)
+                    self.canReach = False
 
     def handle_response(self, future):
         try:

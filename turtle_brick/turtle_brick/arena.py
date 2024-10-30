@@ -58,6 +58,7 @@ class Arena(Node):
         self.caught = False
         self.turtleLocation = None
         self.brickTolerance = 0.0
+        self.homePositon = Point(x = 5.544445, y=5.544445, z = 0.0)
         
         config_path = self.declare_parameter('config_path', '').get_parameter_value().string_value
         if config_path:
@@ -157,6 +158,10 @@ class Arena(Node):
                 x = self.turtleLocation.x
                 y = self.turtleLocation.y
                 z = self.platformHeight +self.brickTolerance
+                tilt_angle = 0.0  # Replace with actual tilt if available
+                self.brickPhysics.stickToPlatform(x, y, z, tilt_angle)
+                if not self.brickPhysics.isOnPlatform:
+                    self.fall = True  # Start falling again if sliding off
             else:
                 x, y, z = self.brickPhysics.brick
 

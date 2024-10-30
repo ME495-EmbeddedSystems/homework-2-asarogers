@@ -1,7 +1,7 @@
 import rclpy
 from rclpy.node import Node
 from turtlesim.msg import Pose
-from geometry_msgs.msg import TransformStamped, Vector3, Quaternion, Twist, PoseStamped
+from geometry_msgs.msg import TransformStamped, Vector3, Quaternion, Twist, PoseStamped, Point
 from nav_msgs.msg import Odometry
 from tf2_ros import TransformBroadcaster, StaticTransformBroadcaster
 import tf_transformations
@@ -9,7 +9,7 @@ from visualization_msgs.msg import Marker
 import numpy as np
 from sensor_msgs.msg import JointState
 from turtle_brick_interfaces.srv import ProvideGoalPose
-from turtle_brick_interfaces.msg import Tilt, TurtleLocation
+from turtle_brick_interfaces.msg import Tilt, TurtleLocation, BrickLocation
 import yaml
 from rclpy.qos import QoSProfile, QoSDurabilityPolicy
 
@@ -34,6 +34,8 @@ class TurtleRobot(Node):
         self.platformHeight = 0.0
         self.maxVelocity = 0.0
         self.turtleAccel = 0.0
+        self.brickLocation = None
+        self.homePositon = Point(x = 5.544445, y=5.544445, z = 0.0)
         
         
         self.config_path = self.declare_parameter('config_path', '').get_parameter_value().string_value
@@ -56,6 +58,7 @@ class TurtleRobot(Node):
 
         # Publishers
         self.tf_broadcaster = TransformBroadcaster(self)
+        self.wheelTF = StaticTransformBroadcaster(self)
         self.tf_staticbroadcaster = StaticTransformBroadcaster(self)
         self.joint_state_pub = self.create_publisher(JointState, 'joint_states', qos_profile)
         self.odom_publisher = self.create_publisher(Odometry, 'odom', qos_profile)
@@ -65,16 +68,32 @@ class TurtleRobot(Node):
 
         # Services
         self._srv = self.create_service(ProvideGoalPose, 'provide_goal_pose', self.giveGoalPose)
+        self.create_subscription(BrickLocation, 'brick_location', self.handleBrickLocation,qos_profile)
         
         # Timers
         self.staticTimer = self.create_timer(self.frequency, self.handleStaticFrames)
         self.dynamicTimer = self.create_timer(self.frequency, self.handleDynamicFrames)
         self.timer = self.create_timer(self.frequency, self.handleTurtleFrame)
         self.control_timer = self.create_timer(self.frequency, self.driveToGoal)
-        self.wheel_timer = self.create_timer(self.frequency, self.publishJointState)
+        # self.wheel_timer = self.create_timer(self.frequency, self.publishJointState)
+        self.wheelTimer = self.create_timer(self.frequency, self.handleWheelFrame)
 
+            
+    
+    def handleWheelFrame(self):
+        """handles the wheel frame rendering"""
+        t = TransformStamped()
+        t.header.stamp = self.get_clock().now().to_msg()
+        t.header.frame_id = "wheel"
+        t.child_frame_id = "wheel_joint"
+        t.transform.translation = self.defaultTranslation
+        t.transform.rotation = self.defaultRotation
+        self.wheelTF.sendTransform(t)
 
-        
+    def handleBrickLocation(self, msg):
+        """Subscription to the brickLocation msg that is called everytime the brick's location updates"""
+        self.brickLocation = msg
+
     def publish_odom(self):
         '''
         Publish to the odometry topic
@@ -104,6 +123,7 @@ class TurtleRobot(Node):
         '''
         set the tilt based on the recieved msg
         '''
+        self.print("recieved tilt!!")
         self.tilt = msg.tilt
 
 
@@ -119,22 +139,22 @@ class TurtleRobot(Node):
         response.success = True
         return response
 
-    def publishJointState(self):
-        '''
-        publish the joint states
-        '''
-        # Create a JointState message
-        joint_state = JointState()
-        joint_state.header.stamp = self.get_clock().now().to_msg()
+    # def publishJointState(self):
+    #     '''
+    #     publish the joint states
+    #     '''
+    #     # Create a JointState message
+    #     joint_state = JointState()
+    #     joint_state.header.stamp = self.get_clock().now().to_msg()
 
-        # Define the caster wheel joint
-        joint_state.name = ['wheel_joint']
+    #     # Define the caster wheel joint
+    #     joint_state.name = ['wheel_joint']
 
-        # Set the position of the caster wheel (example value)
-        joint_state.position = [self.revolution]  # Update the caster wheel rotation based on the revolution calculation
+    #     # Set the position of the caster wheel (example value)
+    #     joint_state.position = [self.revolution]  # Update the caster wheel rotation based on the revolution calculation
 
-        # Publish the joint state
-        self.joint_state_pub.publish(joint_state)
+    #     # Publish the joint state
+    #     self.joint_state_pub.publish(joint_state)
 
     def handle_cmd_vel(self, msg):
         """Store the latest cmd_vel command"""
@@ -192,6 +212,7 @@ class TurtleRobot(Node):
         if distance < self.tolerance:
             self.get_logger().info("Goal reached")
             self.goal_pose = None  # Clear goal when reached
+
             return
 
         # Publish the calculated command velocities
@@ -205,12 +226,13 @@ class TurtleRobot(Node):
         """Informs the handle_broadcast which frames to statically connect"""
         self.handle_broadcast('base_link', 'base_footprint')
         self.handle_broadcast('base_link', 'pole_link')
-        self.handle_broadcast('pole_link', 'platform')
+        
 
     def handleDynamicFrames(self):
         """Informs the dynamic broadcast which frames to dynamically connect"""
         self.handle_dynamic_broadcast('base_link', 'wheel_joint')
         self.handle_dynamic_broadcast('world', 'odom')
+        self.handle_dynamic_broadcast('pole_link', 'platform')
 
 
     def handleTurtleFrame(self):
