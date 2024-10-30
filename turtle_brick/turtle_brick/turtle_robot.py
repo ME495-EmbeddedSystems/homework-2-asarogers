@@ -81,7 +81,7 @@ class TurtleRobot(Node):
         self.timer = self.create_timer(self.frequency, self.handleTurtleFrame)
         self.control_timer = self.create_timer(self.frequency, self.driveToGoal)
         # self.wheelTimer = self.create_timer(self.frequency, self.handleWheelFrame)
-        self.platformTimer = self.create_timer(self.frequency, self.handlePlatformFrame)
+        # self.platformTimer = self.create_timer(self.frequency, self.handlePlatformFrame)
         self.platformJointTimer = self.create_timer(self.frequency, self.handlePlatformJointFrame)
         # self.platwheeltoPlatoform = self.create_timer(self.frequency, self.handleWheelToBaseFrame)
 
@@ -125,7 +125,7 @@ class TurtleRobot(Node):
 
     def handlePlatformJointFrame(self):
         """handles the platform frame rendering"""
-        q = tf_transformations.quaternion_from_euler(0.5, 0.0, self.tilt)
+        q = tf_transformations.quaternion_from_euler(0.0, 0.0, self.tilt)
 
         # Create and populate the TransformStamped message for the platform_joint
         t = TransformStamped()

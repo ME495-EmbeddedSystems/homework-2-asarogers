@@ -77,23 +77,23 @@ class World:
         x, y, z = self.location
 
         self.isOnPlatform = True
-        slide_acceleration = self.gravity * math.sin(tilt_angle)
-        print(f"g = {self.gravity} and tilt = {tilt_angle} f = {math.sin(tilt_angle)}")
+        # slide_acceleration = self.gravity * math.sin(tilt_angle)
+        # print(f"g = {self.gravity} and tilt = {tilt_angle} f = {math.sin(tilt_angle)}")
 
 
-        # Update horizontal velocities
-        self.horizontal_velocity[0] += slide_acceleration * math.cos(tilt_angle) * self.dt
-        self.horizontal_velocity[1] += slide_acceleration * math.sin(tilt_angle) * self.dt
+        # # Update horizontal velocities
+        # self.horizontal_velocity[0] += slide_acceleration * math.cos(tilt_angle) * self.dt
+        # self.horizontal_velocity[1] += slide_acceleration * math.sin(tilt_angle) * self.dt
 
         # Update the x, y, z position based on the platform's position and tilt
-        new_x = x + self.horizontal_velocity[0] * self.dt
-        new_y = y + self.horizontal_velocity[1] * self.dt
-        new_z = platform_z
-        self.location = (new_x, new_y, new_z)
-        # print(f"new locaiton = {self.location}")
-        if self.distance_from_platform_center(platform_x, platform_y) > self.radius:
-            self.isOnPlatform = False  # Detach from platform, start falling again
-            self.start_falling()
+        # new_x = x + self.horizontal_velocity[0] * self.dt
+        # new_y = y + self.horizontal_velocity[1] * self.dt
+        # new_z = platform_z
+        self.location = (x, y, z)
+        # # print(f"new locaiton = {self.location}")
+        # if self.distance_from_platform_center(platform_x, platform_y) > self.radius:
+        #     self.isOnPlatform = False  # Detach from platform, start falling again
+        #     self.start_falling()
         
     def start_falling(self):
         """
