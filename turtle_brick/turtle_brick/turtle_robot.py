@@ -125,7 +125,7 @@ class TurtleRobot(Node):
 
     def handlePlatformJointFrame(self):
         """handles the platform frame rendering"""
-        q = tf_transformations.quaternion_from_euler(0.0, 0.0, self.tilt)
+        q = tf_transformations.quaternion_from_euler(self.tilt, 0.0,45.0)
 
         # Create and populate the TransformStamped message for the platform_joint
         t = TransformStamped()

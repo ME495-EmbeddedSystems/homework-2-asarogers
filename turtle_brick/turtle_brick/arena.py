@@ -128,7 +128,8 @@ class Arena(Node):
                 self.fall = True
                 dropped = BrickDropped()
                 dropped.is_dropped = True
-                self.brickDroppedPublisher.publish(dropped)
+                if self.caught == False:
+                    self.brickDroppedPublisher.publish(dropped)
             else:
                 self.get_logger().error('The brick position has not been placed. Please place the brick with the /place service \n ex) /place turtle_brick_interfaces/srv/Place "{x: 5.0, y: 2.0, z: 5.0}"')
         except Exception as er:
@@ -168,9 +169,11 @@ class Arena(Node):
                     # start_falling
             else:
                 x, y, z = self.brickPhysics.brick
+        
 
             self.brickPose = Point(x=x, y=y, z=z)
             self.publishBrick(self.brickOrientation, self.brickPose, self.brickScale, self.brickRgba)
+        
 
     def handle_tilt(self, msg):
         '''
@@ -178,6 +181,8 @@ class Arena(Node):
         '''
         self.print("recieved tilt!!")
         self.tilt = msg.tilt
+        self.fall = True
+        self.caught = False
         self.brickPhysics.start_falling()
 
     def publishBrick(self, orientation, position, scale, rgba):

@@ -1,5 +1,6 @@
 
 import math
+from geometry_msgs.msg import Point
 class World:
     """Keep track of the physics of the world."""
 
@@ -60,6 +61,7 @@ class World:
         self.location = (x, y, new_z)
         # ---------------------------- begin_citation ----------------------------- #
         return new_z > 0
+        
     def stopGravity(self):
         '''
         When called, stop the brick's gravity
@@ -74,8 +76,7 @@ class World:
         Args:
             platform_x, platform_y, platform_z - platform's location
         """
-        x, y, z = self.location
-
+        self.location = (platform_x, platform_y, platform_z)
         self.isOnPlatform = True
         # slide_acceleration = self.gravity * math.sin(tilt_angle)
         # print(f"g = {self.gravity} and tilt = {tilt_angle} f = {math.sin(tilt_angle)}")
@@ -89,7 +90,6 @@ class World:
         # new_x = x + self.horizontal_velocity[0] * self.dt
         # new_y = y + self.horizontal_velocity[1] * self.dt
         # new_z = platform_z
-        self.location = (x, y, z)
         # # print(f"new locaiton = {self.location}")
         # if self.distance_from_platform_center(platform_x, platform_y) > self.radius:
         #     self.isOnPlatform = False  # Detach from platform, start falling again
@@ -99,10 +99,11 @@ class World:
         """
         Initiates falling by setting gravity and resetting horizontal velocity.
         """
-        self.velocity = 0  # Reset vertical velocity
+        
         self.horizontal_velocity = [0, 0]
         self.isOnPlatform = False
         self.gravity = 9.81
+        self.velocity += (-self.gravity * self.dt)
 
 
     def distance_from_platform_center(self, platform_x, platform_y):
