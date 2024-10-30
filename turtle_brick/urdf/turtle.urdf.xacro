@@ -6,6 +6,7 @@
 
     <xacro:property name="platform_height" value="$(arg platform_height)" />
     <xacro:property name="wheel_radius" value="$(arg wheel_radius)" />
+        <xacro:property name="platform_radius" value="$(arg platform_radius)" />
 
 
     <material name="grey">
@@ -55,7 +56,7 @@
     <link name="platform">
         <visual>
             <geometry>
-                 <cylinder radius="0.3" length="0.05"/>
+                 <cylinder radius="$(arg platform_radius)" length="0.05"/>
             </geometry>
              <origin xyz="0.0 0.0 $(arg platform_height)" rpy="0.0 0.0 0.0"/>
              <material name="blue"/> 

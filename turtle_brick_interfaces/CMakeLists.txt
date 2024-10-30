@@ -18,6 +18,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
     #  "msg/MessageType.msg" # Whatever message file you've defined
      "srv/ProvideGoalPose.srv" # Whatever service file you've defined
      "srv/Place.srv"
+     "srv/StopGravity.srv"
      "msg/Tilt.msg"
      "msg/TurtleLocation.msg"
      "msg/BrickLocation.msg"

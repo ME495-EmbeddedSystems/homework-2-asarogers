@@ -9,7 +9,7 @@ from geometry_msgs.msg import Point, Quaternion
 import math
 from rclpy.qos import QoSProfile, QoSDurabilityPolicy
 from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
-from turtle_brick_interfaces.srv import Place
+from turtle_brick_interfaces.srv import Place, StopGravity
 from turtle_brick_interfaces.msg import TurtleLocation, BrickLocation, BrickDropped
 from turtle_brick import physics
 from std_srvs.srv import Empty
@@ -54,7 +54,11 @@ class Arena(Node):
         self.brickPose = None
         self.brickPhysics = None
         self.print = self.get_logger().info
-
+        self.brickZPositon = 0.0
+        self.caught = False
+        self.turtleLocation = None
+        self.brickTolerance = 0.0
+        
         config_path = self.declare_parameter('config_path', '').get_parameter_value().string_value
         if config_path:
             with open(config_path, 'r') as configFile:
@@ -62,6 +66,7 @@ class Arena(Node):
             self.gravity = config['robot']['gravity_accel']
             self.platformHeight = config['robot']['platform_height']
             self.maxVelocity = config['robot']['max_velocity']
+            self.brickTolerance = config['robot']['platform_tolerance']             
         else:
             self.get_logger().error('Config path not provided')
 
@@ -94,18 +99,37 @@ class Arena(Node):
         # Services
         self.create_service(Place, "place", self.placeBrick)
         self.create_service(Empty, "drop", self.dropBrick)
+        self.create_service(StopGravity, "stop_gravity", self.stickBrickToTurtle)
+        self.create_subscription(TurtleLocation, 'turtle_location', self.handleTurtleLocation,qos_profile)
     
-        
-    
+    def handleTurtleLocation(self, msg):
+        """Subscribe to the turtle msg node and update the location whenever a new msg is received"""
+        self.turtleLocation = msg
+
+    def stickBrickToTurtle(self, reqest, response):
+        '''Sticks the brick to the platform'''
+        try:
+            if self.fall == True:
+                self.brickPhysics.stopGravity()
+                self.caught = True
+            else:
+                self.get_logger().error('The brick position has not been placed. Please place the brick with the /place service \n ex) /place turtle_brick_interfaces/srv/Place "{x: 5.0, y: 2.0, z: 5.0}"')
+        except Exception as er:
+            self.print(f" error = {er}")
+        return response
     
     def dropBrick(self, request, response):
-        if self.brickPose != None:
-            self.fall = True
-            dropped = BrickDropped()
-            dropped.is_dropped = True
-            self.brickDroppedPublisher.publish(dropped)
-        else:
-            self.get_logger.error('The brick position has not been placed. Please place the brick with the /place service \n ex) /place turtle_brick_interfaces/srv/Place "{x: 5.0, y: 2.0, z: 5.0}"')
+        '''tells the catcher node the brick has begun falling'''
+        try:
+            if self.brickPose != None:
+                self.fall = True
+                dropped = BrickDropped()
+                dropped.is_dropped = True
+                self.brickDroppedPublisher.publish(dropped)
+            else:
+                self.get_logger().error('The brick position has not been placed. Please place the brick with the /place service \n ex) /place turtle_brick_interfaces/srv/Place "{x: 5.0, y: 2.0, z: 5.0}"')
+        except Exception as er:
+            self.print(f" error = {er}")
         return response
     
     def placeBrick(self, request, response):
@@ -125,11 +149,17 @@ class Arena(Node):
     def brickCallback(self):
         """Update the brick's physics state and publish its current position."""
         # Update the brick's position based on physics
-
+        x, y, z = 0.0, 0.0, 0.0
         if self.brickPose != None:
             if self.fall == True:
                 self.fall = self.brickPhysics.drop()
-            x, y, z = self.brickPhysics.brick
+            if self.caught == True:
+                x = self.turtleLocation.x
+                y = self.turtleLocation.y
+                z = self.platformHeight +self.brickTolerance
+            else:
+                x, y, z = self.brickPhysics.brick
+
             self.brickPose = Point(x=x, y=y, z=z)
             self.publishBrick(self.brickOrientation, self.brickPose, self.brickScale, self.brickRgba)
 
@@ -153,6 +183,7 @@ class Arena(Node):
         brickMarker.type = Marker.CUBE
         brickMarker.action = Marker.ADD
 
+        
         # Set position and orientation
         brickMarker.pose.position = position
         brickMarker.pose.orientation = orientation
@@ -168,6 +199,11 @@ class Arena(Node):
 
         # Publish the marker
         self.brickPublisher.publish(brickMarker)
+        brickLocation = BrickLocation()
+        brickLocation.x =position.x
+        brickLocation.y =position.y
+        brickLocation.z =position.z
+        self.brickLocationPublisher.publish(brickLocation)
     
 
 

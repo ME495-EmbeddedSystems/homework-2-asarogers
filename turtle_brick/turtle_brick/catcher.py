@@ -3,9 +3,10 @@ from rclpy.node import Node
 import yaml
 from rclpy.qos import QoSProfile, QoSDurabilityPolicy
 from turtle_brick_interfaces.msg import TurtleLocation, BrickLocation, BrickDropped
-from geometry_msgs.msg import PoseStamped
+from geometry_msgs.msg import PoseStamped, Pose, Point, Quaternion
 from std_srvs.srv import Empty
 import math
+from turtle_brick_interfaces.srv import ProvideGoalPose,StopGravity
 
 class Catcher(Node):
     """
@@ -21,10 +22,13 @@ class Catcher(Node):
         self.location = None
         self.print = self.get_logger().info
         self.turtleLocation = None
-        self.canReach = True
-        self.gravity = None
-        self.platformHeight = None
-        self.maxVelocity = None
+        self.canReach = False
+        self.gravity =  0.0
+        self.platformHeight =  0.0
+        self.maxVelocity =  0.0
+        self.turtleAccel = 0.0
+        self.platformRadius =0.0
+        self.brickTolerance = 0.0
         self.config_path = self.declare_parameter('config_path', '').get_parameter_value().string_value
         if self.config_path:
             with open(self.config_path, 'r') as configFile:
@@ -32,6 +36,9 @@ class Catcher(Node):
             self.gravity = config['robot']['gravity_accel']
             self.platformHeight = config['robot']['platform_height']
             self.maxVelocity = config['robot']['max_velocity']
+            self.turtleAccel  = config['robot']['turtle_accel']
+            self.platformRadius  = config['robot']['platform_radius']
+            self.brickTolerance = config['robot']['platform_tolerance']  
         else:
             self.get_logger().error('Config path not provided')
 
@@ -43,6 +50,11 @@ class Catcher(Node):
         self.create_subscription(BrickLocation, 'brick_location', self.handleBrickLocation,qos_profile)
         self.create_subscription(BrickDropped, 'brick_dropped', self.handleBrickDropped,qos_profile)
 
+        # client
+        self.client = self.create_client(ProvideGoalPose, '/provide_goal_pose')
+        self.stopGravityClient = self.create_client(StopGravity, '/stop_gravity')
+
+
 
         #Publishers
         self.goalPublisher = self.create_publisher(PoseStamped, '/goal_pose', qos_profile)
@@ -50,34 +62,96 @@ class Catcher(Node):
         height = self.brickLocation.z
         brickX = self.brickLocation.x
         brickY = self.brickLocation.y
+        bias = 1.7
 
-        Vmax = 1.0
-        a = 0.25
-        platformHeight = 0.6
+        turtleX = self.turtleLocation.x
+        turtleY = self.turtleLocation.y
+
+        Vmax = self.maxVelocity
+        a = self.turtleAccel 
+        platformHeight = self.platformHeight
         # sqrt((2 * h)/g)
-        timeUntilBrickIsBelowTurtle = math.sqrt((2 * height-platformHeight)/self.gravity)
+        timeUntilBrickIsBelowTurtle = math.sqrt((2 * (height-platformHeight))/self.gravity)
+        distanceFromBrick = math.sqrt((brickX- turtleX)**2 + (brickY - turtleY)**2)
 
-        timeUntil
+        timeUntilMaxVelocity = Vmax / a
 
+        distanceCoveredDuringAcceleration = (1/2)*a*timeUntilMaxVelocity**2
+        timeUntilTurtleReachesBrick = 0
         
-        distanceFromBrick = math.sqrt(brickX**2 + brickY**2)
 
-        # time until turtle bot reaches the brick
-        timeUntilTurtleReachesBrick = math.sqrt((2 * distanceFromBrick)/self.gravity)
+        if distanceCoveredDuringAcceleration >= distanceFromBrick:
+            timeUntilTurtleReachesBrick = math.sqrt((2 * distanceFromBrick)/a)
+        else:
+            timeUntilTurtleReachesBrick = timeUntilMaxVelocity +(distanceFromBrick - distanceCoveredDuringAcceleration)/Vmax
 
+
+        return timeUntilBrickIsBelowTurtle + bias >= timeUntilTurtleReachesBrick
+    
+    def sendGoalPose(self):
+        # Create the request message
+        request = ProvideGoalPose.Request()
         
+        # Fill in the header, position, and orientation for goal pose
+        request.goal_pose.header.frame_id = 'odom'
+        request.goal_pose.pose.position = Point(x=self.brickLocation.x, y=self.brickLocation.y, z=self.brickLocation.z)
+        request.goal_pose.pose.orientation = Quaternion(x=0.0, y=0.0, z=0.0, w=1.0)
+
+        # Call the service
+        future = self.client.call_async(request)
+        
+        # Set a callback for the service response
+        future.add_done_callback(self.handle_response)
+
+    def handle_response(self, future):
+        try:
+            response = future.result()
+            if response.success:
+                self.get_logger().info('sent successfully!')
+            else:
+                self.get_logger().info('Failed to set goal pose.')
+        except Exception as e:
+            self.get_logger().error(f'Service call failed: {e}')
+
     def handleBrickDropped(self, msg):
-        if self.canReach == True:
-            self.print("checking this works")
+        self.canReach = self.canCatch()
+        self.sendGoalPose()
 
+        
+
+    def checkTolerance(self, value1, value2, tolerance):
+        return abs(value1 - value2) <= tolerance
 
     def handleTurtleLocation(self, msg):
         """Subscribe to the turtle msg node and update the location whenever a new msg is received"""
         self.turtleLocation = msg
         
+                
+        
     def handleBrickLocation(self, msg):
         """Subscription to the brickLocation msg that is called everytime the brick's location updates"""
         self.brickLocation = msg
+        if self.canReach:
+            
+            if self.checkTolerance(self.platformHeight, self.brickLocation.z, self.brickTolerance):
+                self.print("caught!")
+                request = StopGravity.Request()
+                request.stopped = True
+                future = self.stopGravityClient.call_async(request)
+        
+                # Set a callback for the service response
+                future.add_done_callback(self.handle_response)
+
+    def handle_response(self, future):
+        try:
+            response = future.result()
+            if response.success:
+                self.get_logger().info('sent successfully!')
+            else:
+                self.get_logger().info('Failed to set goal pose.')
+        except Exception as e:
+            self.get_logger().error(f'Service call failed: {e}')
+        
 
 def main(args=None):
     rclpy.init(args=args)

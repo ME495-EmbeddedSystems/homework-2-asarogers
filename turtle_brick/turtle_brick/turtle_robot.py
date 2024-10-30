@@ -30,7 +30,12 @@ class TurtleRobot(Node):
         self.total_distance_traveled = 0.0
         self.print = self.get_logger().info
         self.tolerance = 0.5
-
+        self.gravity = 0.0
+        self.platformHeight = 0.0
+        self.maxVelocity = 0.0
+        self.turtleAccel = 0.0
+        
+        
         self.config_path = self.declare_parameter('config_path', '').get_parameter_value().string_value
         if self.config_path:
             with open(self.config_path, 'r') as configFile:
@@ -38,6 +43,8 @@ class TurtleRobot(Node):
             self.gravity = config['robot']['gravity_accel']
             self.platformHeight = config['robot']['platform_height']
             self.maxVelocity = config['robot']['max_velocity']
+            self.turtleAccel = config['robot']['turtle_accel']
+            self.brickTolerance = config['robot']['platform_tolerance']
         else:
             self.get_logger().error('Config path not provided')
 
@@ -69,6 +76,9 @@ class TurtleRobot(Node):
 
         
     def publish_odom(self):
+        '''
+        Publish to the odometry topic
+        '''
         if self.latest_pose:
             odom = Odometry()
             odom.header.stamp = self.get_clock().now().to_msg()
@@ -91,10 +101,16 @@ class TurtleRobot(Node):
             self.odom_publisher.publish(odom)
 
     def handle_tilt(self, msg):
+        '''
+        set the tilt based on the recieved msg
+        '''
         self.tilt = msg.tilt
 
 
     def giveGoalPose(self, request, response):
+        '''
+        Set the goal pose when msg recieved
+        '''
         self.goal_pose = request.goal_pose
 
         # Log the goal pose received
@@ -104,6 +120,9 @@ class TurtleRobot(Node):
         return response
 
     def publishJointState(self):
+        '''
+        publish the joint states
+        '''
         # Create a JointState message
         joint_state = JointState()
         joint_state.header.stamp = self.get_clock().now().to_msg()
@@ -154,7 +173,7 @@ class TurtleRobot(Node):
         # Normalize the angle to [-pi, pi] range
         angle_diff = (angle_diff + np.pi) % (2 * np.pi) - np.pi
 
-        k_linear = 0.25 
+        k_linear = self.turtleAccel 
         k_angular = 2.0 
 
 
@@ -162,7 +181,7 @@ class TurtleRobot(Node):
         angular_speed = angle_diff * k_angular
 
 
-        max_linear_speed = 1.0
+        max_linear_speed = self.maxVelocity 
         max_angular_speed = 2.0
 
         # Constrain linear and angular speeds to max limits

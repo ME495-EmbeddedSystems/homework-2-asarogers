@@ -26,7 +26,8 @@ def generate_launch_description():
             'platform_height': str(config['robot']['platform_height']),
             'wheel_radius': str(config['robot']['wheel_radius']),
             'max_velocity': str(config['robot']['max_velocity']),
-            'gravity_accel': str(config['robot']['gravity_accel'])
+            'gravity_accel': str(config['robot']['gravity_accel']),
+            'platform_radius': str(config['robot']['platform_radius'])
         }
     ).toxml()
 

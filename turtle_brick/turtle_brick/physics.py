@@ -56,6 +56,11 @@ class World:
         self.location = (x, y, new_z)
         # ---------------------------- begin_citation ----------------------------- #
         return new_z > 0
+    def stopGravity(self):
+        '''
+        When called, stop the brick's gravity
+        '''
+        self.gravity = 0
 
 
 
