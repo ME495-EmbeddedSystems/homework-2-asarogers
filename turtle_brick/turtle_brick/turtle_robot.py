@@ -36,6 +36,8 @@ class TurtleRobot(Node):
         self.turtleAccel = 0.0
         self.brickLocation = None
         self.homePositon = Point(x = 5.544445, y=5.544445, z = 0.0)
+        self.tilt
+        
         
         
         self.config_path = self.declare_parameter('config_path', '').get_parameter_value().string_value
@@ -89,6 +91,7 @@ class TurtleRobot(Node):
         t.child_frame_id = "platform_joint"
         t.transform.translation = self.defaultTranslation
         t.transform.rotation = self.defaultRotation
+        t.transform.rotation.w = 0.5
         self.platformTF.sendTransform(t)
 
 
