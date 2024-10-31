@@ -1,3 +1,6 @@
+<!--########################## Begin_Citation [14] ############################ -->
+
+
 # ME495 Embedded Systems Homework 2
 Author: Asa Rogers
 
@@ -37,3 +40,5 @@ The package defines nodes and services as follows:
 - **Catcher** (`catcher` node): Controls the turtle’s movements to attempt catching the brick. It calculates reachability based on brick and turtle positions and uses the `stop_gravity` service to catch the brick if reachable.
 
 - **Turtle Robot** (`turtle_robot` node): Manages turtle robot simulation within the arena, handling dynamic frames, transformations, and velocities for movement control.
+
+<!--########################## End_Citation [14] ############################ -->
