@@ -31,7 +31,7 @@ def test_initialization():
     assert world.dt == dt
     assert world.velocity == 0
     assert world.horizontal_velocity == [0, 0]
-    assert world.isOnPlatform == False
+    assert world.isOnPlatform is False
     assert world.tiltAngle == 0.0
 
 
@@ -88,7 +88,7 @@ def test_start_falling():
     world.start_falling()
 
     assert world.gravity == 9.81
-    assert world.isOnPlatform == False
+    assert world.isOnPlatform is False
     assert world.horizontal_velocity == [0, 0]
 
 
@@ -103,7 +103,8 @@ def test_distance_from_platform_center():
     platform_center_y = 0
     world = physics.World(brick_location, 9.81, 5, 0.1)
 
-    distance = world.distance_from_platform_center(platform_center_x, platform_center_y)
+    distance = world.distance_from_platform_center(platform_center_x,
+                                                   platform_center_y)
     expected_distance = math.sqrt(
         (brick_location[0] - platform_center_x) ** 2
         + (brick_location[1] - platform_center_y) ** 2

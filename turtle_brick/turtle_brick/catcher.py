@@ -11,12 +11,14 @@ Authors:
 
 import math
 
+from geometry_msgs.msg import Point, PoseStamped, Quaternion
+
 import rclpy
-import yaml
-from geometry_msgs.msg import Point, Pose, PoseStamped, Quaternion
 from rclpy.node import Node
 from rclpy.qos import QoSDurabilityPolicy, QoSProfile
-from std_srvs.srv import Empty
+
+
+import yaml
 
 from turtle_brick_interfaces.msg import (
     BrickDropped,
@@ -31,9 +33,8 @@ class Catcher(Node):
     """Node that controls the robot to catch the brick."""
 
     def __init__(self):
-        """Initialize the Catcher node and set up required configurations,
-        publishers, subscribers, and clients."""
-        super().__init__("catcher")
+        """Initialize the Catcher node."""
+        super().__init__('catcher')
 
         # Variables
         self.frequency = 0.01  # Check location every second
@@ -49,21 +50,22 @@ class Catcher(Node):
         self.brickTolerance = 0.0
         self.homePositon = Point(x=5.544445, y=5.544445, z=0.0)
 
+        config = self.declare_parameter('config_path', '')
         # Load configurations
         self.config_path = (
-            self.declare_parameter("config_path", "").get_parameter_value().string_value
+            config.get_parameter_value().string_value
         )
         if self.config_path:
-            with open(self.config_path, "r") as configFile:
+            with open(self.config_path, 'r') as configFile:
                 config = yaml.safe_load(configFile)
-            self.gravity = config["robot"]["gravity_accel"]
-            self.platformHeight = config["robot"]["platform_height"]
-            self.maxVelocity = config["robot"]["max_velocity"]
-            self.turtleAccel = config["robot"]["turtle_accel"]
-            self.platformRadius = config["robot"]["platform_radius"]
-            self.brickTolerance = config["robot"]["platform_tolerance"]
+            self.gravity = config['robot']['gravity_accel']
+            self.platformHeight = config['robot']['platform_height']
+            self.maxVelocity = config['robot']['max_velocity']
+            self.turtleAccel = config['robot']['turtle_accel']
+            self.platformRadius = config['robot']['platform_radius']
+            self.brickTolerance = config['robot']['platform_tolerance']
         else:
-            self.get_logger().error("Config path not provided")
+            self.get_logger().error('Config path not provided')
 
         # Set QoS profile with transient local durability and depth of 1
         qos_profile = QoSProfile(
@@ -72,28 +74,27 @@ class Catcher(Node):
 
         # Subscribers
         self.create_subscription(
-            TurtleLocation, "turtle_location", self.handleTurtleLocation, qos_profile
+            TurtleLocation, 'turtle_location', self.handleBotLoc, qos_profile
         )
         self.create_subscription(
-            BrickLocation, "brick_location", self.handleBrickLocation, qos_profile
+            BrickLocation, 'brick_location', self.handleBrLocation, qos_profile
         )
         self.create_subscription(
-            BrickDropped, "brick_dropped", self.handleBrickDropped, qos_profile
+            BrickDropped, 'brick_dropped', self.handleBrickDropped, qos_profile
         )
-        self.tilt_publisher = self.create_publisher(Tilt, "/tilt", qos_profile)
+        self.tilt_publisher = self.create_publisher(Tilt, '/tilt', qos_profile)
 
         # Service clients
-        self.client = self.create_client(ProvideGoalPose, "/provide_goal_pose")
-        self.stopGravityClient = self.create_client(StopGravity, "/stop_gravity")
+        self.client = self.create_client(ProvideGoalPose, '/provide_goal_pose')
+        self.stopGravityCl = self.create_client(StopGravity, '/stop_gravity')
 
         # Publishers
         self.goalPublisher = self.create_publisher(
-            PoseStamped, "/goal_pose", qos_profile
+            PoseStamped, '/goal_pose', qos_profile
         )
 
     def canCatch(self):
-        """Determine if the robot can catch the brick based on distance and
-        time.
+        """Determine if the robot can catch the brick in time.
 
         Calculates if the robot can reach the brick before it falls past
         the robot's platform height.
@@ -114,28 +115,29 @@ class Catcher(Node):
         Vmax = self.maxVelocity
         a = self.turtleAccel
         platformHeight = self.platformHeight
-        timeUntilBrickIsBelowTurtle = math.sqrt(
+        timeTilBrickIsBelowTurtle = math.sqrt(
             (2 * (height - platformHeight)) / self.gravity
         )
-        distanceFromBrick = math.sqrt((brickX - turtleX) ** 2 + (brickY - turtleY) ** 2)
+        xDiff = brickX - turtleX
+        yDiff = brickY - turtleY
+        distanceFromBrick = math.sqrt((xDiff) ** 2 + (yDiff ** 2))
 
         timeUntilMaxVelocity = Vmax / a
-        distanceCoveredDuringAcceleration = (1 / 2) * a * timeUntilMaxVelocity**2
-        timeUntilTurtleReachesBrick = 0
+        distanceCoveredDuringAccel = (1 / 2) * a * timeUntilMaxVelocity**2
+        timeTilTurtleReachesBrick = 0
 
-        if distanceCoveredDuringAcceleration >= distanceFromBrick:
-            timeUntilTurtleReachesBrick = math.sqrt((2 * distanceFromBrick) / a)
+        if distanceCoveredDuringAccel >= distanceFromBrick:
+            timeTilTurtleReachesBrick = math.sqrt((2 * distanceFromBrick) / a)
         else:
-            timeUntilTurtleReachesBrick = (
+            timeTilTurtleReachesBrick = (
                 timeUntilMaxVelocity
-                + (distanceFromBrick - distanceCoveredDuringAcceleration) / Vmax
+                + (distanceFromBrick - distanceCoveredDuringAccel) / Vmax
             )
 
-        return timeUntilBrickIsBelowTurtle + bias >= timeUntilTurtleReachesBrick
+        return timeTilBrickIsBelowTurtle + bias >= timeTilTurtleReachesBrick
 
     def sendGoalPose(self, x, y, z):
-        """Send a goal pose to the service to move the robot to a specified
-        position.
+        """Send a goal pose to the service to move the robot.
 
         Parameters
         ----------
@@ -147,9 +149,10 @@ class Catcher(Node):
             Z-coordinate of the goal position.
         """
         request = ProvideGoalPose.Request()
-        request.goal_pose.header.frame_id = "odom"
+        request.goal_pose.header.frame_id = 'odom'
         request.goal_pose.pose.position = Point(x=x, y=y, z=z)
-        request.goal_pose.pose.orientation = Quaternion(x=0.0, y=0.0, z=0.0, w=1.0)
+        q = Quaternion(x=0.0, y=0.0, z=0.0, w=1.0)
+        request.goal_pose.pose.orientation = q
 
         future = self.client.call_async(request)
         future.add_done_callback(self.handle_response)
@@ -165,11 +168,11 @@ class Catcher(Node):
         try:
             response = future.result()
             if response.success:
-                self.get_logger().info("sent successfully!")
+                self.get_logger().info('sent successfully!')
             else:
-                self.get_logger().info("Failed to set goal pose.")
+                self.get_logger().info('Failed to set goal pose.')
         except Exception as e:
-            self.get_logger().error(f"Service call failed: {e}")
+            self.get_logger().error(f'Service call failed: {e}')
 
     def handleBrickDropped(self, msg):
         """React to a brick being dropped by setting the robot's goal position.
@@ -203,7 +206,7 @@ class Catcher(Node):
         """
         return abs(value1 - value2) <= tolerance
 
-    def handleTurtleLocation(self, msg):
+    def handleBotLoc(self, msg):
         """Update the robot's location based on a received TurtleLocation msg.
 
         Parameters
@@ -213,7 +216,7 @@ class Catcher(Node):
         """
         self.turtleLocation = msg
 
-    def handleBrickLocation(self, msg):
+    def handleBrLocation(self, msg):
         """Handle updates to the brick location and take action if reachable.
 
         Parameters
@@ -226,10 +229,10 @@ class Catcher(Node):
             if self.checkTolerance(
                 self.platformHeight, self.brickLocation.z, self.brickTolerance
             ):
-                self.print("caught!")
+                self.print('caught!')
                 request = StopGravity.Request()
                 request.stopped = True
-                future = self.stopGravityClient.call_async(request)
+                future = self.stopGravityCl.call_async(request)
                 future.add_done_callback(self.handle_response)
 
                 # Move robot to home position after catching the brick
@@ -258,5 +261,5 @@ def main(args=None):
     rclpy.shutdown()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

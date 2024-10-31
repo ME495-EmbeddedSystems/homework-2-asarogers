@@ -130,10 +130,10 @@ class Arena(Node):
         self.create_service(Empty, 'drop', self.dropBrick)
         self.create_service(StopGravity, 'stop_gravity', self.stickToBot)
         self.create_subscription(
-            TurtleLocation, 'bot_location', self.handleBotLocation, qos_profile
+            TurtleLocation, 'turtle_location', self.handleBotLoc, qos_profile
         )
 
-    def handleBotLocation(self, msg):
+    def handleBotLoc(self, msg):
         """Subscribe to the turtle location topic and update the location.
 
         Parameters
