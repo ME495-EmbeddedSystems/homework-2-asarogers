@@ -4,9 +4,9 @@
 
 #include <string.h>
 
-#include "turtle_brick_interfaces/srv/detail/stop_gravity__functions.h"
 #include "turtle_brick_interfaces/srv/detail/stop_gravity__type_support.h"
 #include "turtle_brick_interfaces/srv/detail/stop_gravity__struct.h"
+#include "turtle_brick_interfaces/srv/detail/stop_gravity__functions.h"
 #include "rosidl_typesupport_interface/macros.h"
 
 #ifdef __cplusplus

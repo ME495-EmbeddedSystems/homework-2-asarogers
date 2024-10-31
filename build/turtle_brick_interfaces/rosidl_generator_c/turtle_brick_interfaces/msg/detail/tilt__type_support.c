@@ -4,9 +4,9 @@
 
 #include <string.h>
 
+#include "turtle_brick_interfaces/msg/detail/tilt__struct.h"
 #include "turtle_brick_interfaces/msg/detail/tilt__type_support.h"
 #include "turtle_brick_interfaces/msg/detail/tilt__functions.h"
-#include "turtle_brick_interfaces/msg/detail/tilt__struct.h"
 #include "rosidl_typesupport_interface/macros.h"
 
 #ifdef __cplusplus

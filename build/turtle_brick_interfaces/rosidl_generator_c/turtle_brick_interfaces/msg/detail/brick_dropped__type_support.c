@@ -4,8 +4,8 @@
 
 #include <string.h>
 
-#include "turtle_brick_interfaces/msg/detail/brick_dropped__struct.h"
 #include "turtle_brick_interfaces/msg/detail/brick_dropped__type_support.h"
+#include "turtle_brick_interfaces/msg/detail/brick_dropped__struct.h"
 #include "turtle_brick_interfaces/msg/detail/brick_dropped__functions.h"
 #include "rosidl_typesupport_interface/macros.h"
 

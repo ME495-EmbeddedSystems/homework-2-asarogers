@@ -5,8 +5,8 @@
 #include <string.h>
 
 #include "turtle_brick_interfaces/srv/detail/provide_goal_pose__type_support.h"
-#include "turtle_brick_interfaces/srv/detail/provide_goal_pose__functions.h"
 #include "turtle_brick_interfaces/srv/detail/provide_goal_pose__struct.h"
+#include "turtle_brick_interfaces/srv/detail/provide_goal_pose__functions.h"
 #include "rosidl_typesupport_interface/macros.h"
 
 #ifdef __cplusplus
