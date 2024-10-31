@@ -1,22 +1,53 @@
-import rclpy
-from rclpy.node import Node
-from turtlesim.msg import Pose
-from geometry_msgs.msg import TransformStamped, Vector3, Quaternion, Twist, PoseStamped, Point
-from nav_msgs.msg import Odometry
-from tf2_ros import TransformBroadcaster, StaticTransformBroadcaster
-import tf_transformations
-from visualization_msgs.msg import Marker
+"""TurtleRobot ROS2 Node for Managing Turtle Simulations.
+
+This module defines the TurtleRobot class, a ROS2 node that integrates with turtlesim
+to handle pose, velocity, goal setting, and transformations. It includes both static and dynamic
+frame broadcasting for visualizing movement in Rviz and supports customizable configurations.
+
+Authors:
+- [Your Name]
+- Date: YYYY-MM-DD
+"""
+
 import numpy as np
-from sensor_msgs.msg import JointState
-from turtle_brick_interfaces.srv import ProvideGoalPose
-from turtle_brick_interfaces.msg import Tilt, TurtleLocation, BrickLocation
+import rclpy
+import tf_transformations
 import yaml
-from rclpy.qos import QoSProfile, QoSDurabilityPolicy
+from geometry_msgs.msg import (
+    Point,
+    PoseStamped,
+    Quaternion,
+    TransformStamped,
+    Twist,
+    Vector3,
+)
+from nav_msgs.msg import Odometry
+from rclpy.node import Node
+from rclpy.qos import QoSDurabilityPolicy, QoSProfile
+from sensor_msgs.msg import JointState
+from tf2_ros import StaticTransformBroadcaster, TransformBroadcaster
+from turtle_brick_interfaces.msg import BrickLocation, Tilt, TurtleLocation
+from turtle_brick_interfaces.srv import ProvideGoalPose
+from turtlesim.msg import Pose
+from visualization_msgs.msg import Marker
+
+
+class TurtleRobot(Node):
+    """A ROS2 Node to manage turtle simulation tasks such as movement, pose
+    handling, and goal tracking.
+
+    Attributes:
+        frequency (float): Timer frequency for broadcasting updates.
+        tolerance (float): Distance threshold for reaching a goal.
+        gravity (float): Gravitational constant, loaded from configuration.
+        platformHeight (float): Platform height, loaded from c
+    """
+
 
 class TurtleRobot(Node):
     def __init__(self):
-        """Create the Turtle_robot bridge"""
-        super().__init__('turtle_robot')
+        """Create the Turtle_robot bridge."""
+        super().__init__("turtle_robot")
         self.frequency = 0.01
         self.latest_cmd_vel = Twist()
         self.latest_pose = None
@@ -35,28 +66,33 @@ class TurtleRobot(Node):
         self.maxVelocity = 0.0
         self.turtleAccel = 0.0
         self.brickLocation = None
-        self.homePositon = Point(x = 5.544445, y=5.544445, z = 0.0)
+        self.homePositon = Point(x=5.544445, y=5.544445, z=0.0)
         self.tilt = 0.0
-        
-        
-        
-        self.config_path = self.declare_parameter('config_path', '').get_parameter_value().string_value
-        if self.config_path:
-            with open(self.config_path, 'r') as configFile:
-                config = yaml.safe_load(configFile)
-            self.gravity = config['robot']['gravity_accel']
-            self.platformHeight = config['robot']['platform_height']
-            self.maxVelocity = config['robot']['max_velocity']
-            self.turtleAccel = config['robot']['turtle_accel']
-            self.brickTolerance = config['robot']['platform_tolerance']
-        else:
-            self.get_logger().error('Config path not provided')
 
-        qos_profile = QoSProfile(depth=1, durability=QoSDurabilityPolicy.TRANSIENT_LOCAL)
-        self.create_subscription(Pose, '/turtle1/pose', self.handle_turtle_pose, 1)
-        self.create_subscription(Twist, '/cmd_vel', self.handle_cmd_vel, 1)
-        self.create_subscription(Tilt, '/tilt', self.handle_tilt, 1)
-        self.create_subscription(PoseStamped, '/goal_pose', self.handle_goal_pose, 1)
+        self.config_path = (
+            self.declare_parameter(
+                "config_path", "").get_parameter_value().string_value
+        )
+        if self.config_path:
+            with open(self.config_path, "r") as configFile:
+                config = yaml.safe_load(configFile)
+            self.gravity = config["robot"]["gravity_accel"]
+            self.platformHeight = config["robot"]["platform_height"]
+            self.maxVelocity = config["robot"]["max_velocity"]
+            self.turtleAccel = config["robot"]["turtle_accel"]
+            self.brickTolerance = config["robot"]["platform_tolerance"]
+        else:
+            self.get_logger().error("Config path not provided")
+
+        qos_profile = QoSProfile(
+            depth=1, durability=QoSDurabilityPolicy.TRANSIENT_LOCAL
+        )
+        self.create_subscription(
+            Pose, "/turtle1/pose", self.handle_turtle_pose, 1)
+        self.create_subscription(Twist, "/cmd_vel", self.handle_cmd_vel, 1)
+        self.create_subscription(Tilt, "/tilt", self.handle_tilt, 1)
+        self.create_subscription(
+            PoseStamped, "/goal_pose", self.handle_goal_pose, 1)
 
         # Publishers
         self.tf_broadcaster = TransformBroadcaster(self)
@@ -65,24 +101,39 @@ class TurtleRobot(Node):
         self.platformJointTF = TransformBroadcaster(self)
         self.wheelToBase = StaticTransformBroadcaster(self)
         self.tf_staticbroadcaster = StaticTransformBroadcaster(self)
-        self.joint_state_pub = self.create_publisher(JointState, 'joint_states', qos_profile)
-        self.odom_publisher = self.create_publisher(Odometry, 'odom', qos_profile)
-        self.turtleLocationPublisher = self.create_publisher(TurtleLocation, 'turtle_location', qos_profile)
-        self.cmd_vel_publisher = self.create_publisher(Twist, 'turtle1/cmd_vel', qos_profile)
-
+        self.joint_state_pub = self.create_publisher(
+            JointState, "joint_states", qos_profile
+        )
+        self.odom_publisher = self.create_publisher(
+            Odometry, "odom", qos_profile)
+        self.turtleLocationPublisher = self.create_publisher(
+            TurtleLocation, "turtle_location", qos_profile
+        )
+        self.cmd_vel_publisher = self.create_publisher(
+            Twist, "turtle1/cmd_vel", qos_profile
+        )
 
         # Services
-        self._srv = self.create_service(ProvideGoalPose, 'provide_goal_pose', self.giveGoalPose)
-        self.create_subscription(BrickLocation, 'brick_location', self.handleBrickLocation,qos_profile)
-        
+        self._srv = self.create_service(
+            ProvideGoalPose, "provide_goal_pose", self.giveGoalPose
+        )
+        self.create_subscription(
+            BrickLocation, "brick_location", self.handleBrickLocation, qos_profile
+        )
+
         # Timers
-        self.staticTimer = self.create_timer(self.frequency, self.handleStaticFrames)
-        self.dynamicTimer = self.create_timer(self.frequency, self.handleDynamicFrames)
+        self.staticTimer = self.create_timer(
+            self.frequency, self.handleStaticFrames)
+        self.dynamicTimer = self.create_timer(
+            self.frequency, self.handleDynamicFrames)
         self.timer = self.create_timer(self.frequency, self.handleTurtleFrame)
-        self.control_timer = self.create_timer(self.frequency, self.driveToGoal)
+        self.control_timer = self.create_timer(
+            self.frequency, self.driveToGoal)
         # self.wheelTimer = self.create_timer(self.frequency, self.handleWheelFrame)
         # self.platformTimer = self.create_timer(self.frequency, self.handlePlatformFrame)
-        self.platformJointTimer = self.create_timer(self.frequency, self.handlePlatformJointFrame)
+        self.platformJointTimer = self.create_timer(
+            self.frequency, self.handlePlatformJointFrame
+        )
         # self.platwheeltoPlatoform = self.create_timer(self.frequency, self.handleWheelToBaseFrame)
 
     # def publishJointState(self):
@@ -92,14 +143,15 @@ class TurtleRobot(Node):
 
     #     # Define the caster wheel joint
     #     joint_state.name = ['wheel_joint']
-    #     joint_state.position = [self.revolution]  # Assuming revolution angle represents the rotation
+    # joint_state.position = [self.revolution]  # Assuming revolution angle
+    # represents the rotation
 
     #     # Publish the joint state
     #     self.joint_state_pub.publish(joint_state)
 
     # self.handle_dynamic_broadcast('base_link', 'wheel')
     def handleWheelToBaseFrame(self):
-        """handles the platform frame rendering"""
+        """Handles the platform frame rendering."""
         t = TransformStamped()
         t.header.stamp = self.get_clock().now().to_msg()
         t.header.frame_id = "base_link"
@@ -111,7 +163,7 @@ class TurtleRobot(Node):
         self.wheelToBase.sendTransform(t)
 
     def handlePlatformFrame(self):
-        """handles the platform frame rendering"""
+        """Handles the platform frame rendering."""
         t = TransformStamped()
         t.header.stamp = self.get_clock().now().to_msg()
         t.header.frame_id = "base_link"
@@ -122,12 +174,12 @@ class TurtleRobot(Node):
         t.transform.rotation = self.defaultRotation
         self.platformTF.sendTransform(t)
 
-
     def handlePlatformJointFrame(self):
-        """handles the platform frame rendering"""
-        q = tf_transformations.quaternion_from_euler(self.tilt, 0.0,45.0)
+        """Handles the platform frame rendering."""
+        q = tf_transformations.quaternion_from_euler(self.tilt, 0.0, 45.0)
 
-        # Create and populate the TransformStamped message for the platform_joint
+        # Create and populate the TransformStamped message for the
+        # platform_joint
         t = TransformStamped()
         t.header.stamp = self.get_clock().now().to_msg()
         t.header.frame_id = "pole_link"
@@ -142,9 +194,8 @@ class TurtleRobot(Node):
         t.transform.rotation.w = q[3]
         self.platformJointTF.sendTransform(t)
 
-
     def handleWheelFrame(self):
-        """handles the wheel frame rendering"""
+        """Handles the wheel frame rendering."""
         t = TransformStamped()
         t.header.stamp = self.get_clock().now().to_msg()
         t.header.frame_id = "base_link"
@@ -154,25 +205,25 @@ class TurtleRobot(Node):
         self.wheelTF.sendTransform(t)
 
     def handleBrickLocation(self, msg):
-        """Subscription to the brickLocation msg that is called everytime the brick's location updates"""
+        """Subscription to the brickLocation msg that is called everytime the
+        brick's location updates."""
         self.brickLocation = msg
 
     def publish_odom(self):
-        '''
-        Publish to the odometry topic
-        '''
+        """Publish to the odometry topic."""
         if self.latest_pose:
             odom = Odometry()
             odom.header.stamp = self.get_clock().now().to_msg()
-            odom.header.frame_id = 'odom'
-            odom.child_frame_id = 'base_link'
+            odom.header.frame_id = "odom"
+            odom.child_frame_id = "base_link"
 
             # Position
             odom.pose.pose.position.x = self.latest_pose.x
             odom.pose.pose.position.y = self.latest_pose.y
 
             # Orientation
-            q = tf_transformations.quaternion_from_euler(0, 0, self.latest_pose.theta)
+            q = tf_transformations.quaternion_from_euler(
+                0, 0, self.latest_pose.theta)
             odom.pose.pose.orientation.x = q[0]
             odom.pose.pose.orientation.y = q[1]
             odom.pose.pose.orientation.z = q[2]
@@ -183,50 +234,37 @@ class TurtleRobot(Node):
             self.odom_publisher.publish(odom)
 
     def handle_tilt(self, msg):
-        '''
-        set the tilt based on the recieved msg
-        '''
+        """Set the tilt based on the recieved msg."""
         self.print("recieved tilt!!")
         self.tilt = msg.tilt
-        
-
 
     def giveGoalPose(self, request, response):
-        '''
-        Set the goal pose when msg recieved
-        '''
+        """Set the goal pose when msg recieved."""
         self.goal_pose = request.goal_pose
-
-        # Log the goal pose received
-        self.get_logger().info(f"Received new goal pose: x={self.goal_pose.pose.position.x}, y={self.goal_pose.pose.position.y}")
-
         response.success = True
         return response
 
-    
-
     def handle_cmd_vel(self, msg):
-        """Store the latest cmd_vel command"""
+        """Store the latest cmd_vel command."""
         self.latest_cmd_vel = msg
-        
+
     async def handle_turtle_pose(self, msg):
-        """Store the latest pose from the turtlesim node"""
+        """Store the latest pose from the turtlesim node."""
         self.latest_pose = msg
         circumference = 2 * np.pi * self.wheelRadius
         self.revolution = self.total_distance_traveled / circumference
         self.revolution = (self.revolution + np.pi) % (2 * np.pi) - np.pi
-        self.quat = tf_transformations.quaternion_from_euler(0, 0, self.latest_pose.theta)
+        self.quat = tf_transformations.quaternion_from_euler(
+            0, 0, self.latest_pose.theta
+        )
 
-
-
-    
     def handle_goal_pose(self, msg):
-        """Store the goal pose"""
+        """Store the goal pose."""
         self.goal_pose = msg.pose
-        self.get_logger().info(f"Received new goal pose: x={self.goal_pose.position.x}, y={self.goal_pose.position.y}")
 
     def driveToGoal(self):
-        """Drive the robot towards the goal pose using proportional control for smoother navigation."""
+        """Drive the robot towards the goal pose using proportional control for
+        smoother navigation."""
         if self.latest_pose is None or self.goal_pose is None:
             return  # Return early if no pose or goal
 
@@ -242,20 +280,20 @@ class TurtleRobot(Node):
         # Normalize the angle to [-pi, pi] range
         angle_diff = (angle_diff + np.pi) % (2 * np.pi) - np.pi
 
-        k_linear = self.turtleAccel 
-        k_angular = 2.0 
-
+        k_linear = self.turtleAccel
+        k_angular = 2.0
 
         linear_speed = distance * k_linear
         angular_speed = angle_diff * k_angular
 
-
-        max_linear_speed = self.maxVelocity 
+        max_linear_speed = self.maxVelocity
         max_angular_speed = 2.0
 
         # Constrain linear and angular speeds to max limits
-        linear_speed = max(-max_linear_speed, min(linear_speed, max_linear_speed))
-        angular_speed = max(-max_angular_speed, min(angular_speed, max_angular_speed))
+        linear_speed = max(-max_linear_speed,
+                           min(linear_speed, max_linear_speed))
+        angular_speed = max(-max_angular_speed,
+                            min(angular_speed, max_angular_speed))
 
         # Stop if within tolerance of the goal
         if distance < self.tolerance:
@@ -272,30 +310,25 @@ class TurtleRobot(Node):
         self.publish_odom()
 
     def handleStaticFrames(self):
-        """Informs the handle_broadcast which frames to statically connect"""
-        self.handle_broadcast('base_link', 'base_footprint')
-        
-        
+        """Informs the handle_broadcast which frames to statically connect."""
+        self.handle_broadcast("base_link", "base_footprint")
 
     def handleDynamicFrames(self):
-        """Informs the dynamic broadcast which frames to dynamically connect"""
-        self.handle_dynamic_broadcast('world', 'odom')
-        
-        
-
-
+        """Informs the dynamic broadcast which frames to dynamically
+        connect."""
+        self.handle_dynamic_broadcast("world", "odom")
 
     def handleTurtleFrame(self):
-        """Handles broadcasting and publishes turtle movements in Rviz"""
+        """Handles broadcasting and publishes turtle movements in Rviz."""
         try:
             if self.latest_pose is None:
                 return
-            
+
             # Broadcast the transform between odom and base_link
             t = TransformStamped()
             t.header.stamp = self.get_clock().now().to_msg()
-            t.header.frame_id = 'odom'
-            t.child_frame_id = 'base_link'
+            t.header.frame_id = "odom"
+            t.child_frame_id = "base_link"
 
             t.transform.translation.x = self.latest_pose.x
             t.transform.translation.y = self.latest_pose.y
@@ -313,13 +346,12 @@ class TurtleRobot(Node):
             self.turtleLocationPublisher.publish(pose_dict)
             self.tf_broadcaster.sendTransform(t)
 
-            
-
         except Exception as e:
             self.get_logger().error(f"An error occurred: {e}")
 
     def handle_dynamic_broadcast(self, parent_frame, child_frame):
-        """Creates the transformation between the different frames dynamically"""
+        """Creates the transformation between the different frames
+        dynamically."""
         t = TransformStamped()
         t.header.stamp = self.get_clock().now().to_msg()
         t.header.frame_id = parent_frame
@@ -329,7 +361,8 @@ class TurtleRobot(Node):
         self.tf_broadcaster.sendTransform(t)
 
     def handle_broadcast(self, parent_frame, child_frame):
-        """Creates the transformation between the different frames statically"""
+        """Creates the transformation between the different frames
+        statically."""
         t = TransformStamped()
         t.header.stamp = self.get_clock().now().to_msg()
         t.header.frame_id = parent_frame
@@ -338,6 +371,7 @@ class TurtleRobot(Node):
         t.transform.rotation = self.defaultRotation
         self.tf_staticbroadcaster.sendTransform(t)
 
+
 def main(args=None):
     rclpy.init(args=args)
     node = TurtleRobot()
@@ -345,5 +379,6 @@ def main(args=None):
     node.destroy_node()
     rclpy.shutdown()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
