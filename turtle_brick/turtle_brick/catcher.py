@@ -109,7 +109,7 @@ class Catcher(Node):
         height = self.brickLocation.z
         brickX = self.brickLocation.x
         brickY = self.brickLocation.y
-        bias = 1.7
+        bias = 2.5
 
         turtleX = self.turtleLocation.x
         turtleY = self.turtleLocation.y
