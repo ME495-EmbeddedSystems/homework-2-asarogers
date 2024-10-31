@@ -56,8 +56,7 @@ class World:
         x_new = x + (1 / 2) * self.gravity * self.dt**2 * math.sin(
             self.tiltAngle
         ) * math.cos(self.tiltAngle)
-        y_new = y - (1 / 2) * self.gravity * self.dt**2 * \
-            math.sin(self.tiltAngle) ** 2
+        y_new = y - (1 / 2) * self.gravity * self.dt**2 * math.sin(self.tiltAngle) ** 2
 
         # ---------------------------- begin_citation ----------------------------- #
         new_z = z + self.velocity * self.dt  # Subtract distance from the x-coordinate

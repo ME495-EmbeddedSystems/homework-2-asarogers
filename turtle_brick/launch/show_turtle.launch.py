@@ -64,8 +64,7 @@ def generate_launch_description():
         package="joint_state_publisher",
         executable="joint_state_publisher",
         condition=IfCondition(
-            PythonExpression(
-                ["'", LaunchConfiguration("use_jsp"), "' == 'jsp'"])
+            PythonExpression(["'", LaunchConfiguration("use_jsp"), "' == 'jsp'"])
         ),
     )
 
@@ -74,8 +73,7 @@ def generate_launch_description():
         executable="joint_state_publisher_gui",
         output="screen",
         condition=IfCondition(
-            PythonExpression(
-                ["'", LaunchConfiguration("use_jsp"), "' == 'gui'"])
+            PythonExpression(["'", LaunchConfiguration("use_jsp"), "' == 'gui'"])
         ),
     )
 

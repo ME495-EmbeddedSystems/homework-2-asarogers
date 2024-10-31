@@ -1,38 +1,46 @@
+"""Module that defines the class for creating an arena in the RViz environment.
+
+This module uses ROS2 and RViz to simulate an arena with walls and a brick that
+can be dropped, placed, or stuck to a platform.
+"""
+
 import math
 
+from geometry_msgs.msg import Point, Quaternion
+
 import rclpy
-import tf_transformations
-import yaml
-from geometry_msgs.msg import Point, Quaternion, TransformStamped
 from rclpy.node import Node
 from rclpy.qos import QoSDurabilityPolicy, QoSProfile
+
 from std_srvs.srv import Empty
+
 from tf2_ros import TransformBroadcaster
-from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
+
+import tf_transformations
+
 from turtle_brick import physics
-from turtle_brick_interfaces.msg import (
-    BrickDropped,
-    BrickLocation,
-    Tilt,
-    TurtleLocation,
-)
+
+from turtle_brick_interfaces.msg import (BrickDropped, BrickLocation, Tilt,
+                                         TurtleLocation)
 from turtle_brick_interfaces.srv import Place, StopGravity
-from turtlesim.msg import Pose
+
 from visualization_msgs.msg import Marker
+
+import yaml
 
 
 class Arena(Node):
-    """Node that creates an arena in the rviz environment.
+    """Node that creates an arena in the RViz environment.
 
     Publishes
     ---------
-    Marker : visualization_msgs/msg/Marker - publishes markers to visualize walls in RViz.
+    Marker : visualization_msgs/msg/Marker - markers to visualize walls.
 
     Parameters
     ----------
-    frequency : float - timer freqency in seconds to control update rate
+    frequency : float - timer frequency in seconds to control update rate
     scale: list - 3D scaling factors [x, y, z] for wall dimensions.
-    rgba : list - RGBA volor values for the walls in the format [R, G, B, A]
+    rgba : list - RGBA color values for the walls in the format [R, G, B, A]
         brickScale : list
         Dimensions of the brick [x, y, z].
     brickRgba : list
@@ -40,15 +48,15 @@ class Arena(Node):
     """
 
     def __init__(self):
-        """Creates Arena node."""
-        super().__init__("arena")
+        """Create an Arena node."""
+        super().__init__('arena')
         self.frequency = 0.01
         #             X     Y    Z
         self.wallScale = [0.25, 12.5, 2.5]
         self.wallRgba = [0.0, 0.0, 0.0, 1.0]
-        self.referenceFrame = "world"
-        self.brickScale = [0.1, 0.25, 0.1]
-        self.brickRgba = [0.5, 0.2, 0.0, 1.0]
+        self.referenceFrame = 'world'
+        self.brScale = [0.1, 0.25, 0.1]
+        self.brRgba = [0.5, 0.2, 0.0, 1.0]
         self.dt = 0.004
         self.gravity = -9.8
         self.platformRadius = 0.3
@@ -62,27 +70,24 @@ class Arena(Node):
         self.brickTolerance = 0.0
         self.homePositon = Point(x=5.544445, y=5.544445, z=0.0)
         self.tilt = 0.0
-
+        config = self.declare_parameter('config_path', '')
         config_path = (
-            self.declare_parameter(
-                "config_path", "").get_parameter_value().string_value
+            config.get_parameter_value().string_value
         )
         if config_path:
-            with open(config_path, "r") as configFile:
+            with open(config_path, 'r') as configFile:
                 config = yaml.safe_load(configFile)
-            self.gravity = config["robot"]["gravity_accel"]
-            self.platformHeight = config["robot"]["platform_height"]
-            self.maxVelocity = config["robot"]["max_velocity"]
-            self.brickTolerance = config["robot"]["platform_tolerance"]
+            self.gravity = config['robot']['gravity_accel']
+            self.platformHeight = config['robot']['platform_height']
+            self.maxVelocity = config['robot']['max_velocity']
+            self.brickTolerance = config['robot']['platform_tolerance']
         else:
-            self.get_logger().error("Config path not provided")
+            self.get_logger().error('Config path not provided')
 
-        # Transient_local ensure the last message recieves is saved, so when the subscribers connects, it immediately recieves it
-        # depth specifies the number of messages stored in the history buffer
         qos_profile = QoSProfile(
             depth=1, durability=QoSDurabilityPolicy.TRANSIENT_LOCAL
         )
-        self.brickOrientation = Quaternion(x=0.0, y=0.0, z=math.radians(45))
+        self.brOrientation = Quaternion(x=0.0, y=0.0, z=math.radians(45))
         self.zPoseAboveTheGrid = 1.0
         self.shiftByTurtleStart = 5.0
 
@@ -98,58 +103,88 @@ class Arena(Node):
         # Publishers
         self.tf_broadcaster = TransformBroadcaster(self)
         self.xWallPublisher = self.create_publisher(
-            Marker, "visualization_marker1", qos_profile
+            Marker, 'visualization_marker1', qos_profile
         )
         self.yWallPublisher = self.create_publisher(
-            Marker, "visualization_marker2", qos_profile
+            Marker, 'visualization_marker2', qos_profile
         )
         self.brickPublisher = self.create_publisher(
-            Marker, "visualization_marker3", qos_profile
+            Marker, 'visualization_marker3', qos_profile
         )
         self.brickLocationPublisher = self.create_publisher(
-            BrickLocation, "brick_location", qos_profile
+            BrickLocation, 'brick_location', qos_profile
         )
         self.brickDroppedPublisher = self.create_publisher(
-            BrickDropped, "brick_dropped", qos_profile
+            BrickDropped, 'brick_dropped', qos_profile
         )
-        self.create_subscription(Tilt, "/tilt", self.handle_tilt, 1)
+        self.tilt_publisher = self.create_publisher(Tilt, '/tilt', qos_profile)
 
         # Timers
         self.xWallTimer = self.create_timer(self.frequency, self.publishMarker)
-        self.yWallTimer = self.create_timer(
-            self.frequency, self.publishMarker2)
+        self.yWallTime = self.create_timer(self.frequency, self.publishMarker2)
         self.brickTimer = self.create_timer(self.frequency, self.brickCallback)
 
         # Services
-        self.create_service(Place, "place", self.placeBrick)
-        self.create_service(Empty, "drop", self.dropBrick)
-        self.create_service(StopGravity, "stop_gravity",
-                            self.stickBrickToTurtle)
+        self.create_subscription(Tilt, '/tilt', self.handle_tilt, 1)
+        self.create_service(Place, 'place', self.placeBrick)
+        self.create_service(Empty, 'drop', self.dropBrick)
+        self.create_service(StopGravity, 'stop_gravity', self.stickToBot)
         self.create_subscription(
-            TurtleLocation, "turtle_location", self.handleTurtleLocation, qos_profile
+            TurtleLocation, 'bot_location', self.handleBotLocation, qos_profile
         )
 
-    def handleTurtleLocation(self, msg):
-        """Subscribe to the turtle msg node and update the location whenever a
-        new msg is received."""
+    def handleBotLocation(self, msg):
+        """Subscribe to the turtle location topic and update the location.
+
+        Parameters
+        ----------
+        msg : TurtleLocation
+            The message containing the updated turtle location.
+        """
         self.turtleLocation = msg
 
-    def stickBrickToTurtle(self, reqest, response):
-        """Sticks the brick to the platform."""
+    def stickToBot(self, reqest, response):
+        """Stick the brick to the platform if it is falling.
+
+        Parameters
+        ----------
+        reqest : StopGravity.Request
+            The request to stop gravity.
+        response : StopGravity.Response
+            The response to indicate success or failure.
+
+        Returns
+        -------
+        StopGravity.Response
+            The response after processing the request.
+        """
         try:
             if self.fall:
                 self.brickPhysics.stopGravity()
                 self.caught = True
             else:
                 self.get_logger().error(
-                    'The brick position has not been placed. Please place the brick with the /place service \n ex) /place turtle_brick_interfaces/srv/Place "{x: 5.0, y: 2.0, z: 5.0}"'
+                    'Brick not placed. Use /place service to place the brick.'
                 )
         except Exception as er:
-            self.print(f" error = {er}")
+            self.print(f' error = {er}')
         return response
 
     def dropBrick(self, request, response):
-        """Tells the catcher node the brick has begun falling."""
+        """Notify that the brick has begun falling.
+
+        Parameters
+        ----------
+        request : Empty.Request
+            The request to drop the brick.
+        response : Empty.Response
+            The response indicating the drop status.
+
+        Returns
+        -------
+        Empty.Response
+            The response after processing the drop request.
+        """
         try:
             if self.brickPose is not None:
                 self.fall = True
@@ -159,14 +194,27 @@ class Arena(Node):
                     self.brickDroppedPublisher.publish(dropped)
             else:
                 self.get_logger().error(
-                    'The brick position has not been placed. Please place the brick with the /place service \n ex) /place turtle_brick_interfaces/srv/Place "{x: 5.0, y: 2.0, z: 5.0}"'
+                    'Brick not placed. Use /place service to place the brick.'
                 )
         except Exception as er:
-            self.print(f" error = {er}")
+            self.print(f' error = {er}')
         return response
 
     def placeBrick(self, request, response):
-        """Place the brick at the request position."""
+        """Place the brick at the requested position.
+
+        Parameters
+        ----------
+        request : Place.Request
+            The request containing the brick placement coordinates.
+        response : Place.Response
+            The response indicating the placement status.
+
+        Returns
+        -------
+        Place.Response
+            The response after processing the placement request.
+        """
         self.brickPhysics = physics.World(
             (request.x, request.y, request.z),
             self.gravity,
@@ -176,10 +224,7 @@ class Arena(Node):
         x, y, z = self.brickPhysics.brick
         self.brickPose = Point(x=x, y=y, z=z)
         response.success = True
-        response.message = f"Brick placed at ({
-            request.x}, {
-            request.y}, {
-            request.z})"
+        response.message = f'Brick @ ({request.x}, {request.y}, {request.z})'
         brickLocation = BrickLocation()
         brickLocation.x = x
         brickLocation.y = y
@@ -188,63 +233,68 @@ class Arena(Node):
         return response
 
     def brickCallback(self):
-        """Update the brick's physics state and publish its current
-        position."""
-        # Update the brick's position based on physics
+        """Update the brick's location and publish it."""
         x, y, z = 0.0, 0.0, 0.0
         if self.brickPose is not None:
             if self.fall:
                 self.fall = self.brickPhysics.drop()
+                if self.fall is False and self.caught is True:
+                    tilt = Tilt()
+                    tilt.tilt = 0.0
+                    self.tilt_publisher.publish(tilt)
             if self.caught:
                 x = self.turtleLocation.x
                 y = self.turtleLocation.y
                 z = self.platformHeight + self.brickTolerance
                 tilt_angle = self.tilt
                 self.brickPhysics.stickToPlatform(x, y, z, tilt_angle)
-                # if not self.brickPhysics.isOnPlatform:
-                #     self.fall = True  # Start falling again if sliding off
-                #     self.print("start falling")
-                # start_falling
             else:
                 x, y, z = self.brickPhysics.brick
 
             self.brickPose = Point(x=x, y=y, z=z)
             self.publishBrick(
-                self.brickOrientation, self.brickPose, self.brickScale, self.brickRgba
+                self.brOrientation, self.brickPose, self.brScale, self.brRgba
             )
 
     def handle_tilt(self, msg):
-        """Set the tilt based on the recieved msg."""
-        self.print("recieved tilt!!")
+        """Set the tilt based on the received message.
+
+        Parameters
+        ----------
+        msg : Tilt
+            The message containing the tilt value.
+        """
+        self.print('received tilt!!')
         self.tilt = msg.tilt
         self.fall = True
         self.caught = False
         self.brickPhysics.start_falling()
 
     def publishBrick(self, orientation, position, scale, rgba):
-        """Publishes the brick's marker in RViz with specified orientation,
-        position, scale, and color.
+        """Publish the brick's marker in RViz.
 
         Parameters
         ----------
-        orientation : Quaternion - The orientation of the brick in the world frame.
-        position : Point - The position of the brick in the world frame.
-        scale : list - 3D scaling factors [x, y, z] for the brick dimensions.
-        rgba : list - RGBA color values for the brick in the format [R, G, B, A].
+        orientation : Quaternion
+            The orientation of the brick in the world frame.
+        position : Point
+            The position of the brick in the world frame.
+        scale : list
+            3D scaling factors [x, y, z] for the brick dimensions.
+        rgba : list
+            RGBA color values for the brick in the format [R, G, B, A].
         """
         brickMarker = Marker()
         brickMarker.header.frame_id = self.referenceFrame
         brickMarker.header.stamp = self.get_clock().now().to_msg()
-        brickMarker.ns = "brick"
+        brickMarker.ns = 'brick'
         brickMarker.id = 3
         brickMarker.type = Marker.CUBE
         brickMarker.action = Marker.ADD
 
-        # Set position and orientation
         brickMarker.pose.position = position
         brickMarker.pose.orientation = orientation
 
-        # Set scale and color
         brickMarker.scale.x = scale[0]
         brickMarker.scale.y = scale[1]
         brickMarker.scale.z = scale[2]
@@ -253,7 +303,6 @@ class Arena(Node):
         brickMarker.color.b = rgba[2]
         brickMarker.color.a = rgba[3]
 
-        # Publish the marker
         self.brickPublisher.publish(brickMarker)
         brickLocation = BrickLocation()
         brickLocation.x = position.x
@@ -262,47 +311,53 @@ class Arena(Node):
         self.brickLocationPublisher.publish(brickLocation)
 
     def publishMarker(self):
-        """Publishes two wall along the x-axis."""
+        """Publish walls along the x-axis."""
         self.GenerateWall(
             self.xWallCoordinates[0],
             self.xWallCoordinates[1],
-            "x_wall",
+            'x_wall',
             0,
             self.xWallPublisher,
         )
 
     def publishMarker2(self):
-        """Publishes two walls along the y-axis."""
+        """Publish walls along the y-axis."""
         self.GenerateWall(
             self.yWallCoordinates[0],
             self.yWallCoordinates[1],
-            "y_wall",
+            'y_wall',
             1,
             self.yWallPublisher,
         )
 
     def GenerateWall(
-        self, firstWallPositon, secondWallPosition, nameOfCurrentFrame, id, publisher
+        self, firstWallPositon, secondWallPosition, givenFrame, _id, publisher
     ):
-        """Creates and publishes a wall market given the two endpoints.
+        """Create and publish a wall marker.
 
         Parameters
         ----------
-        firstWallPosition : list - starting point [x, y, z] for the wall.
-        secondWallPosition : list - ending point [x, y, z] for the wall.
-        nameOfCurrentFrame : str - reference frame for the marker (e.g., "x_wall" or "y_wall").
-        id : int - unique identifier for each wall marker.
+        firstWallPosition : list
+            Starting point [x, y, z] for the wall.
+        secondWallPosition : list
+            Ending point [x, y, z] for the wall.
+        givenFrame : str
+            Reference frame for the marker (e.g., 'x_wall' or 'y_wall').
+        id : int
+            Unique identifier for each wall marker.
+        publisher : Publisher
+            Publisher to publish the wall marker.
         """
         marker = Marker()
         marker.header.frame_id = self.referenceFrame
         marker.header.stamp = self.get_clock().now().to_msg()
 
-        angle = math.radians(90 * id)
+        angle = math.radians(90 * _id)
         marker.pose.orientation = self.create_quaternion_from_yaw(angle)
         marker.pose.position.z = self.zPoseAboveTheGrid
 
-        marker.ns = nameOfCurrentFrame
-        marker.id = id
+        marker.ns = givenFrame
+        marker.id = _id
         marker.type = Marker.CUBE_LIST
         marker.action = Marker.ADD
 
@@ -311,7 +366,8 @@ class Arena(Node):
 
         cube_positions = [
             Point(x=firstWallPositon[0],
-                  y=firstWallPositon[1], z=firstWallPositon[2]),
+                  y=firstWallPositon[1],
+                  z=firstWallPositon[2]),
             Point(
                 x=secondWallPosition[0],
                 y=secondWallPosition[1],
@@ -332,22 +388,24 @@ class Arena(Node):
         publisher.publish(marker)
 
     def create_quaternion_from_yaw(self, yaw):
-        """Creates a quaternion representing a rotation around the z-axis by a
-        given yaw angle.
+        """Create a quaternion representing a rotation around the z-axis.
 
         Parameters
         ----------
-        yaw : float - angle in radians for rotation around the z-axis.
+        yaw : float
+            Angle in radians for rotation around the z-axis.
 
         Returns
         -------
-        Quaternion - quaternion representing the yaw rotation.
+        Quaternion
+            Quaternion representing the yaw rotation.
         """
         q = tf_transformations.quaternion_from_euler(0, 0, yaw)
         return Quaternion(x=q[0], y=q[1], z=q[2], w=q[3])
 
 
 def main(args=None):
+    """Initialize and spin the Arena node."""
     rclpy.init(args=args)
     node = Arena()
     rclpy.spin(node)
@@ -355,5 +413,5 @@ def main(args=None):
     rclpy.shutdown()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
