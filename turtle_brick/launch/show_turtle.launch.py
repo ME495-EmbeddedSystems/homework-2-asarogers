@@ -1,3 +1,58 @@
+"""
+Generate the launch description for the turtle brick ROS2 package.
+
+This script defines a launch file for the `turtle_brick` package,
+parameters, and launch arguments to manage the robot's environment
+its state in RViz. It also includes configuration for the robot's URDF model
+settings, joint state publisher, and various nodes responsible for controlling
+the turtle robot's behavior and simulation.
+
+Launch Arguments
+----------------
+use_jsp : str
+    Controls which joint state publisher to start:
+    - 'gui' for `joint_state_publisher_gui`
+    - 'jsp' for `joint_state_publisher`
+    - 'none' for no joint state publisher
+
+rviz_config : str
+    Path to the RViz configuration file, which is set by default to the path
+    in the turtle_brick package's configuration.
+
+Nodes
+-----
+robot_state_publisher_node : Node
+    Publishes the robot's state frames based on the provided URDF model.
+
+joint_state_publisher_node : Node
+    Publishes the joint states for the robot, controlled by the 'use_jsp'.
+
+joint_state_publisher_gui_node : Node
+    Provides a GUI for manipulating joint states, launched based on the
+    'use_jsp' argument.
+
+rviz_node : Node
+    Launches RViz to visualize the robot model and its state in rviz.
+
+turtle_robot_node : Node
+    Manages the turtle robot's movement, pose, and other configurations.
+
+arena_node : Node
+    Sets up the arena in which the robot operates within RViz.
+
+catcher_node : Node
+    Controls the robot's catching mechanism, attempting to catch objects.
+
+turtle_sim : Node
+    Starts the `turtlesim` simulation node for visualizing the turtle.
+
+Returns
+-------
+LaunchDescription
+    A description of the nodes, and launch arguments defined for the
+    turtle_brick package, allowing for launch with adjustable configuration.
+"""
+
 import os
 
 import launch
