@@ -1,6 +1,20 @@
-import math
+"""Physics simulation for a falling brick in a 3D environment.
 
-from geometry_msgs.msg import Point
+This module defines the World class, which tracks the position and movement
+of a brick within a simulated environment under gravity. The class provides
+methods to handle brick dropping, sticking to a platform, and calculating
+distances from a platform center. The simulation includes tilt effects, and
+parameters like gravity and timestep for realistic motion.
+
+Classes:
+- World: Manages the physics of a brick in the 3D environment.
+
+Authors:
+- Asa Rogers
+- Date: 2024-10-30
+"""
+
+import math
 
 
 class World:
@@ -44,25 +58,24 @@ class World:
         self.location = location
 
     def drop(self):
-        """Update the brick's location by having it fall in gravity for one
-        timestep."""
-
+        """Update the brick's location by it fall in gravity for 1 timestep."""
         self.velocity += -self.gravity * self.dt
 
-        # ---------------------------- begin_citation ----------------------------- #
+        # ---------------------------- begin_citation ----------------------- #
         x, y, z = self.location
-        # ---------------------------- begin_citation ----------------------------- #
+        # ---------------------------- begin_citation ------------------------#
 
         x_new = x + (1 / 2) * self.gravity * self.dt**2 * math.sin(
             self.tiltAngle
         ) * math.cos(self.tiltAngle)
-        y_new = y - (1 / 2) * self.gravity * self.dt**2 * math.sin(self.tiltAngle) ** 2
+        gravityDiff = (1 / 2) * self.gravity * self.dt**2
+        y_new = y - gravityDiff * math.sin(self.tiltAngle) ** 2
 
-        # ---------------------------- begin_citation ----------------------------- #
-        new_z = z + self.velocity * self.dt  # Subtract distance from the x-coordinate
+        # ---------------------------- begin_citation ----------------------- #
+        new_z = z + self.velocity * self.dt  # Update the z-coordinate
 
         self.location = (x_new, y_new, new_z)
-        # ---------------------------- begin_citation ----------------------------- #
+        # ---------------------------- begin_citation ----------------------- #
         return new_z > 0
 
     def stopGravity(self):
@@ -76,14 +89,11 @@ class World:
         Args:
             platform_x, platform_y, platform_z - platform's location
         """
-
         self.location = (platform_x, platform_y, platform_z)
         self.isOnPlatform = True
 
     def start_falling(self):
-        """Initiates falling by setting gravity and resetting horizontal
-        velocity."""
-
+        """Reset gravity and velocity."""
         self.horizontal_velocity = [0, 0]
         self.isOnPlatform = False
         self.gravity = 9.81
