@@ -1,15 +1,14 @@
-https://www.youtube.com/watch?v=dZ_CyyEvBE0
-https://www.youtube.com/watch?v=Eie-KoMQtxs
-https://chatgpt.com/share/671069fc-cee4-8009-b915-80b69bcf7934
+[1]"Create a URDF with ROS2 [1H Crash Course] - YouTube", Youtube, Available: https://youtube.com/watch?v=dZ_CyyEvBE0.
+[2]"Create URDF File and Model of Four-Wheeled Mobile Robot in ROS - ROS Robotics Tutorial - YouTube", Youtube, Available: https://youtube.com/watch?v=Eie-KoMQtxs.
+[3]"ChatGPT - ROS 2 Launch File Fix", Chatgpt, Available: https://chatgpt.com/share/671069fc-cee4-8009-b915-80b69bcf7934.
 https://subscription.packtpub.com/book/iot-and-hardware/9781783554713/5/ch05lvl1sec35/teleoperating-ros-turtle-using-a-keyboard
-https://www.youtube.com/watch?v=8U-cwv6db3U
-https://chatgpt.com/share/671aeef8-22a0-8009-bc54-40e2cd4088b0
-
-https://www.youtube.com/watch?v=WA3ynlo30vw
-https://chatgpt.com/share/671fddc8-271c-8009-9ff2-f222dbb492c3
-https://chatgpt.com/share/671ff391-9ce0-8009-811e-6cad7c456108
-https://www.canva.com/colors/color-meanings/brown/
-https://chatgpt.com/share/67205f30-ac60-8009-a012-10063233261c
-https://chatgpt.com/share/672068f3-2624-8009-9dd5-2f5ee1cb4d20
-https://chatgpt.com/share/67217a1c-6c90-8009-be9d-0a343a95d201
-https://chatgpt.com/share/6721bb31-5ba0-8009-b305-23f3a7695085
+[4]"[ROS in 5 mins] 057 - How to publish the position of a robot using TransformBroadcaster in python - YouTube", Youtube, Available: https://youtube.com/watch?v=8U-cwv6db3U.
+[5]"ChatGPT - RViz2 Markers with Python", Chatgpt, Available: https://chatgpt.com/share/671aeef8-22a0-8009-bc54-40e2cd4088b0.
+[6]"ROS2 RViz Part-01 Tutorials: Customize RViz2 Learn to utilize RViz visualization tools. - YouTube", Youtube, Available: https://youtube.com/watch?v=WA3ynlo30vw.
+[7]"ChatGPT - Brick Drop Location Update", Chatgpt, Available: https://chatgpt.com/share/671fddc8-271c-8009-9ff2-f222dbb492c3.
+[8]"ChatGPT - Expand RViz Grid Settings", Chatgpt, Available: https://chatgpt.com/share/671ff391-9ce0-8009-811e-6cad7c456108.
+[9]"Canva", Canva, Available: https://canva.com/colors/color-meanings/brown/.
+[10]"ChatGPT - Get YAML Values Python", Chatgpt, Available: https://chatgpt.com/share/67205f30-ac60-8009-a012-10063233261c.
+[11]"ChatGPT - Turtle Robot Node Setup", Chatgpt, Available: https://chatgpt.com/share/672068f3-2624-8009-9dd5-2f5ee1cb4d20.
+[12]"ChatGPT - Time to Drop Object", Chatgpt, Available: https://chatgpt.com/share/67217a1c-6c90-8009-be9d-0a343a95d201.
+[13]"ChatGPT - Sticking to Platform Implementation", Chatgpt, Available: https://chatgpt.com/share/6721bb31-5ba0-8009-b305-23f3a7695085.
