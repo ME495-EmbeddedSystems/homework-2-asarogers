@@ -121,8 +121,6 @@ Visualization Manager:
           Value: false
         wheel:
           Value: true
-        wheel_joint:
-          Value: false
         world:
           Value: false
       Marker Scale: 1
@@ -140,8 +138,7 @@ Visualization Manager:
                 platform:
                   {}
               wheel:
-                wheel_joint:
-                  {}
+                {}
       Update Interval: 0
       Value: true
     - Class: rviz_default_plugins/Marker
@@ -174,7 +171,7 @@ Visualization Manager:
       Enabled: true
       Name: Marker3
       Namespaces:
-        {}
+        brick: true
       Topic:
         Depth: 5
         Durability Policy: Volatile
@@ -182,6 +179,19 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /visualization_marker3
+      Value: true
+    - Class: rviz_default_plugins/Marker
+      Enabled: true
+      Name: Marker
+      Namespaces:
+        {}
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /text_marker
       Value: true
   Enabled: true
   Global Options:
@@ -265,5 +275,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1200
-  X: 2201
-  Y: 207
+  X: 208
+  Y: 39

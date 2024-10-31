@@ -17,9 +17,6 @@ import rclpy
 from rclpy.node import Node
 from rclpy.qos import QoSDurabilityPolicy, QoSProfile
 
-
-import yaml
-
 from turtle_brick_interfaces.msg import (
     BrickDropped,
     BrickLocation,
@@ -27,6 +24,10 @@ from turtle_brick_interfaces.msg import (
     TurtleLocation,
 )
 from turtle_brick_interfaces.srv import ProvideGoalPose, StopGravity
+
+from visualization_msgs.msg import Marker
+
+import yaml
 
 
 class Catcher(Node):
@@ -92,6 +93,7 @@ class Catcher(Node):
         self.goalPublisher = self.create_publisher(
             PoseStamped, '/goal_pose', qos_profile
         )
+        self.text_marker_pub = self.create_publisher(Marker, 'text_marker', 10)
 
     def canCatch(self):
         """Determine if the robot can catch the brick in time.
@@ -183,9 +185,44 @@ class Catcher(Node):
             Message indicating the brick has been dropped.
         """
         self.canReach = self.canCatch()
-        self.sendGoalPose(
-            self.brickLocation.x, self.brickLocation.y, self.brickLocation.z
-        )
+
+        if self.canReach is True:
+            self.sendGoalPose(
+                self.brickLocation.x,
+                self.brickLocation.y,
+                self.brickLocation.z
+            )
+        else:
+            self.publish_unreachable_text_marker(Point(x=5.0, y=5.0, z=5.0))
+
+    def publish_unreachable_text_marker(self, position: Point):
+        """Publish the 'Unreachable' with a 3-second duration.
+
+        Parameters
+        ----------
+        position : Point
+            The position in the world where the text should be displayed.
+        """
+        text_marker = Marker()
+        text_marker.header.frame_id = 'world'  # Set appropriate frame
+        text_marker.header.stamp = self.get_clock().now().to_msg()
+        text_marker.ns = 'unreachable_text'
+        text_marker.id = 0
+        text_marker.type = Marker.TEXT_VIEW_FACING
+        text_marker.action = Marker.ADD
+        text_marker.pose.position = position
+        text_marker.pose.orientation.w = 1.0
+
+        # Text and appearance
+        text_marker.text = 'Unreachable'
+        text_marker.scale.z = 0.5  # Adjust text size as needed
+        text_marker.color.r = 1.0
+        text_marker.color.g = 0.0
+        text_marker.color.b = 0.0
+        text_marker.color.a = 1.0
+        text_marker.lifetime = rclpy.duration.Duration(seconds=3).to_msg()
+        # Publish the text marker
+        self.text_marker_pub.publish(text_marker)
 
     def checkTolerance(self, value1, value2, tolerance):
         """Check if two values are within a specified tolerance.
