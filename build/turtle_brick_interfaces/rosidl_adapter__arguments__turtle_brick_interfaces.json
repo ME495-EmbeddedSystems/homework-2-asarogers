@@ -1,0 +1,12 @@
+{
+  "package_name": "turtle_brick_interfaces",
+  "non_idl_tuples": [
+    "/home/asaace00/repo/me495/hw2/src/homework2/turtle_brick_interfaces:srv/ProvideGoalPose.srv",
+    "/home/asaace00/repo/me495/hw2/src/homework2/turtle_brick_interfaces:srv/Place.srv",
+    "/home/asaace00/repo/me495/hw2/src/homework2/turtle_brick_interfaces:srv/StopGravity.srv",
+    "/home/asaace00/repo/me495/hw2/src/homework2/turtle_brick_interfaces:msg/Tilt.msg",
+    "/home/asaace00/repo/me495/hw2/src/homework2/turtle_brick_interfaces:msg/TurtleLocation.msg",
+    "/home/asaace00/repo/me495/hw2/src/homework2/turtle_brick_interfaces:msg/BrickLocation.msg",
+    "/home/asaace00/repo/me495/hw2/src/homework2/turtle_brick_interfaces:msg/BrickDropped.msg"
+  ]
+}

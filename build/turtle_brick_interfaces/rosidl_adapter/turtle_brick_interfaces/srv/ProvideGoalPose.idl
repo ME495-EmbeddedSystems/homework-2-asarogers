@@ -1,0 +1,16 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from turtle_brick_interfaces/srv/ProvideGoalPose.srv
+// generated code does not contain a copyright notice
+
+#include "geometry_msgs/msg/PoseStamped.idl"
+
+module turtle_brick_interfaces {
+  module srv {
+    struct ProvideGoalPose_Request {
+      geometry_msgs::msg::PoseStamped goal_pose;
+    };
+    struct ProvideGoalPose_Response {
+      boolean success;
+    };
+  };
+};

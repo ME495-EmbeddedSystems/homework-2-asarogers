@@ -1,0 +1,455 @@
+[0.010s] Invoking command in '/home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/asaace00/repo/me495/hw2/install/turtle_brick:/home/asaace00/repo/homework1/install/turtle_control:/home/asaace00/repo/homework1/install/crazy_turtle:/opt/ros/jazzy /usr/bin/cmake /home/asaace00/repo/me495/hw2/src/homework2/turtle_brick_interfaces -DCMAKE_INSTALL_PREFIX=/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces
+[0.081s] -- The C compiler identification is GNU 13.2.0
+[0.146s] -- The CXX compiler identification is GNU 13.2.0
+[0.167s] -- Detecting C compiler ABI info
+[0.281s] -- Detecting C compiler ABI info - done
+[0.293s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.293s] -- Detecting C compile features
+[0.293s] -- Detecting C compile features - done
+[0.306s] -- Detecting CXX compiler ABI info
+[0.492s] -- Detecting CXX compiler ABI info - done
+[0.507s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.507s] -- Detecting CXX compile features
+[0.508s] -- Detecting CXX compile features - done
+[0.511s] -- Found ament_cmake: 2.5.2 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.687s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[0.786s] -- Found rosidl_default_generators: 1.6.0 (/opt/ros/jazzy/share/rosidl_default_generators/cmake)
+[0.792s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.851s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.905s] -- Found rosidl_adapter: 4.6.4 (/opt/ros/jazzy/share/rosidl_adapter/cmake)
+[0.911s] -- Found geometry_msgs: 5.3.5 (/opt/ros/jazzy/share/geometry_msgs/cmake)
+[2.017s] -- Found ament_cmake_ros: 0.12.0 (/opt/ros/jazzy/share/ament_cmake_ros/cmake)
+[2.555s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[3.279s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[3.284s] -- Found python_cmake_module: 0.11.1 (/opt/ros/jazzy/share/python_cmake_module/cmake)
+[3.453s] -- Found PythonExtra: /usr/bin/python3  
+[3.904s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter Development NumPy Development.Module Development.Embed 
+[3.990s] -- Found ament_lint_auto: 0.17.1 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+[4.005s] -- Added test 'lint_cmake' to check CMake code style
+[4.006s] -- Added test 'xmllint' to check XML markup files
+[4.008s] -- Configuring done (4.0s)
+[4.060s] -- Generating done (0.0s)
+[4.062s] -- Build files have been written to: /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick_interfaces
+[4.072s] Invoked command in '/home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/asaace00/repo/me495/hw2/install/turtle_brick:/home/asaace00/repo/homework1/install/turtle_control:/home/asaace00/repo/homework1/install/crazy_turtle:/opt/ros/jazzy /usr/bin/cmake /home/asaace00/repo/me495/hw2/src/homework2/turtle_brick_interfaces -DCMAKE_INSTALL_PREFIX=/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces
+[4.074s] Invoking command in '/home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/asaace00/repo/me495/hw2/install/turtle_brick:/home/asaace00/repo/homework1/install/turtle_control:/home/asaace00/repo/homework1/install/crazy_turtle:/opt/ros/jazzy /usr/bin/cmake --build /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick_interfaces -- -j32 -l32
+[4.140s] [  1%] [34m[1mGenerating type hashes for ROS interfaces[0m
+[4.151s] [  1%] Built target ament_cmake_python_copy_turtle_brick_interfaces
+[4.396s] [  1%] Built target turtle_brick_interfaces__rosidl_generator_type_description
+[4.411s] [  2%] [34m[1mGenerating C code for ROS interfaces[0m
+[4.412s] running egg_info
+[4.413s] creating turtle_brick_interfaces.egg-info
+[4.422s] [  3%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[4.451s] writing turtle_brick_interfaces.egg-info/PKG-INFO
+[4.451s] writing dependency_links to turtle_brick_interfaces.egg-info/dependency_links.txt
+[4.451s] writing top-level names to turtle_brick_interfaces.egg-info/top_level.txt
+[4.452s] writing manifest file 'turtle_brick_interfaces.egg-info/SOURCES.txt'
+[4.537s] reading manifest file 'turtle_brick_interfaces.egg-info/SOURCES.txt'
+[4.538s] writing manifest file 'turtle_brick_interfaces.egg-info/SOURCES.txt'
+[4.575s] [  3%] Built target ament_cmake_python_build_turtle_brick_interfaces_egg
+[4.999s] [  3%] Built target turtle_brick_interfaces__cpp
+[5.177s] [  4%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/srv/detail/provide_goal_pose__type_support.c.o[0m
+[5.183s] [  6%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/srv/detail/provide_goal_pose__description.c.o[0m
+[5.184s] [  6%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/srv/detail/provide_goal_pose__functions.c.o[0m
+[5.186s] [  7%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/msg/detail/tilt__description.c.o[0m
+[5.188s] [  8%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/srv/detail/place__description.c.o[0m
+[5.188s] [ 10%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/msg/detail/tilt__functions.c.o[0m
+[5.189s] [ 10%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/srv/detail/place__type_support.c.o[0m
+[5.189s] [ 11%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/srv/detail/place__functions.c.o[0m
+[5.190s] [ 12%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/msg/detail/tilt__type_support.c.o[0m
+[5.190s] [ 13%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/srv/detail/stop_gravity__functions.c.o[0m
+[5.191s] [ 14%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/msg/detail/turtle_location__description.c.o[0m
+[5.191s] [ 15%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/srv/detail/stop_gravity__description.c.o[0m
+[5.192s] [ 17%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/msg/detail/turtle_location__functions.c.o[0m
+[5.193s] [ 18%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/srv/detail/stop_gravity__type_support.c.o[0m
+[5.194s] [ 19%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/msg/detail/brick_location__description.c.o[0m
+[5.202s] [ 20%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/msg/detail/turtle_location__type_support.c.o[0m
+[5.205s] [ 22%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/msg/detail/brick_location__functions.c.o[0m
+[5.205s] [ 21%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/msg/detail/brick_location__type_support.c.o[0m
+[5.206s] [ 23%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/msg/detail/brick_dropped__description.c.o[0m
+[5.209s] [ 24%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/msg/detail/brick_dropped__functions.c.o[0m
+[5.211s] [ 25%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_c.dir/rosidl_generator_c/turtle_brick_interfaces/msg/detail/brick_dropped__type_support.c.o[0m
+[5.429s] [ 26%] [32m[1mLinking C shared library libturtle_brick_interfaces__rosidl_generator_c.so[0m
+[5.480s] [ 26%] Built target turtle_brick_interfaces__rosidl_generator_c
+[5.497s] [ 27%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[5.498s] [ 28%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[5.498s] [ 30%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[5.498s] [ 30%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[5.499s] [ 31%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[5.499s] [ 32%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[6.120s] [ 34%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/turtle_brick_interfaces/srv/provide_goal_pose__type_support.cpp.o[0m
+[6.123s] [ 35%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/turtle_brick_interfaces/srv/place__type_support.cpp.o[0m
+[6.125s] [ 37%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/turtle_brick_interfaces/srv/place__type_support.cpp.o[0m
+[6.125s] [ 38%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/turtle_brick_interfaces/srv/stop_gravity__type_support.cpp.o[0m
+[6.125s] [ 38%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/turtle_brick_interfaces/msg/tilt__type_support.cpp.o[0m
+[6.126s] [ 41%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/turtle_brick_interfaces/msg/brick_location__type_support.cpp.o[0m
+[6.127s] [ 41%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/turtle_brick_interfaces/srv/stop_gravity__type_support.cpp.o[0m
+[6.128s] [ 41%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/turtle_brick_interfaces/msg/turtle_location__type_support.cpp.o[0m
+[6.128s] [ 42%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/turtle_brick_interfaces/msg/turtle_location__type_support.cpp.o[0m
+[6.130s] [ 43%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/turtle_brick_interfaces/msg/brick_dropped__type_support.cpp.o[0m
+[6.131s] [ 44%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/turtle_brick_interfaces/srv/provide_goal_pose__type_support.cpp.o[0m
+[6.136s] [ 45%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/turtle_brick_interfaces/msg/brick_location__type_support.cpp.o[0m
+[6.137s] [ 46%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/turtle_brick_interfaces/msg/tilt__type_support.cpp.o[0m
+[6.140s] [ 47%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/turtle_brick_interfaces/msg/brick_dropped__type_support.cpp.o[0m
+[6.385s] [ 48%] [32m[1mLinking CXX shared library libturtle_brick_interfaces__rosidl_typesupport_c.so[0m
+[6.390s] [ 50%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/turtle_brick_interfaces/srv/detail/provide_goal_pose__type_support.cpp.o[0m
+[6.391s] [ 52%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/turtle_brick_interfaces/msg/detail/brick_location__type_support.cpp.o[0m
+[6.392s] [ 52%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/turtle_brick_interfaces/srv/detail/place__type_support.cpp.o[0m
+[6.392s] [ 54%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/turtle_brick_interfaces/msg/detail/turtle_location__type_support.cpp.o[0m
+[6.393s] [ 54%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/turtle_brick_interfaces/srv/detail/stop_gravity__type_support.cpp.o[0m
+[6.394s] [ 55%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/turtle_brick_interfaces/msg/detail/tilt__type_support.cpp.o[0m
+[6.395s] [ 56%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/turtle_brick_interfaces/msg/detail/brick_dropped__type_support.cpp.o[0m
+[6.476s] [ 57%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/turtle_brick_interfaces/srv/detail/place__type_support.c.o[0m
+[6.478s] [ 58%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/turtle_brick_interfaces/msg/detail/brick_location__type_support.c.o[0m
+[6.481s] [ 59%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/turtle_brick_interfaces/srv/detail/provide_goal_pose__type_support.c.o[0m
+[6.483s] [ 60%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/turtle_brick_interfaces/srv/detail/stop_gravity__type_support.c.o[0m
+[6.484s] [ 61%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/turtle_brick_interfaces/msg/detail/tilt__type_support.c.o[0m
+[6.486s] [ 62%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/turtle_brick_interfaces/msg/detail/turtle_location__type_support.c.o[0m
+[6.488s] [ 63%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/turtle_brick_interfaces/msg/detail/brick_dropped__type_support.c.o[0m
+[6.567s] [ 63%] Built target turtle_brick_interfaces__rosidl_typesupport_c
+[6.736s] [ 64%] [32m[1mLinking C shared library libturtle_brick_interfaces__rosidl_typesupport_introspection_c.so[0m
+[6.881s] [ 64%] Built target turtle_brick_interfaces__rosidl_typesupport_introspection_c
+[6.967s] [ 65%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/turtle_brick_interfaces/srv/detail/dds_fastrtps/stop_gravity__type_support.cpp.o[0m
+[6.969s] [ 68%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/turtle_brick_interfaces/srv/detail/dds_fastrtps/provide_goal_pose__type_support.cpp.o[0m
+[6.970s] [ 68%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/turtle_brick_interfaces/msg/detail/dds_fastrtps/tilt__type_support.cpp.o[0m
+[6.971s] [ 69%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/turtle_brick_interfaces/srv/detail/dds_fastrtps/place__type_support.cpp.o[0m
+[6.974s] [ 70%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/turtle_brick_interfaces/msg/detail/dds_fastrtps/brick_location__type_support.cpp.o[0m
+[6.977s] [ 71%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/turtle_brick_interfaces/msg/detail/dds_fastrtps/turtle_location__type_support.cpp.o[0m
+[6.978s] [ 72%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/turtle_brick_interfaces/msg/detail/dds_fastrtps/brick_dropped__type_support.cpp.o[0m
+[7.605s] [ 73%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/turtle_brick_interfaces/srv/detail/stop_gravity__type_support_c.cpp.o[0m
+[7.613s] [ 74%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/turtle_brick_interfaces/msg/detail/tilt__type_support_c.cpp.o[0m
+[7.614s] [ 75%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/turtle_brick_interfaces/srv/detail/provide_goal_pose__type_support_c.cpp.o[0m
+[7.615s] [ 76%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/turtle_brick_interfaces/srv/detail/place__type_support_c.cpp.o[0m
+[7.618s] [ 77%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/turtle_brick_interfaces/msg/detail/turtle_location__type_support_c.cpp.o[0m
+[7.619s] [ 78%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/turtle_brick_interfaces/msg/detail/brick_location__type_support_c.cpp.o[0m
+[7.619s] [ 79%] [32mBuilding CXX object CMakeFiles/turtle_brick_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/turtle_brick_interfaces/msg/detail/brick_dropped__type_support_c.cpp.o[0m
+[8.743s] [ 80%] [32m[1mLinking CXX shared library libturtle_brick_interfaces__rosidl_typesupport_cpp.so[0m
+[9.197s] [ 80%] Built target turtle_brick_interfaces__rosidl_typesupport_cpp
+[9.350s] [ 81%] [32m[1mLinking CXX shared library libturtle_brick_interfaces__rosidl_typesupport_introspection_cpp.so[0m
+[9.658s] [ 81%] Built target turtle_brick_interfaces__rosidl_typesupport_introspection_cpp
+[10.061s] [ 82%] [32m[1mLinking CXX shared library libturtle_brick_interfaces__rosidl_typesupport_fastrtps_c.so[0m
+[10.105s] [ 84%] [32m[1mLinking CXX shared library libturtle_brick_interfaces__rosidl_typesupport_fastrtps_cpp.so[0m
+[10.141s] [ 84%] Built target turtle_brick_interfaces__rosidl_typesupport_fastrtps_c
+[10.186s] [ 84%] Built target turtle_brick_interfaces__rosidl_typesupport_fastrtps_cpp
+[10.212s] [ 84%] Built target turtle_brick_interfaces
+[10.238s] [ 85%] [34m[1mGenerating Python code for ROS interfaces[0m
+[10.889s] [ 85%] Built target turtle_brick_interfaces__py
+[10.926s] [ 86%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_py.dir/rosidl_generator_py/turtle_brick_interfaces/srv/_place_s.c.o[0m
+[10.927s] [ 87%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_py.dir/rosidl_generator_py/turtle_brick_interfaces/msg/_brick_location_s.c.o[0m
+[10.928s] [ 88%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_py.dir/rosidl_generator_py/turtle_brick_interfaces/srv/_provide_goal_pose_s.c.o[0m
+[10.928s] [ 89%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_py.dir/rosidl_generator_py/turtle_brick_interfaces/srv/_stop_gravity_s.c.o[0m
+[10.928s] [ 90%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_py.dir/rosidl_generator_py/turtle_brick_interfaces/msg/_turtle_location_s.c.o[0m
+[10.929s] [ 91%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_py.dir/rosidl_generator_py/turtle_brick_interfaces/msg/_tilt_s.c.o[0m
+[10.931s] [ 92%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces__rosidl_generator_py.dir/rosidl_generator_py/turtle_brick_interfaces/msg/_brick_dropped_s.c.o[0m
+[11.213s] [ 93%] [32m[1mLinking C shared library libturtle_brick_interfaces__rosidl_generator_py.so[0m
+[11.265s] [ 93%] Built target turtle_brick_interfaces__rosidl_generator_py
+[11.300s] [ 94%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces_s__rosidl_typesupport_introspection_c.dir/rosidl_generator_py/turtle_brick_interfaces/_turtle_brick_interfaces_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[11.300s] [ 95%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces_s__rosidl_typesupport_c.dir/rosidl_generator_py/turtle_brick_interfaces/_turtle_brick_interfaces_s.ep.rosidl_typesupport_c.c.o[0m
+[11.301s] [ 96%] [32mBuilding C object CMakeFiles/turtle_brick_interfaces_s__rosidl_typesupport_fastrtps_c.dir/rosidl_generator_py/turtle_brick_interfaces/_turtle_brick_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[11.474s] [ 97%] [32m[1mLinking C shared module rosidl_generator_py/turtle_brick_interfaces/turtle_brick_interfaces_s__rosidl_typesupport_introspection_c.so[0m
+[11.474s] [ 98%] [32m[1mLinking C shared module rosidl_generator_py/turtle_brick_interfaces/turtle_brick_interfaces_s__rosidl_typesupport_c.so[0m
+[11.477s] [100%] [32m[1mLinking C shared module rosidl_generator_py/turtle_brick_interfaces/turtle_brick_interfaces_s__rosidl_typesupport_fastrtps_c.so[0m
+[11.520s] [100%] Built target turtle_brick_interfaces_s__rosidl_typesupport_fastrtps_c
+[11.524s] [100%] Built target turtle_brick_interfaces_s__rosidl_typesupport_c
+[11.526s] [100%] Built target turtle_brick_interfaces_s__rosidl_typesupport_introspection_c
+[11.546s] Invoked command in '/home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/asaace00/repo/me495/hw2/install/turtle_brick:/home/asaace00/repo/homework1/install/turtle_control:/home/asaace00/repo/homework1/install/crazy_turtle:/opt/ros/jazzy /usr/bin/cmake --build /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick_interfaces -- -j32 -l32
+[11.856s] Invoking command in '/home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/asaace00/repo/me495/hw2/install/turtle_brick:/home/asaace00/repo/homework1/install/turtle_control:/home/asaace00/repo/homework1/install/crazy_turtle:/opt/ros/jazzy /usr/bin/cmake --install /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick_interfaces
+[11.866s] -- Install configuration: ""
+[11.866s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/ament_index/resource_index/rosidl_interfaces/turtle_brick_interfaces
+[11.866s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/srv/ProvideGoalPose.json
+[11.866s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/srv/Place.json
+[11.866s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/srv/StopGravity.json
+[11.867s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/msg/Tilt.json
+[11.867s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/msg/TurtleLocation.json
+[11.867s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/msg/BrickLocation.json
+[11.867s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/msg/BrickDropped.json
+[11.867s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces
+[11.868s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv
+[11.868s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/provide_goal_pose.h
+[11.868s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/place.h
+[11.868s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/stop_gravity.h
+[11.868s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail
+[11.868s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/stop_gravity__functions.h
+[11.868s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/place__description.c
+[11.868s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/provide_goal_pose__functions.h
+[11.868s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/provide_goal_pose__struct.h
+[11.869s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/provide_goal_pose__type_support.c
+[11.869s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/provide_goal_pose__type_support.h
+[11.869s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/stop_gravity__description.c
+[11.869s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/provide_goal_pose__functions.c
+[11.869s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/place__struct.h
+[11.869s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/stop_gravity__type_support.c
+[11.869s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/place__type_support.h
+[11.869s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/stop_gravity__struct.h
+[11.870s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/place__functions.h
+[11.870s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/place__functions.c
+[11.870s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/stop_gravity__functions.c
+[11.870s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/stop_gravity__type_support.h
+[11.871s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/place__type_support.c
+[11.871s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/provide_goal_pose__description.c
+[11.871s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg
+[11.871s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/brick_location.h
+[11.871s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/rosidl_generator_c__visibility_control.h
+[11.871s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/turtle_location.h
+[11.871s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/brick_dropped.h
+[11.871s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/tilt.h
+[11.871s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail
+[11.872s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_dropped__type_support.c
+[11.872s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_location__functions.h
+[11.872s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/turtle_location__functions.h
+[11.872s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/turtle_location__functions.c
+[11.872s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_dropped__functions.c
+[11.872s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_location__type_support.c
+[11.872s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_location__struct.h
+[11.872s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/turtle_location__struct.h
+[11.873s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/tilt__description.c
+[11.873s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/turtle_location__type_support.c
+[11.873s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_dropped__struct.h
+[11.873s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/tilt__type_support.c
+[11.873s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/tilt__type_support.h
+[11.874s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/turtle_location__type_support.h
+[11.874s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/tilt__struct.h
+[11.874s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_location__description.c
+[11.874s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_dropped__type_support.h
+[11.874s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/tilt__functions.h
+[11.874s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/turtle_location__description.c
+[11.874s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_location__functions.c
+[11.874s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_location__type_support.h
+[11.874s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_dropped__functions.h
+[11.875s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_dropped__description.c
+[11.875s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/tilt__functions.c
+[11.875s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/environment/library_path.sh
+[11.875s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/environment/library_path.dsv
+[11.875s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/libturtle_brick_interfaces__rosidl_generator_c.so
+[11.875s] -- Set non-toolchain portion of runtime path of "/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/libturtle_brick_interfaces__rosidl_generator_c.so" to ""
+[11.875s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces
+[11.875s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv
+[11.875s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail
+[11.875s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/stop_gravity__rosidl_typesupport_fastrtps_c.h
+[11.875s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/place__rosidl_typesupport_fastrtps_c.h
+[11.876s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/provide_goal_pose__rosidl_typesupport_fastrtps_c.h
+[11.876s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg
+[11.876s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[11.876s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail
+[11.876s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_location__rosidl_typesupport_fastrtps_c.h
+[11.876s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/tilt__rosidl_typesupport_fastrtps_c.h
+[11.876s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/turtle_location__rosidl_typesupport_fastrtps_c.h
+[11.876s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_dropped__rosidl_typesupport_fastrtps_c.h
+[11.876s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/libturtle_brick_interfaces__rosidl_typesupport_fastrtps_c.so
+[11.877s] -- Set non-toolchain portion of runtime path of "/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/libturtle_brick_interfaces__rosidl_typesupport_fastrtps_c.so" to ""
+[11.877s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces
+[11.877s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv
+[11.877s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail
+[11.877s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/provide_goal_pose__type_support.c
+[11.877s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/place__rosidl_typesupport_introspection_c.h
+[11.877s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/stop_gravity__rosidl_typesupport_introspection_c.h
+[11.878s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/stop_gravity__type_support.c
+[11.878s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/place__type_support.c
+[11.878s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/provide_goal_pose__rosidl_typesupport_introspection_c.h
+[11.878s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg
+[11.878s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[11.879s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail
+[11.879s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_dropped__type_support.c
+[11.879s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_location__rosidl_typesupport_introspection_c.h
+[11.879s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_dropped__rosidl_typesupport_introspection_c.h
+[11.879s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_location__type_support.c
+[11.879s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/turtle_location__rosidl_typesupport_introspection_c.h
+[11.880s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/tilt__rosidl_typesupport_introspection_c.h
+[11.880s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/turtle_location__type_support.c
+[11.880s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/tilt__type_support.c
+[11.880s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/libturtle_brick_interfaces__rosidl_typesupport_introspection_c.so
+[11.880s] -- Set non-toolchain portion of runtime path of "/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/libturtle_brick_interfaces__rosidl_typesupport_introspection_c.so" to ""
+[11.880s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/libturtle_brick_interfaces__rosidl_typesupport_c.so
+[11.880s] -- Set non-toolchain portion of runtime path of "/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/libturtle_brick_interfaces__rosidl_typesupport_c.so" to ""
+[11.881s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces
+[11.881s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv
+[11.881s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/provide_goal_pose.hpp
+[11.881s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/stop_gravity.hpp
+[11.881s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/place.hpp
+[11.881s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail
+[11.881s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/stop_gravity__builder.hpp
+[11.881s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/provide_goal_pose__type_support.hpp
+[11.882s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/place__traits.hpp
+[11.882s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/stop_gravity__traits.hpp
+[11.882s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/place__struct.hpp
+[11.882s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/place__type_support.hpp
+[11.882s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/provide_goal_pose__struct.hpp
+[11.882s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/stop_gravity__struct.hpp
+[11.882s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/provide_goal_pose__traits.hpp
+[11.882s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/stop_gravity__type_support.hpp
+[11.882s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/place__builder.hpp
+[11.882s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/provide_goal_pose__builder.hpp
+[11.883s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg
+[11.883s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/brick_dropped.hpp
+[11.883s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/tilt.hpp
+[11.883s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/turtle_location.hpp
+[11.883s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp
+[11.883s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/brick_location.hpp
+[11.883s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail
+[11.883s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_dropped__type_support.hpp
+[11.884s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_dropped__builder.hpp
+[11.884s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/tilt__struct.hpp
+[11.884s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/turtle_location__type_support.hpp
+[11.884s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_location__builder.hpp
+[11.884s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_dropped__traits.hpp
+[11.884s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/tilt__type_support.hpp
+[11.884s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_location__type_support.hpp
+[11.884s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/turtle_location__traits.hpp
+[11.885s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_location__traits.hpp
+[11.885s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_location__struct.hpp
+[11.885s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/tilt__traits.hpp
+[11.885s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_dropped__struct.hpp
+[11.885s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/turtle_location__builder.hpp
+[11.885s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/tilt__builder.hpp
+[11.885s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/turtle_location__struct.hpp
+[11.885s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces
+[11.885s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv
+[11.885s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail
+[11.886s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/stop_gravity__rosidl_typesupport_fastrtps_cpp.hpp
+[11.886s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/provide_goal_pose__rosidl_typesupport_fastrtps_cpp.hpp
+[11.886s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/place__rosidl_typesupport_fastrtps_cpp.hpp
+[11.886s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/dds_fastrtps
+[11.886s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg
+[11.887s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[11.887s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail
+[11.887s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/tilt__rosidl_typesupport_fastrtps_cpp.hpp
+[11.887s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_location__rosidl_typesupport_fastrtps_cpp.hpp
+[11.887s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_dropped__rosidl_typesupport_fastrtps_cpp.hpp
+[11.887s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/dds_fastrtps
+[11.888s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/turtle_location__rosidl_typesupport_fastrtps_cpp.hpp
+[11.888s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/libturtle_brick_interfaces__rosidl_typesupport_fastrtps_cpp.so
+[11.888s] -- Set non-toolchain portion of runtime path of "/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/libturtle_brick_interfaces__rosidl_typesupport_fastrtps_cpp.so" to ""
+[11.888s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces
+[11.888s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv
+[11.888s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail
+[11.889s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/provide_goal_pose__rosidl_typesupport_introspection_cpp.hpp
+[11.889s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/place__rosidl_typesupport_introspection_cpp.hpp
+[11.889s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/provide_goal_pose__type_support.cpp
+[11.889s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/place__type_support.cpp
+[11.889s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/stop_gravity__rosidl_typesupport_introspection_cpp.hpp
+[11.889s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/srv/detail/stop_gravity__type_support.cpp
+[11.889s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg
+[11.890s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail
+[11.890s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_dropped__rosidl_typesupport_introspection_cpp.hpp
+[11.890s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/turtle_location__type_support.cpp
+[11.890s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_location__type_support.cpp
+[11.890s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_dropped__type_support.cpp
+[11.890s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/tilt__type_support.cpp
+[11.890s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/brick_location__rosidl_typesupport_introspection_cpp.hpp
+[11.891s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/tilt__rosidl_typesupport_introspection_cpp.hpp
+[11.891s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/include/turtle_brick_interfaces/turtle_brick_interfaces/msg/detail/turtle_location__rosidl_typesupport_introspection_cpp.hpp
+[11.891s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/libturtle_brick_interfaces__rosidl_typesupport_introspection_cpp.so
+[11.891s] -- Set non-toolchain portion of runtime path of "/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/libturtle_brick_interfaces__rosidl_typesupport_introspection_cpp.so" to ""
+[11.891s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/libturtle_brick_interfaces__rosidl_typesupport_cpp.so
+[11.892s] -- Set non-toolchain portion of runtime path of "/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/libturtle_brick_interfaces__rosidl_typesupport_cpp.so" to ""
+[11.892s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/environment/pythonpath.sh
+[11.892s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/environment/pythonpath.dsv
+[11.892s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces-0.0.0-py3.12.egg-info
+[11.892s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces-0.0.0-py3.12.egg-info/dependency_links.txt
+[11.892s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces-0.0.0-py3.12.egg-info/top_level.txt
+[11.893s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces-0.0.0-py3.12.egg-info/SOURCES.txt
+[11.893s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces-0.0.0-py3.12.egg-info/PKG-INFO
+[11.893s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces
+[11.893s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/srv
+[11.893s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/srv/_place.py
+[11.893s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/srv/_stop_gravity.py
+[11.893s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/srv/_provide_goal_pose.py
+[11.893s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/srv/_place_s.c
+[11.894s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/srv/_provide_goal_pose_s.c
+[11.894s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/srv/__init__.py
+[11.894s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/srv/_stop_gravity_s.c
+[11.894s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/_turtle_brick_interfaces_s.ep.rosidl_typesupport_c.c
+[11.894s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/turtle_brick_interfaces_s__rosidl_typesupport_introspection_c.so
+[11.894s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/msg
+[11.894s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/msg/_brick_dropped.py
+[11.894s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/msg/_turtle_location_s.c
+[11.894s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/msg/_tilt_s.c
+[11.894s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/msg/_brick_dropped_s.c
+[11.895s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/msg/_brick_location.py
+[11.895s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/msg/_tilt.py
+[11.895s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/msg/_turtle_location.py
+[11.895s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/msg/__init__.py
+[11.895s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/msg/_brick_location_s.c
+[11.895s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/_turtle_brick_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+[11.895s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/turtle_brick_interfaces_s__rosidl_typesupport_fastrtps_c.so
+[11.895s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/_turtle_brick_interfaces_s.ep.rosidl_typesupport_introspection_c.c
+[11.895s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/turtle_brick_interfaces_s__rosidl_typesupport_c.so
+[11.895s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/__init__.py
+[11.944s] Listing '/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces'...
+[11.944s] Compiling '/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/__init__.py'...
+[11.944s] Listing '/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/msg'...
+[11.944s] Compiling '/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/msg/__init__.py'...
+[11.944s] Compiling '/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/msg/_brick_dropped.py'...
+[11.944s] Compiling '/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/msg/_brick_location.py'...
+[11.945s] Compiling '/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/msg/_tilt.py'...
+[11.945s] Compiling '/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/msg/_turtle_location.py'...
+[11.945s] Listing '/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/srv'...
+[11.945s] Compiling '/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/srv/__init__.py'...
+[11.945s] Compiling '/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/srv/_place.py'...
+[11.945s] Compiling '/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/srv/_provide_goal_pose.py'...
+[11.945s] Compiling '/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/srv/_stop_gravity.py'...
+[11.949s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/turtle_brick_interfaces_s__rosidl_typesupport_fastrtps_c.so
+[11.949s] -- Set non-toolchain portion of runtime path of "/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/turtle_brick_interfaces_s__rosidl_typesupport_fastrtps_c.so" to ""
+[11.950s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/turtle_brick_interfaces_s__rosidl_typesupport_introspection_c.so
+[11.950s] -- Set non-toolchain portion of runtime path of "/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/turtle_brick_interfaces_s__rosidl_typesupport_introspection_c.so" to ""
+[11.950s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/turtle_brick_interfaces_s__rosidl_typesupport_c.so
+[11.950s] -- Set non-toolchain portion of runtime path of "/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages/turtle_brick_interfaces/turtle_brick_interfaces_s__rosidl_typesupport_c.so" to ""
+[11.951s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/libturtle_brick_interfaces__rosidl_generator_py.so
+[11.951s] -- Set non-toolchain portion of runtime path of "/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/libturtle_brick_interfaces__rosidl_generator_py.so" to ""
+[11.951s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/srv/ProvideGoalPose.idl
+[11.951s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/srv/Place.idl
+[11.951s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/srv/StopGravity.idl
+[11.951s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/msg/Tilt.idl
+[11.951s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/msg/TurtleLocation.idl
+[11.952s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/msg/BrickLocation.idl
+[11.952s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/msg/BrickDropped.idl
+[11.952s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/srv/ProvideGoalPose.srv
+[11.952s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/srv/Place.srv
+[11.952s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/srv/StopGravity.srv
+[11.952s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/msg/Tilt.msg
+[11.952s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/msg/TurtleLocation.msg
+[11.952s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/msg/BrickLocation.msg
+[11.952s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/msg/BrickDropped.msg
+[11.952s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/srv
+[11.953s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/srv/ProvideGoalPose.srv
+[11.953s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/srv/Place.srv
+[11.953s] -- Up-to-date: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/srv/StopGravity.srv
+[11.953s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/ament_index/resource_index/package_run_dependencies/turtle_brick_interfaces
+[11.953s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/ament_index/resource_index/parent_prefix_path/turtle_brick_interfaces
+[11.953s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/environment/ament_prefix_path.sh
+[11.953s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/environment/ament_prefix_path.dsv
+[11.953s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/environment/path.sh
+[11.953s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/environment/path.dsv
+[11.953s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/local_setup.bash
+[11.953s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/local_setup.sh
+[11.953s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/local_setup.zsh
+[11.953s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/local_setup.dsv
+[11.954s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/package.dsv
+[11.954s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/ament_index/resource_index/packages/turtle_brick_interfaces
+[11.954s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/export_turtle_brick_interfaces__rosidl_generator_cExport.cmake
+[11.954s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/export_turtle_brick_interfaces__rosidl_generator_cExport-noconfig.cmake
+[11.954s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/export_turtle_brick_interfaces__rosidl_typesupport_fastrtps_cExport.cmake
+[11.954s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/export_turtle_brick_interfaces__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[11.954s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/turtle_brick_interfaces__rosidl_typesupport_introspection_cExport.cmake
+[11.954s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/turtle_brick_interfaces__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[11.954s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/turtle_brick_interfaces__rosidl_typesupport_cExport.cmake
+[11.955s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/turtle_brick_interfaces__rosidl_typesupport_cExport-noconfig.cmake
+[11.955s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/export_turtle_brick_interfaces__rosidl_generator_cppExport.cmake
+[11.955s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/export_turtle_brick_interfaces__rosidl_typesupport_fastrtps_cppExport.cmake
+[11.955s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/export_turtle_brick_interfaces__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[11.955s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/turtle_brick_interfaces__rosidl_typesupport_introspection_cppExport.cmake
+[11.955s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/turtle_brick_interfaces__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[11.955s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/turtle_brick_interfaces__rosidl_typesupport_cppExport.cmake
+[11.955s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/turtle_brick_interfaces__rosidl_typesupport_cppExport-noconfig.cmake
+[11.955s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/export_turtle_brick_interfaces__rosidl_generator_pyExport.cmake
+[11.956s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/export_turtle_brick_interfaces__rosidl_generator_pyExport-noconfig.cmake
+[11.956s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/rosidl_cmake-extras.cmake
+[11.956s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/ament_cmake_export_dependencies-extras.cmake
+[11.956s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/ament_cmake_export_include_directories-extras.cmake
+[11.956s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/ament_cmake_export_libraries-extras.cmake
+[11.956s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/ament_cmake_export_targets-extras.cmake
+[11.956s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[11.956s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[11.956s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/turtle_brick_interfacesConfig.cmake
+[11.957s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/cmake/turtle_brick_interfacesConfig-version.cmake
+[11.957s] -- Installing: /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/share/turtle_brick_interfaces/package.xml
+[11.959s] Invoked command in '/home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/asaace00/repo/me495/hw2/install/turtle_brick:/home/asaace00/repo/homework1/install/turtle_control:/home/asaace00/repo/homework1/install/crazy_turtle:/opt/ros/jazzy /usr/bin/cmake --install /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick_interfaces

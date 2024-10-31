@@ -1,0 +1,9 @@
+robot:
+  platform_height: 0.6
+  wheel_radius: 0.1
+  max_velocity: 1.75
+  gravity_accel: 9.81
+  turtle_accel: 1.05
+  platform_radius: 0.3
+  platform_tolerance: 0.05
+

@@ -1,0 +1,26 @@
+{
+  "type_description_msg": {
+    "type_description": {
+      "type_name": "turtle_brick_interfaces/srv/StopGravity_Response",
+      "fields": [
+        {
+          "name": "success",
+          "type": {
+            "type_id": 15,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": ""
+          },
+          "default_value": ""
+        }
+      ]
+    },
+    "referenced_type_descriptions": []
+  },
+  "type_hashes": [
+    {
+      "type_name": "turtle_brick_interfaces/srv/StopGravity_Response",
+      "hash_string": "RIHS01_4044aaedb354ab250e36be4c09fef745c4496efd7b2b7125108c6de71a973117"
+    }
+  ]
+}

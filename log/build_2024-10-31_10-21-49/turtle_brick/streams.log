@@ -1,0 +1,52 @@
+[1.276s] Invoking command in '/home/asaace00/repo/me495/hw2/src/homework2/turtle_brick': AMENT_PREFIX_PATH=/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/lib/python3.12/site-packages:/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../build/turtle_brick build --build-base /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/build install --record /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/install.log --single-version-externally-managed install_data
+[1.565s] running egg_info
+[1.565s] creating ../build/turtle_brick/turtle_brick.egg-info
+[1.588s] writing ../build/turtle_brick/turtle_brick.egg-info/PKG-INFO
+[1.588s] writing dependency_links to ../build/turtle_brick/turtle_brick.egg-info/dependency_links.txt
+[1.588s] writing entry points to ../build/turtle_brick/turtle_brick.egg-info/entry_points.txt
+[1.588s] writing requirements to ../build/turtle_brick/turtle_brick.egg-info/requires.txt
+[1.588s] writing top-level names to ../build/turtle_brick/turtle_brick.egg-info/top_level.txt
+[1.588s] writing manifest file '../build/turtle_brick/turtle_brick.egg-info/SOURCES.txt'
+[1.648s] reading manifest file '../build/turtle_brick/turtle_brick.egg-info/SOURCES.txt'
+[1.649s] writing manifest file '../build/turtle_brick/turtle_brick.egg-info/SOURCES.txt'
+[1.649s] running build
+[1.649s] running build_py
+[1.650s] creating /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/build
+[1.650s] creating /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/build/lib
+[1.650s] creating /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/build/lib/turtle_brick
+[1.650s] copying turtle_brick/physics.py -> /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/build/lib/turtle_brick
+[1.650s] copying turtle_brick/arena.py -> /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/build/lib/turtle_brick
+[1.650s] copying turtle_brick/catcher.py -> /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/build/lib/turtle_brick
+[1.650s] copying turtle_brick/turtle_robot.py -> /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/build/lib/turtle_brick
+[1.650s] copying turtle_brick/__init__.py -> /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/build/lib/turtle_brick
+[1.650s] running install
+[1.655s] running install_lib
+[1.675s] creating /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/lib/python3.12/site-packages/turtle_brick
+[1.675s] copying /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/build/lib/turtle_brick/physics.py -> /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/lib/python3.12/site-packages/turtle_brick
+[1.675s] copying /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/build/lib/turtle_brick/arena.py -> /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/lib/python3.12/site-packages/turtle_brick
+[1.675s] copying /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/build/lib/turtle_brick/catcher.py -> /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/lib/python3.12/site-packages/turtle_brick
+[1.675s] copying /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/build/lib/turtle_brick/turtle_robot.py -> /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/lib/python3.12/site-packages/turtle_brick
+[1.676s] copying /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/build/lib/turtle_brick/__init__.py -> /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/lib/python3.12/site-packages/turtle_brick
+[1.676s] byte-compiling /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/lib/python3.12/site-packages/turtle_brick/physics.py to physics.cpython-312.pyc
+[1.677s] byte-compiling /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/lib/python3.12/site-packages/turtle_brick/arena.py to arena.cpython-312.pyc
+[1.679s] byte-compiling /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/lib/python3.12/site-packages/turtle_brick/catcher.py to catcher.cpython-312.pyc
+[1.681s] byte-compiling /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/lib/python3.12/site-packages/turtle_brick/turtle_robot.py to turtle_robot.cpython-312.pyc
+[1.684s] byte-compiling /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/lib/python3.12/site-packages/turtle_brick/__init__.py to __init__.cpython-312.pyc
+[1.684s] running install_data
+[1.684s] creating /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/share/ament_index
+[1.684s] creating /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/share/ament_index/resource_index
+[1.684s] creating /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/share/ament_index/resource_index/packages
+[1.685s] copying resource/turtle_brick -> /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/share/ament_index/resource_index/packages
+[1.685s] copying package.xml -> /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/share/turtle_brick
+[1.685s] copying launch/show_turtle.launch.py -> /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/share/turtle_brick
+[1.685s] copying urdf/turtle.urdf.xacro -> /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/share/turtle_brick
+[1.685s] copying config/my_robot_config.rviz -> /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/share/turtle_brick
+[1.685s] copying config/turtle.yaml -> /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/share/turtle_brick
+[1.685s] running install_egg_info
+[1.706s] Copying ../build/turtle_brick/turtle_brick.egg-info to /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/lib/python3.12/site-packages/turtle_brick-0.0.0-py3.12.egg-info
+[1.707s] running install_scripts
+[1.862s] Installing arena script to /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/lib/turtle_brick
+[1.862s] Installing catcher script to /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/lib/turtle_brick
+[1.862s] Installing turtle_robot script to /home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/lib/turtle_brick
+[1.863s] writing list of installed files to '/home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/install.log'
+[1.886s] Invoked command in '/home/asaace00/repo/me495/hw2/src/homework2/turtle_brick' returned '0': AMENT_PREFIX_PATH=/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick/lib/python3.12/site-packages:/home/asaace00/repo/me495/hw2/src/homework2/install/turtle_brick_interfaces/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../build/turtle_brick build --build-base /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/build install --record /home/asaace00/repo/me495/hw2/src/homework2/build/turtle_brick/install.log --single-version-externally-managed install_data
