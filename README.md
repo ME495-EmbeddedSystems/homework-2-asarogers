@@ -11,11 +11,16 @@ This package, `turtle_brick`, simulates a turtle robot that interacts with an ar
 1. **Launch the Simulation**:
    - Use the following command to launch the arena and turtle simulation:
      ```bash
-     ros2 launch turtle_brick show_turtle.launch.py use_jsp:=gui
+     colcon clean workspace -y && colcon build && source install/setup.bash && ros2 launch turtle_brick show_turtle.launch.py
      ```
    - This will start the turtle simulation in the RViz environment, along with the `arena`, `catcher`, and `turtle_robot` nodes.
 
-2. **Drop the Brick**:
+2. **Place the brick**:
+   - Use this command to place the brick in the arena at a x, y, z position:
+     ```bash
+     source install/setup.bash && ros2 service call /place turtle_brick_interfaces/srv/Place "{x: 5.0, y: 1.0, z: 10.0}" 
+     ```
+3. **Drop the Brick**:
    - Use this command to drop the brick:
      ```bash
      ros2 service call /drop std_srvs/srv/Empty
