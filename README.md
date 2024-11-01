@@ -26,10 +26,18 @@ This package, `turtle_brick`, simulates a turtle robot that interacts with an ar
    - Here are videos demonstrating the turtle's behavior under different scenarios:
 
      - **Brick within Catching Range**: 
-       - [Video: Brick Catchable](https://github.com/asaace00/turtle_brick/issues/1) 
+
+
+https://github.com/user-attachments/assets/f1b761af-260b-4811-ad84-d7fab31af753
+
+
 
      - **Brick Out of Reach**: 
-       - [Video: Brick Unreachable](https://github.com/asaace00/turtle_brick/issues/2)
+
+
+
+https://github.com/user-attachments/assets/f6450228-a2dd-4671-998b-92e5491f5306
+
 
 ## Functionality Overview
 
